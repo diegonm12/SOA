@@ -8,10 +8,64 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/rootRL"
-        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/background">
+        android:background="@drawable/background"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:selectAllOnFocus="false"
+            android:text="Email"
+            android:textColor="@android:color/white"
+            android:textColorLink="@android:color/white" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="145dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:text="Password"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="26dp"
+            android:layout_marginTop="14dp"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white"
+            android:text="Sign In"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="26dp" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="200dp"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white"
+            android:text="LOGIN" />
     </RelativeLayout>
 
 
