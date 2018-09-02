@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">GastroTEC</string>
     <string name="email_placeholder">Email</string>
-    <string name="password_placeholder">Password</string>
+    <string name="password_placeholder">Contraseña</string>
 </resources>
