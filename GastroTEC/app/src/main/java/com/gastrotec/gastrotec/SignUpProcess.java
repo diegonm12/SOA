@@ -1,5 +1,7 @@
 package com.gastrotec.gastrotec;
 
+import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +18,8 @@ public class SignUpProcess extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_process);
+        loginDataBaseAdapter=new LoginDatabaseAdapter(getApplicationContext());
+        loginDataBaseAdapter=loginDataBaseAdapter.open();
     }
 
 
@@ -42,21 +46,17 @@ public class SignUpProcess extends AppCompatActivity {
         String carnetUser = carnetEntry_Sign_Up.getText().toString();
         String careerUser = careerEntry_Sign_Up.getText().toString();
         MainActivity instance = new MainActivity();
-        System.out.println(emailUser);
-        System.out.println(passwordUser);
 
-        System.out.println(nameUser);
-        System.out.println(carnetUser);
-        System.out.println(careerUser);
 
 
         if (instance.isValid(emailUser) && (!emailUser.equals("")) && (!passwordUser.equals(""))
                 && (!nameUser.equals("")) && (!carnetUser.equals(""))
                 && (!careerUser.equals("")))
         {
-
+            // se hace elquery a la base de datos para ingresar al estudiante
             receieveOk=loginDataBaseAdapter.insertEntry(nameUser,careerUser,carnetUser,emailUser,passwordUser);
-            Toast.makeText(this, "Bienvenido a GastroTEC", Toast.LENGTH_LONG).show();
+            // se hace un mensaje de que ya se registro a la app.
+            Toast.makeText(this, "Registrado en GastroTEC", Toast.LENGTH_LONG).show();
 
 
         }
@@ -68,5 +68,7 @@ public class SignUpProcess extends AppCompatActivity {
     public void goHome(View view) {
         finish();
         this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+
     }
 }

@@ -13,11 +13,15 @@ import android.widget.Toast;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
-
+    LoginDatabaseAdapter loginDataBaseAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+        // se crea la instancia a la base de datos
+        loginDataBaseAdapter=new LoginDatabaseAdapter(getApplicationContext());
+
     }
 
     public void signIn(View view) {

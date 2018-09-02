@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -20,7 +21,7 @@ public class LoginDatabaseAdapter {
     public static final int NAME_COLUMN = 1;
     // TODO: Create public field for each column in your table.
     // SQL Statement to create a new database.
-    static final String DATABASE_CREATE = "create table LOGIN( ID integer primary key autoincrement,FIRSTNAME  text,LASTNAME  text,USERNAME text,PASSWORD text); ";
+    static final String DATABASE_CREATE = "create table LOGIN( ID integer primary key autoincrement,NAME  text,CAREER  text,CARNET text,EMAIL text,PASSWORD text); ";
     // Variable to hold the database instance
     public static SQLiteDatabase db;
     // Context of the application using the database.
@@ -58,6 +59,7 @@ public class LoginDatabaseAdapter {
             newValues.put("CARNET", carnet);
             newValues.put("EMAIL", email);
             newValues.put("PASSWORD", password);
+            System.out.println("llega");
             // Insert the row into your table
             db = dbHelper.getWritableDatabase();
             long result=db.insert("LOGIN", null, newValues);
@@ -98,6 +100,13 @@ public class LoginDatabaseAdapter {
         updatedValues.put("PASSWORD", password);
         String where="USERNAME = ?";
         db.update("LOGIN",updatedValues, where, new String[]{userName});
+    }
+
+    public long getProfilesCount() {
+        db = dbHelper.getWritableDatabase();
+        long count = DatabaseUtils.queryNumEntries(db, "LOGIN");
+        db.close();
+        return count;
     }
 
 }
