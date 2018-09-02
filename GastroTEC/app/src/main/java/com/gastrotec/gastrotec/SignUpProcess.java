@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class SignUpProcess extends AppCompatActivity {
+    String receieveOk;
+    LoginDatabaseAdapter loginDataBaseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +42,26 @@ public class SignUpProcess extends AppCompatActivity {
         String carnetUser = carnetEntry_Sign_Up.getText().toString();
         String careerUser = careerEntry_Sign_Up.getText().toString();
         MainActivity instance = new MainActivity();
+        System.out.println(emailUser);
+        System.out.println(passwordUser);
 
-        if (instance.isValid(emailUser)){
+        System.out.println(nameUser);
+        System.out.println(carnetUser);
+        System.out.println(careerUser);
+
+
+        if (instance.isValid(emailUser) && (!emailUser.equals("")) && (!passwordUser.equals(""))
+                && (!nameUser.equals("")) && (!carnetUser.equals(""))
+                && (!careerUser.equals("")))
+        {
+
+            receieveOk=loginDataBaseAdapter.insertEntry(nameUser,careerUser,carnetUser,emailUser,passwordUser);
             Toast.makeText(this, "Bienvenido a GastroTEC", Toast.LENGTH_LONG).show();
-            
+
 
         }
         else{
-            Toast.makeText(this, "Revisa tu correo, parece incorrecto", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Ingresa correctamente toda la información", Toast.LENGTH_LONG).show();
         }
     }
 
