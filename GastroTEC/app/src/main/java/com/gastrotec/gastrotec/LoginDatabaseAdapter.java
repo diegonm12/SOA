@@ -59,7 +59,6 @@ public class LoginDatabaseAdapter {
             newValues.put("CARNET", carnet);
             newValues.put("EMAIL", email);
             newValues.put("PASSWORD", password);
-            System.out.println("llega");
             // Insert the row into your table
             db = dbHelper.getWritableDatabase();
             long result=db.insert("LOGIN", null, newValues);
@@ -83,7 +82,7 @@ public class LoginDatabaseAdapter {
     public String getSinlgeEntry(String userName)
     {
         db=dbHelper.getReadableDatabase();
-        Cursor cursor=db.query("LOGIN", null, "USERNAME=?", new String[]{userName}, null, null, null);
+        Cursor cursor=db.query("LOGIN", null, "EMAIL=?", new String[]{userName}, null, null, null);
         if(cursor.getCount()<1) // UserName Not Exist
             return "NOT EXIST";
         cursor.moveToFirst();

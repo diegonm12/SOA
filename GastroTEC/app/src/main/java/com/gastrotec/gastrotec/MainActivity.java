@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void signIn(View view) {
+        //Abre la base de datos para acceder a los mismos
+        loginDataBaseAdapter = loginDataBaseAdapter.open();
 
         // estas cuatro lineas quitan el teclado de la pantalla.
         LinearLayout mainLayout;
@@ -40,8 +42,19 @@ public class MainActivity extends AppCompatActivity {
         // cambia lo que se ingreso a strings y valida que el correo sea correcto
         String emailUser = emailEntry_mainActivity.getText().toString();
         String passwordUser = passwordEntry_mainActivity.getText().toString();
-        if (isValid(emailUser)){
-            Toast.makeText(this, "Bienvenido a GastroTEC", Toast.LENGTH_LONG).show();
+        if (isValid(emailUser) && (!emailUser.equals("")) && (!passwordUser.equals("")))
+        {
+            String storedPassword = loginDataBaseAdapter.getSinlgeEntry(emailUser);
+
+            // revisa si ese usuario tiene el password que el usuario ingreso
+            if (passwordUser.equals(storedPassword)) {
+                Toast.makeText(this, "Si existe es usuario y password,entre", Toast.LENGTH_LONG).show();
+            }
+            else{
+
+                Toast.makeText(this, "El usuario o password es incorrecto", Toast.LENGTH_LONG).show();
+
+            }
         }
         else{
             Toast.makeText(this, "Tu correo no es correcto", Toast.LENGTH_LONG).show();
