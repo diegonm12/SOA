@@ -57,7 +57,8 @@ public class SignUpProcess extends AppCompatActivity {
             receieveOk=loginDataBaseAdapter.insertEntry(nameUser,careerUser,carnetUser,emailUser,passwordUser);
             // se hace un mensaje de que ya se registro a la app.
             Toast.makeText(this, "Registrado en GastroTEC", Toast.LENGTH_LONG).show();
-
+            System.out.println("Cantidad de usuario registrados:");
+            System.out.println(loginDataBaseAdapter.getProfilesCount());
 
         }
         else{

@@ -48,7 +48,13 @@ public class MainActivity extends AppCompatActivity {
 
             // revisa si ese usuario tiene el password que el usuario ingreso
             if (passwordUser.equals(storedPassword)) {
-                Toast.makeText(this, "Si existe es usuario y password,entre", Toast.LENGTH_LONG).show();
+                //Mensaje de bienvenida a la aplicacion
+                Toast.makeText(this, "Bienvenido a GastroTEC", Toast.LENGTH_LONG).show();
+
+                // se inicia el activity del  menu principal
+                Intent intentMainMenu = new Intent(this, MainMenu.class);
+                startActivity(intentMainMenu);
+                this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
             else{
 
