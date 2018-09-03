@@ -9,4 +9,5 @@
     <dimen name="second_card_height">40dp</dimen>
     <dimen name="second_card_radius">20dp</dimen>
     <dimen name="second_card_radius_on_focus">8dp</dimen>
+    <dimen name="pager_margin">5dp</dimen>
 </resources>
