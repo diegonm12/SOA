@@ -52,5 +52,15 @@ public class MainMenu extends AppCompatActivity {
     }
     public void clickEvent(View view) {
         System.out.println("CLICKEASTE");
+        switch (view.getId()) {
+            case R.id.linMain:
+                if (view.getTag() != null) {
+                    int position = Integer.parseInt(view.getTag().toString());
+                    //Toast.makeText(getApplicationContext(), "Poistion: " + poisition, Toast.LENGTH_LONG).show();
+
+                    System.out.println(position);
+                }
+                break;
+        }
     }
 }
