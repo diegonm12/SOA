@@ -6,16 +6,16 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Toast;
-
-import java.sql.Blob;
 
 public class RestaurantDatabaseAdapter {
     static final String DATABASE_NAME = "database.db";
     String ok="OK";
     static final int DATABASE_VERSION = 1;
-    public  static String getPassword="";
+    public  static byte[] getBitmap;
     public static final int NAME_COLUMN = 1;
     // TODO: Create public field for each column in your table.
     // SQL Statement to create a new database.
@@ -53,7 +53,7 @@ public class RestaurantDatabaseAdapter {
             ContentValues newValues = new ContentValues();
             // Assign values for each column.
             newValues.put("NAME", name);
-            newValues.put("IMAGE", String.valueOf(image));
+            newValues.put("IMAGE", image);
             newValues.put("ADDRESS", address);
             newValues.put("TIME", time);
             // Insert the row into your table
@@ -76,14 +76,29 @@ public class RestaurantDatabaseAdapter {
         return numberOFEntriesDeleted;
     }
     // method to get the password  of userName
-    public Cursor getSinlgeEntry(String name)
+    public Cursor getSinlgeEntry(String ID)
     {
         db=dbHelper.getReadableDatabase();
-        Cursor cursor=db.query("RESTAURANT", null, "NAME=?", new String[]{name}, null, null, null);
-        if(cursor.getCount()<1) // UserName Not Exist
+        Cursor cursor=db.query("RESTAURANT", null, "ID=?", new String[]{ID}, null, null, null);
+        if(cursor.getCount()<1) { // UserName Not Exist
+            System.out.println("no encontró nada");
             return null;
+        }
         cursor.moveToFirst();
-        //getPassword= cursor.getString(cursor.getColumnIndex("PASSWORD"));
+
+        return cursor;
+    }
+
+    public Cursor getBitmapFromDB(String ID)
+    {
+        db=dbHelper.getReadableDatabase();
+        Cursor cursor=db.query("RESTAURANT", new String[] {"IMAGE"}, "ID=?", new String[]{ID}, null, null, null);
+        if(cursor.getCount()<1) { // UserName Not Exist
+            System.out.println("no encontró nada");
+            return null;
+        }
+        cursor.moveToFirst();
+
         return cursor;
     }
     // Method to Update an Existing

@@ -1,6 +1,7 @@
 package com.gastrotec.gastrotec;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,10 @@ import android.widget.LinearLayout;
 
 public class MyPagerAdapter extends PagerAdapter {
     Context context;
-    int[] listItems;
+    Bitmap[] listItems;
     int adapterType;
 
-    public MyPagerAdapter(Context context, int[] listItems, int adapterType) {
+    public MyPagerAdapter(Context context, Bitmap[] listItems, int adapterType) {
         this.context = context;
         this.listItems = listItems;
         this.adapterType=adapterType;
