@@ -1,5 +1,6 @@
 package com.gastrotec.gastrotec;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -49,11 +50,9 @@ public class MainMenu extends AppCompatActivity {
         Bitmap bitmapElement;
         for(int i = 0; i < restaurants; i++){
             item = restaurantDatabaseAdapter.getBitmapFromDB(String.valueOf(i+1));
-            System.out.println("hola");
             imageByte = item.getBlob(item.getColumnIndex("IMAGE"));
             bitmapElement = BitmapFactory.decodeByteArray(imageByte,0,imageByte.length);
             listReturn[i] = bitmapElement;
-            //item.moveToNext();
         }
 
         return  listReturn;
@@ -125,9 +124,9 @@ public class MainMenu extends AppCompatActivity {
             case R.id.linMain:
                 if (view.getTag() != null) {
                     int position = Integer.parseInt(view.getTag().toString());
-                    //Toast.makeText(getApplicationContext(), "Poistion: " + poisition, Toast.LENGTH_LONG).show();
-
-                    System.out.println(position);
+                    Intent intentSignIn = new Intent(this, RestProfileActivity.class);
+                    startActivity(intentSignIn);
+                    this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
                 break;
         }

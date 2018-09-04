@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignUpProcess" />
-        <activity android:name=".MainMenu"></activity>
+        <activity android:name=".MainMenu" />
+        <activity android:name=".RestProfileActivity"></activity>
     </application>
 
 </manifest>
