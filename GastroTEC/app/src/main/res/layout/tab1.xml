@@ -2,11 +2,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+
     <TextView
-        android:id="@+id/tab_informacion"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="Información"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:id="@+id/textView_informacion_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:text="Nombre del restaurante" />
+    <TextView
+        android:id="@+id/textView_informacion_tab_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:text="Nombre del restaurante" />
+
+    <TextView
+        android:id="@+id/textView2_informacion_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:text="Dirección" />
+    <TextView
+        android:id="@+id/textView_informacion_tab_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:text="Nombre del restaurante" />
+
+    <TextView
+        android:id="@+id/textView3_informacion_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:text="Horario de atención" />
+    <TextView
+        android:id="@+id/textView_informacion_tab_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:text="Nombre del restaurante" />
 </LinearLayout>

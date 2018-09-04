@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 
+import com.google.gson.Gson;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Blob;
@@ -124,8 +126,15 @@ public class MainMenu extends AppCompatActivity {
             case R.id.linMain:
                 if (view.getTag() != null) {
                     int position = Integer.parseInt(view.getTag().toString());
-                    Intent intentSignIn = new Intent(this, RestProfileActivity.class);
-                    startActivity(intentSignIn);
+                    Restaurant restaurantToShow = new Restaurant();
+                    Cursor item = restaurantDatabaseAdapter.getSinlgeEntry(String.valueOf(position+1));
+                    restaurantToShow.setName(item.getString(0));
+                    restaurantToShow.setAddress(item.getString(1));
+                    restaurantToShow.setTime(item.getString(2));
+                    Gson gsonRestaurant = new Gson();
+                    Intent intentRestaurantInfo = new Intent(this, RestProfileActivity.class);
+                    intentRestaurantInfo.putExtra("obj", gsonRestaurant.toJson(restaurantToShow));
+                    startActivity(intentRestaurantInfo);
                     this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
                 break;

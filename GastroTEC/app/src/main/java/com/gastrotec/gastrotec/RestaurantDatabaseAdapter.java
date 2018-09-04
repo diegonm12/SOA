@@ -79,7 +79,7 @@ public class RestaurantDatabaseAdapter {
     public Cursor getSinlgeEntry(String ID)
     {
         db=dbHelper.getReadableDatabase();
-        Cursor cursor=db.query("RESTAURANT", null, "ID=?", new String[]{ID}, null, null, null);
+        Cursor cursor=db.query("RESTAURANT", new String[]{"NAME","ADDRESS","TIME"}, "ID=?", new String[]{ID}, null, null, null);
         if(cursor.getCount()<1) { // UserName Not Exist
             System.out.println("no encontró nada");
             return null;
