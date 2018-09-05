@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class HorarioComidasTab extends Fragment {
     CharSequence restaurantID;
-
+    PlatillosDatabaseAdapter adapter;
     View myFragmentView;
     TextView showComida;
     TextView showFavor;
@@ -26,18 +26,18 @@ public class HorarioComidasTab extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        PlatillosDatabaseAdapter adapter = new PlatillosDatabaseAdapter(getContext());
+        adapter = new PlatillosDatabaseAdapter(getContext());
         adapter.open();
         Bundle bundlePosition = getArguments();
         restaurantID = bundlePosition.getCharSequence("ID");
-        getData(adapter);
+        getData();
 
 
 
     }
 
-    private void getData(PlatillosDatabaseAdapter database) {
-        Cursor item =  database.getRestaurantsbyID(restaurantID.toString());
+    private void getData() {
+        Cursor item =  adapter.getRestaurantsbyID(restaurantID.toString());
         int count =item.getCount();
 
         for(int i = 0; i < count; i++){
@@ -117,7 +117,6 @@ public class HorarioComidasTab extends Fragment {
                     // en la base de datos y luego se vuelve a agarrar el nuevo puntaje a
                     // favor para mostrarlo nuevamente.
 
-                    PlatillosDatabaseAdapter adapter = new PlatillosDatabaseAdapter(getContext());
                     adapter.open();
 
 
@@ -145,7 +144,7 @@ public class HorarioComidasTab extends Fragment {
                     }
                     String newLikeShow = cursorUpdateLike.getString(4);
                     showFavor.setText(newLikeShow);
-                    getData(adapter);
+                    getData();
 
 
 
@@ -197,7 +196,7 @@ public class HorarioComidasTab extends Fragment {
                     }
                     String newDislikeShow = cursorUpdateDislike.getString(5);
                     showContra.setText(newDislikeShow);
-                    getData(adapter);
+                    getData();
 
                 }
 

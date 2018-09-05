@@ -2,11 +2,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+
     <TextView
-        android:id="@+id/tab_voto_comidas"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="Votos"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:id="@+id/textView_VotoPlatillo_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="5dp"
+        android:text="Platillo más gustado" />
+
+    <TextView
+        android:id="@+id/textView2_VotoPlatillo_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="50dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView3_VotoPlatillo_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:text="Platillo menos gustado" />
+
+    <TextView
+        android:id="@+id/textView4_VotoPlatillo_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:text="TextView" />
+
 </LinearLayout>
