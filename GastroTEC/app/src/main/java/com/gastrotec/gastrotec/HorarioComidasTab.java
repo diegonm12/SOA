@@ -68,7 +68,7 @@ public class HorarioComidasTab extends Fragment {
             @Override
             public void onClick(View v)
             {
-                platillo = 0;
+                platillo = 1;
                 showComida.setText(listaComida[0]);
                 showFavor.setText(listaFavor[0]);
                 showContra.setText(listaContra[0]);
@@ -81,7 +81,7 @@ public class HorarioComidasTab extends Fragment {
             @Override
             public void onClick(View v)
             {
-                platillo = 1;
+                platillo = 2;
                 showComida.setText(listaComida[1]);
                 showFavor.setText(listaFavor[1]);
                 showContra.setText(listaContra[1]);
@@ -94,7 +94,7 @@ public class HorarioComidasTab extends Fragment {
             @Override
             public void onClick(View v)
             {
-                platillo = 2;
+                platillo = 3;
                 showComida.setText(listaComida[2]);
                 showFavor.setText(listaFavor[2]);
                 showContra.setText(listaContra[2]);
@@ -112,14 +112,41 @@ public class HorarioComidasTab extends Fragment {
 
                 }
                 else{
+
+                    // Aqui se hace el proceso para darle like a un platillo, se actualiza
+                    // en la base de datos y luego se vuelve a agarrar el nuevo puntaje a
+                    // favor para mostrarlo nuevamente.
+
                     PlatillosDatabaseAdapter adapter = new PlatillosDatabaseAdapter(getContext());
                     adapter.open();
-                    int newNumberFavor = Integer.parseInt(listaFavor[platillo]);
+
+
+                    // Se hace el manejo de los los strings para ser tratados como integer
+                    // para contar los likes
+                    int newNumberFavor = Integer.parseInt(listaFavor[platillo-1]);
                     newNumberFavor = newNumberFavor+1;
                     String newFavor = Integer.toString(newNumberFavor);
                     int restID = Integer.parseInt(restaurantID.toString());
-                    //int restaurantToChange = restID*(platillo+restID);
-                    //adapter.updateEntryLike();
+                    int platilloID = ((restID-1)*3)+(platillo);
+
+                    // aqui se actualiza el valor de likes y se agarra el valor nuevo
+                    adapter.updateEntryLike(Integer.toString(platilloID),newFavor);
+                    Cursor cursorUpdateLike =  adapter.getRestaurantsbyID(restaurantID.toString());
+
+                    //Se busca el cursor que contiene la informacion del platillo que se quiere
+                    int countAdapter =cursorUpdateLike.getCount();
+
+                    for(int i = 0; i < countAdapter; i++){
+                        if (i+1 == platillo){
+                            break;
+                        }
+                        cursorUpdateLike.moveToNext();
+
+                    }
+                    String newLikeShow = cursorUpdateLike.getString(4);
+                    showFavor.setText(newLikeShow);
+                    getData(adapter);
+
 
 
                 }
@@ -135,6 +162,42 @@ public class HorarioComidasTab extends Fragment {
             {
                 System.out.println("Dislike");
                 if (platillo == 12){
+
+                }
+                else {
+                    // Aqui se hace el proceso para darle no me gusta a un platillo, se actualiza
+                    // en la base de datos y luego se vuelve a agarrar el nuevo puntaje a
+                    // favor para mostrarlo nuevamente.
+
+                    PlatillosDatabaseAdapter adapter = new PlatillosDatabaseAdapter(getContext());
+                    adapter.open();
+
+
+                    // Se hace el manejo de los los strings para ser tratados como integer
+                    // para contar los likes
+                    int newNumberDislike = Integer.parseInt(listaContra[platillo-1]);
+                    newNumberDislike = newNumberDislike+1;
+                    String newDislike = Integer.toString(newNumberDislike);
+                    int restID = Integer.parseInt(restaurantID.toString());
+                    int platilloID = ((restID-1)*3)+(platillo);
+
+                    // aqui se actualiza el valor de likes y se agarra el valor nuevo
+                    adapter.updateEntryDislike(Integer.toString(platilloID),newDislike);
+                    Cursor cursorUpdateDislike =  adapter.getRestaurantsbyID(restaurantID.toString());
+
+                    //Se busca el cursor que contiene la informacion del platillo que se quiere
+                    int countAdapter =cursorUpdateDislike.getCount();
+
+                    for(int i = 0; i < countAdapter; i++){
+                        if (i+1 == platillo){
+                            break;
+                        }
+                        cursorUpdateDislike.moveToNext();
+
+                    }
+                    String newDislikeShow = cursorUpdateDislike.getString(5);
+                    showContra.setText(newDislikeShow);
+                    getData(adapter);
 
                 }
 
