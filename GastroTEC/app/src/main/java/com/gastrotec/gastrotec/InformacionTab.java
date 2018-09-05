@@ -7,13 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.gastrotec.gastrotec.R;
-
 public class InformacionTab extends Fragment {
     TextView nameRestauranteText;
     View myFragmentView;
     Restaurant restaurantInfo;
-
+    CharSequence name;
+    CharSequence address;
+    CharSequence time;
     public Restaurant getRestaurantInfo() {
         return restaurantInfo;
     }
@@ -30,6 +30,10 @@ public class InformacionTab extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        name = bundle.getCharSequence("name");
+        address = bundle.getCharSequence("address");
+        time = bundle.getCharSequence("time");
 
 
     }
@@ -44,6 +48,7 @@ public class InformacionTab extends Fragment {
         myFragmentView  = inflater.inflate(R.layout.tab1, container, false);
 
 
+
         return myFragmentView;
 
     }
@@ -51,12 +56,11 @@ public class InformacionTab extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         nameRestauranteText = myFragmentView.findViewById(R.id.textView_informacion_tab_name);
-        System.out.println(restaurantInfo);
-        nameRestauranteText.setText("mae");
+        nameRestauranteText.setText(name);
         nameRestauranteText = myFragmentView.findViewById(R.id.textView_informacion_tab_address);
-        nameRestauranteText.setText("que");
+        nameRestauranteText.setText(address);
         nameRestauranteText = myFragmentView.findViewById(R.id.textView_informacion_tab_time);
-        nameRestauranteText.setText("hace");
+        nameRestauranteText.setText(time);
     }
 
 
