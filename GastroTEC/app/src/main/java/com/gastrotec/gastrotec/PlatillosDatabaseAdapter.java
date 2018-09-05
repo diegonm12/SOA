@@ -104,15 +104,14 @@ public class PlatillosDatabaseAdapter {
     }
     // Method to Update an Existing
     // DE ESTO HAY QUE PREOCUPARSECON EL ADMI
-    public void  updateEntry(String name,String password)
+    public void  updateEntryLike(String restaurantID,String newFavor)
     {
         //  create object of ContentValues
         ContentValues updatedValues = new ContentValues();
         // Assign values for each Column.
-        updatedValues.put("USERNAME", name);
-        updatedValues.put("PASSWORD", password);
-        String where="USERNAME = ?";
-        db.update("LOGIN",updatedValues, where, new String[]{name});
+        updatedValues.put("VFAVOR", newFavor);
+        String where="RESTAURANT = ?";
+        db.update("PLATILLOS",updatedValues, where, new String[]{restaurantID});
     }
 
     public long getProfilesCount() {
