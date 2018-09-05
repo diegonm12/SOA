@@ -62,6 +62,9 @@ public class HorarioComidasTab extends Fragment {
         showComida = (TextView) myFragmentView.findViewById(R.id.comida_horario_comidas);
         showFavor = (TextView) myFragmentView.findViewById(R.id.textView8_horario_comidas);
         showContra = (TextView) myFragmentView.findViewById(R.id.textView9_horario_comidas);
+        final ImageView imagenDisLike = (ImageView) myFragmentView.findViewById(R.id.imageView2_horario_comidas);
+        final ImageView imagenLike = (ImageView) myFragmentView.findViewById(R.id.imageView_horario_comidas);
+
         TextView textHorariosComida1 = (TextView) myFragmentView.findViewById(R.id.textView1_horario_comidas);
         textHorariosComida1.setOnClickListener(new View.OnClickListener()
         {
@@ -69,6 +72,8 @@ public class HorarioComidasTab extends Fragment {
             public void onClick(View v)
             {
                 platillo = 1;
+                imagenDisLike.setVisibility(imagenDisLike.VISIBLE);
+                imagenLike.setVisibility(imagenLike.VISIBLE);
                 showComida.setText(listaComida[0]);
                 showFavor.setText(listaFavor[0]);
                 showContra.setText(listaContra[0]);
@@ -82,6 +87,8 @@ public class HorarioComidasTab extends Fragment {
             public void onClick(View v)
             {
                 platillo = 2;
+                imagenDisLike.setVisibility(imagenDisLike.VISIBLE);
+                imagenLike.setVisibility(imagenLike.VISIBLE);
                 showComida.setText(listaComida[1]);
                 showFavor.setText(listaFavor[1]);
                 showContra.setText(listaContra[1]);
@@ -95,6 +102,8 @@ public class HorarioComidasTab extends Fragment {
             public void onClick(View v)
             {
                 platillo = 3;
+                imagenDisLike.setVisibility(imagenDisLike.VISIBLE);
+                imagenLike.setVisibility(imagenLike.VISIBLE);
                 showComida.setText(listaComida[2]);
                 showFavor.setText(listaFavor[2]);
                 showContra.setText(listaContra[2]);
@@ -102,7 +111,6 @@ public class HorarioComidasTab extends Fragment {
             }
         });
 
-        ImageView imagenLike = (ImageView) myFragmentView.findViewById(R.id.imageView_horario_comidas);
         imagenLike.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -153,13 +161,11 @@ public class HorarioComidasTab extends Fragment {
             }
         });
 
-        ImageView imagenDisLike = (ImageView) myFragmentView.findViewById(R.id.imageView2_horario_comidas);
         imagenDisLike.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                System.out.println("Dislike");
                 if (platillo == 12){
 
                 }
