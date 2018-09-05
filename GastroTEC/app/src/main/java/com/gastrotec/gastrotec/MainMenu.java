@@ -131,6 +131,7 @@ public class MainMenu extends AppCompatActivity {
                     restaurantToShow.setName(item.getString(0));
                     restaurantToShow.setAddress(item.getString(1));
                     restaurantToShow.setTime(item.getString(2));
+                    restaurantToShow.setID(String.valueOf(position+1));
                     Gson gsonRestaurant = new Gson();
                     Intent intentRestaurantInfo = new Intent(this, RestProfileActivity.class);
                     intentRestaurantInfo.putExtra("obj", gsonRestaurant.toJson(restaurantToShow));

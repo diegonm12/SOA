@@ -10,18 +10,10 @@ import android.widget.TextView;
 public class InformacionTab extends Fragment {
     TextView nameRestauranteText;
     View myFragmentView;
-    Restaurant restaurantInfo;
     CharSequence name;
     CharSequence address;
     CharSequence time;
-    public Restaurant getRestaurantInfo() {
-        return restaurantInfo;
-    }
 
-    public void setRestaurantInfo(Restaurant restaurantInfo) {
-
-        this.restaurantInfo = restaurantInfo;
-    }
 
 
 

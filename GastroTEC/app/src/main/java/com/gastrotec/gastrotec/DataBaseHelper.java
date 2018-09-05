@@ -15,6 +15,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         try {
             _db.execSQL(LoginDatabaseAdapter.DATABASE_CREATE);
             _db.execSQL(RestaurantDatabaseAdapter.DATABASE_CREATE);
+            _db.execSQL(PlatillosDatabaseAdapter.DATABASE_CREATE);
         }catch(Exception er){
             Log.e("Error","exceptioin");
         }
