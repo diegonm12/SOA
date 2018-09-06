@@ -102,16 +102,16 @@ public class RestaurantDatabaseAdapter {
         return cursor;
     }
     // Method to Update an Existing
-    // DE ESTO HAY QUE PREOCUPARSECON EL ADMI
-    public void  updateEntry(String name,String password)
+    public void  updateEntry(String ID,String name, String address, String time)
     {
         //  create object of ContentValues
         ContentValues updatedValues = new ContentValues();
         // Assign values for each Column.
-        updatedValues.put("USERNAME", name);
-        updatedValues.put("PASSWORD", password);
-        String where="USERNAME = ?";
-        db.update("LOGIN",updatedValues, where, new String[]{name});
+        updatedValues.put("NAME", name);
+        updatedValues.put("ADDRESS", address);
+        updatedValues.put("TIME", time);
+        String where="ID = ?";
+        db.update("RESTAURANT",updatedValues, where, new String[]{ID});
     }
 
     public long getProfilesCount() {

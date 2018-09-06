@@ -39,6 +39,7 @@ public class MainMenu extends AppCompatActivity {
     boolean administrador = false;
     PlatillosDatabaseAdapter platilloDatabaseAdapter;
     int cantidad_platillos;
+    boolean modifyRestaurant;
 
 
 
@@ -50,6 +51,9 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+
+        //variable usada cuando se quiere modificar un restaurante
+        modifyRestaurant = false;
 
 
 
@@ -229,18 +233,39 @@ public class MainMenu extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.linMain:
                 if (view.getTag() != null) {
-                    int position = Integer.parseInt(view.getTag().toString());
-                    Restaurant restaurantToShow = new Restaurant();
-                    Cursor item = restaurantDatabaseAdapter.getSinlgeEntry(String.valueOf(position+1));
-                    restaurantToShow.setName(item.getString(0));
-                    restaurantToShow.setAddress(item.getString(1));
-                    restaurantToShow.setTime(item.getString(2));
-                    restaurantToShow.setID(String.valueOf(position+1));
-                    Gson gsonRestaurant = new Gson();
-                    Intent intentRestaurantInfo = new Intent(this, RestProfileActivity.class);
-                    intentRestaurantInfo.putExtra("obj", gsonRestaurant.toJson(restaurantToShow));
-                    startActivity(intentRestaurantInfo);
-                    this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    if (modifyRestaurant) {
+                        System.out.println("Se va a modificar restaurante");
+                        this.modifyRestaurant = false;
+                        int position = Integer.parseInt(view.getTag().toString());
+                        Restaurant restaurantToModify = new Restaurant();
+                        Cursor item = restaurantDatabaseAdapter.getSinlgeEntry(String.valueOf(position + 1));
+                        restaurantToModify.setName(item.getString(0));
+                        restaurantToModify.setAddress(item.getString(1));
+                        restaurantToModify.setTime(item.getString(2));
+                        restaurantToModify.setID(String.valueOf(position + 1));
+                        Gson gsonRestaurant = new Gson();
+                        Intent intentRestaurantModify = new Intent(this, ModifyRestaurantActivity.class);
+                        intentRestaurantModify.putExtra("obj", gsonRestaurant.toJson(restaurantToModify));
+                        startActivity(intentRestaurantModify);
+                        this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+
+
+                    } else {
+                        int position = Integer.parseInt(view.getTag().toString());
+                        Restaurant restaurantToShow = new Restaurant();
+                        Cursor item = restaurantDatabaseAdapter.getSinlgeEntry(String.valueOf(position + 1));
+                        restaurantToShow.setName(item.getString(0));
+                        restaurantToShow.setAddress(item.getString(1));
+                        restaurantToShow.setTime(item.getString(2));
+                        restaurantToShow.setID(String.valueOf(position + 1));
+                        Gson gsonRestaurant = new Gson();
+                        Intent intentRestaurantInfo = new Intent(this, RestProfileActivity.class);
+                        intentRestaurantInfo.putExtra("obj", gsonRestaurant.toJson(restaurantToShow));
+                        startActivity(intentRestaurantInfo);
+                        this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+                    }
                 }
                 break;
         }
@@ -282,6 +307,12 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intentAddRestaurant);
         intentAddRestaurant.putExtra("emailUser", userEmail);
         this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+    }
+
+    public void modifyRestaurant(View view) {
+        Toast.makeText(this, "Selecciona el restaurante a modificar", Toast.LENGTH_LONG).show();
+        this.modifyRestaurant = true;
 
     }
 }

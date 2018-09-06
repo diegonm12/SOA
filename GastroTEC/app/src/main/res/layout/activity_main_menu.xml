@@ -51,7 +51,8 @@
             android:layout_marginEnd="80dp"
             android:background="@drawable/modify"
             android:layout_marginRight="80dp"
-            android:visibility="invisible"/>
+            android:visibility="invisible"
+            android:onClick="modifyRestaurant"/>
 
      </android.support.v7.widget.Toolbar>
 
