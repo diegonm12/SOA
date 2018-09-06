@@ -141,10 +141,10 @@ public class MainMenu extends AppCompatActivity {
         }
         else {
 
-            Bitmap bm1 = BitmapFactory.decodeResource(getResources(), R.mipmap.icono);
-            Bitmap bm2 = BitmapFactory.decodeResource(getResources(), R.mipmap.icono);
-            Bitmap bm3 = BitmapFactory.decodeResource(getResources(), R.mipmap.icono);
-            Bitmap bm4 = BitmapFactory.decodeResource(getResources(), R.mipmap.icono);
+            Bitmap bm1 = BitmapFactory.decodeResource(getResources(), R.mipmap.img1);
+            Bitmap bm2 = BitmapFactory.decodeResource(getResources(), R.mipmap.img2);
+            Bitmap bm3 = BitmapFactory.decodeResource(getResources(), R.mipmap.img3);
+            Bitmap bm4 = BitmapFactory.decodeResource(getResources(), R.mipmap.img4);
             restaurantDatabaseAdapter.insertEntry("Casa Luna", getBitmapAsByteArray(bm1),
                     "Costado Oeste de la clinica", "L a V: 8:00 am a 5:00 pm");
             restaurantDatabaseAdapter.insertEntry("Soda Gym", getBitmapAsByteArray(bm2),
