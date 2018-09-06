@@ -18,7 +18,7 @@ public class PlatillosDatabaseAdapter {
     public static final int NAME_COLUMN = 1;
     // TODO: Create public field for each column in your table.
     // SQL Statement to create a new database.
-    static final String DATABASE_CREATE = "create table PLATILLOS( ID integer primary key autoincrement,NAME  text unique,TIME text,RESTAURANT text,VFAVOR text, VCONTRA text); ";
+    static final String DATABASE_CREATE = "create table PLATILLOS( ID integer primary key autoincrement,NAME  text,TIME text,RESTAURANT text,VFAVOR text, VCONTRA text); ";
     // Variable to hold the database instance
     public static SQLiteDatabase db;
     // Context of the application using the database.

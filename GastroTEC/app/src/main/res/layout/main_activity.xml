@@ -132,7 +132,7 @@
         android:layout_alignParentTop="true"
         android:background="@android:color/transparent"
         android:onClick="signUp"
-        android:text="Resgistro"
+        android:text="Registro"
         android:textSize="12dp"
         android:layout_alignParentRight="true" />
 

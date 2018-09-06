@@ -14,6 +14,7 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -31,9 +32,13 @@ public class MainMenu extends AppCompatActivity {
     public static final int ADAPTER_TYPE_BOTTOM = 2;
     public static final String EXTRA_IMAGE = "image";
     public static final String EXTRA_TRANSITION_IMAGE = "image";
-    public int restaurants = 4;
-    String userEmail;
+    public int restaurants;
+    boolean primeraVez = true;
+    public static String userEmail;
     LoginDatabaseAdapter loginDataBaseAdapter;
+    boolean administrador = false;
+    PlatillosDatabaseAdapter platilloDatabaseAdapter;
+    int cantidad_platillos;
 
 
 
@@ -48,24 +53,61 @@ public class MainMenu extends AppCompatActivity {
 
 
 
-
         //Obtenemos el email de este otro lado
 
         Bundle extras = getIntent().getExtras();
         userEmail= extras.getString("emailUser");
+        System.out.println(userEmail);
+
+
+
 
 
         restaurantDatabaseAdapter = new RestaurantDatabaseAdapter(getApplicationContext());
         restaurantDatabaseAdapter.open();
         loginDataBaseAdapter  = new LoginDatabaseAdapter(getApplicationContext());
         loginDataBaseAdapter.open();
+        platilloDatabaseAdapter = new PlatillosDatabaseAdapter(getApplicationContext());
+        platilloDatabaseAdapter.open();
+        Cursor cursorCheck = loginDataBaseAdapter.getAllInfoUser(userEmail);
+        String compare = cursorCheck.getString(0);
+
         setData();
+        setDataPlatillos();
+
+        // Aqui se hacen visibles los botones que va a utilizar el administrador
+        // para manejar los restaurantes.
+        if(compare.equals("1")){
+            administrador = true;
+            Button buttonAddHide = (Button) findViewById(R.id.button_main_menu_add_admi);
+            Button buttonDeleteHide = (Button) findViewById(R.id.button_main_menu_delete_admi);
+            Button buttonModifyHide = (Button) findViewById(R.id.button_main_menu_modify_admi);
+            buttonAddHide.setVisibility(View.VISIBLE);
+            buttonDeleteHide.setVisibility(View.VISIBLE);
+            buttonModifyHide.setVisibility(View.VISIBLE);
+
+        }
+
+
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+
+        restaurants = (int)restaurantDatabaseAdapter.getProfilesCount();
+
         Bitmap[] listItems = new Bitmap[restaurants];
         listItems = getListItems();
 
         init();
         setupViewPager(listItems);
+
+
     }
+
+
+
     // aqui tengo que acomodar la lista cada vez, dependiendo del mas votado
     public Bitmap[] getListItems() {
         Bitmap[] listReturn = new Bitmap[restaurants];
@@ -86,10 +128,7 @@ public class MainMenu extends AppCompatActivity {
 
     private void setData() {
 
-        if (restaurantDatabaseAdapter.getProfilesCount() == restaurants)
-            {
-            }
-        else {
+
             Bitmap bm1 = BitmapFactory.decodeResource(getResources(), R.mipmap.icono);
             Bitmap bm2 = BitmapFactory.decodeResource(getResources(), R.mipmap.icono);
             Bitmap bm3 = BitmapFactory.decodeResource(getResources(), R.mipmap.icono);
@@ -102,7 +141,37 @@ public class MainMenu extends AppCompatActivity {
                     "Al frente del pretil", "L a V: 7:30 am a 5:00 pm");
             restaurantDatabaseAdapter.insertEntry("Soda del Lago", getBitmapAsByteArray(bm4),
                     "En las cercanías del lago del TEC", "L a V: 8:00 am a 5:00 pm");
-        }
+            primeraVez = false;
+
+    }
+
+    private void setDataPlatillos() {
+
+            platilloDatabaseAdapter.insertEntry("Emparedados de atun", "8:00 am - 10:00am" ,
+                    "1", "2","3");
+            platilloDatabaseAdapter.insertEntry("Arroz con pollo", "12:00 am - 1:00pm" ,
+                    "1", "5","2");
+            platilloDatabaseAdapter.insertEntry("Empanada de pollo", "3:00 pm - 4:30pm" ,
+                    "1", "5","2");
+            platilloDatabaseAdapter.insertEntry("Pinto con huevo", "8:00 am - 9:30am" ,
+                    "2", "2","0");
+            platilloDatabaseAdapter.insertEntry("Arroz con camarones", "12:00 am - 2:00pm" ,
+                    "2", "12","2");
+            platilloDatabaseAdapter.insertEntry("Empanada de carne", "3:00 pm - 4:30pm" ,
+                    "2", "5","9");
+            platilloDatabaseAdapter.insertEntry("Emparedado de jalea", "7:30 am - 9:00am" ,
+                    "3", "2","0");
+            platilloDatabaseAdapter.insertEntry("Hamburguesas con papas", "11:30 am - 1:00pm" ,
+                    "3", "12","2");
+            platilloDatabaseAdapter.insertEntry("Arepas", "3:00 pm - 5:00pm" ,
+                    "3", "0","9");
+            platilloDatabaseAdapter.insertEntry("Empanada de papa", "8:00 am - 9:00am" ,
+                    "4", "2","0");
+            platilloDatabaseAdapter.insertEntry("Pollo frito", "11:30 am - 1:30pm" ,
+                    "4", "12","2");
+            platilloDatabaseAdapter.insertEntry("Burritos de frijol", "3:00 pm - 5:00pm" ,
+                    "4", "8","5");
+
     }
 
     public byte[] getBitmapAsByteArray(Bitmap bitmap) {
@@ -175,12 +244,6 @@ public class MainMenu extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Cursor cursorCheck = loginDataBaseAdapter.getAllInfoUser(userEmail);
-        String compare = cursorCheck.getString(0);
-
-        if(compare.equals("1")){
-            System.out.println("Soy ADmi");
-        }
 
         switch (id) {
             case R.id.mi_perfil_MainMenu:
@@ -189,8 +252,6 @@ public class MainMenu extends AppCompatActivity {
                 intentPerfilUser.putExtra("emailUser", userEmail);
                 startActivity(intentPerfilUser);
                 this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
-
                 return true;
             case R.id.cerrar_sesion_MainMenu:
                 finish();
@@ -202,4 +263,12 @@ public class MainMenu extends AppCompatActivity {
     }
 
 
+    public void addRestaurant(View view) {
+        Toast.makeText(this, "Se agregará restaurante", Toast.LENGTH_LONG).show();
+        Intent intentAddRestaurant = new Intent(this, AddRestaurantActivity.class);
+        startActivity(intentAddRestaurant);
+        intentAddRestaurant.putExtra("emailUser", userEmail);
+        this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+    }
 }
