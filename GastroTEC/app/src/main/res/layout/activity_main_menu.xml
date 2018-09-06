@@ -23,7 +23,33 @@
         android:backgroundTint="@color/md_black_1000"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
 
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        <Button
+            android:id="@+id/button_main_menu_add_admi"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/add"
+            android:onClick="DesplegaMenu"/>
+        <Button
+            android:id="@+id/button_main_menu_delete_admi"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/trash"
+            android:onClick="DesplegaMenu"/>
+        <Button
+            android:id="@+id/button_main_menu_modify_admi"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginEnd="80dp"
+            android:background="@drawable/modify"
+            android:onClick="DesplegaMenu"
+            android:layout_marginRight="80dp" />
+
+     </android.support.v7.widget.Toolbar>
 
 
 
@@ -38,4 +64,8 @@
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:paddingTop="100dp" />
+
+
+
+
 </FrameLayout>
