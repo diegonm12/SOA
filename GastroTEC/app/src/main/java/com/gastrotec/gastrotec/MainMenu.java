@@ -69,6 +69,8 @@ public class MainMenu extends AppCompatActivity {
         loginDataBaseAdapter.open();
         platilloDatabaseAdapter = new PlatillosDatabaseAdapter(getApplicationContext());
         platilloDatabaseAdapter.open();
+        cantidad_platillos = (int) platilloDatabaseAdapter.getProfilesCount();
+        restaurants = (int) restaurantDatabaseAdapter.getProfilesCount();
         Cursor cursorCheck = loginDataBaseAdapter.getAllInfoUser(userEmail);
         String compare = cursorCheck.getString(0);
 
@@ -128,6 +130,10 @@ public class MainMenu extends AppCompatActivity {
 
     private void setData() {
 
+        if(restaurants >= 4){
+
+        }
+        else {
 
             Bitmap bm1 = BitmapFactory.decodeResource(getResources(), R.mipmap.icono);
             Bitmap bm2 = BitmapFactory.decodeResource(getResources(), R.mipmap.icono);
@@ -142,35 +148,42 @@ public class MainMenu extends AppCompatActivity {
             restaurantDatabaseAdapter.insertEntry("Soda del Lago", getBitmapAsByteArray(bm4),
                     "En las cercanías del lago del TEC", "L a V: 8:00 am a 5:00 pm");
             primeraVez = false;
+        }
 
     }
 
     private void setDataPlatillos() {
 
-            platilloDatabaseAdapter.insertEntry("Emparedados de atun", "8:00 am - 10:00am" ,
-                    "1", "2","3");
-            platilloDatabaseAdapter.insertEntry("Arroz con pollo", "12:00 am - 1:00pm" ,
-                    "1", "5","2");
-            platilloDatabaseAdapter.insertEntry("Empanada de pollo", "3:00 pm - 4:30pm" ,
-                    "1", "5","2");
-            platilloDatabaseAdapter.insertEntry("Pinto con huevo", "8:00 am - 9:30am" ,
-                    "2", "2","0");
-            platilloDatabaseAdapter.insertEntry("Arroz con camarones", "12:00 am - 2:00pm" ,
-                    "2", "12","2");
-            platilloDatabaseAdapter.insertEntry("Empanada de carne", "3:00 pm - 4:30pm" ,
-                    "2", "5","9");
-            platilloDatabaseAdapter.insertEntry("Emparedado de jalea", "7:30 am - 9:00am" ,
-                    "3", "2","0");
-            platilloDatabaseAdapter.insertEntry("Hamburguesas con papas", "11:30 am - 1:00pm" ,
-                    "3", "12","2");
-            platilloDatabaseAdapter.insertEntry("Arepas", "3:00 pm - 5:00pm" ,
-                    "3", "0","9");
-            platilloDatabaseAdapter.insertEntry("Empanada de papa", "8:00 am - 9:00am" ,
-                    "4", "2","0");
-            platilloDatabaseAdapter.insertEntry("Pollo frito", "11:30 am - 1:30pm" ,
-                    "4", "12","2");
-            platilloDatabaseAdapter.insertEntry("Burritos de frijol", "3:00 pm - 5:00pm" ,
-                    "4", "8","5");
+            if(cantidad_platillos >= 12){
+
+            }
+            else {
+
+                platilloDatabaseAdapter.insertEntry("Emparedados de atun", "8:00 am - 10:00am",
+                        "1", "2", "3");
+                platilloDatabaseAdapter.insertEntry("Arroz con pollo", "12:00 am - 1:00pm",
+                        "1", "5", "2");
+                platilloDatabaseAdapter.insertEntry("Empanada de pollo", "3:00 pm - 4:30pm",
+                        "1", "5", "2");
+                platilloDatabaseAdapter.insertEntry("Pinto con huevo", "8:00 am - 9:30am",
+                        "2", "2", "0");
+                platilloDatabaseAdapter.insertEntry("Arroz con camarones", "12:00 am - 2:00pm",
+                        "2", "12", "2");
+                platilloDatabaseAdapter.insertEntry("Empanada de carne", "3:00 pm - 4:30pm",
+                        "2", "5", "9");
+                platilloDatabaseAdapter.insertEntry("Emparedado de jalea", "7:30 am - 9:00am",
+                        "3", "2", "0");
+                platilloDatabaseAdapter.insertEntry("Hamburguesas con papas", "11:30 am - 1:00pm",
+                        "3", "12", "2");
+                platilloDatabaseAdapter.insertEntry("Arepas", "3:00 pm - 5:00pm",
+                        "3", "0", "9");
+                platilloDatabaseAdapter.insertEntry("Empanada de papa", "8:00 am - 9:00am",
+                        "4", "2", "0");
+                platilloDatabaseAdapter.insertEntry("Pollo frito", "11:30 am - 1:30pm",
+                        "4", "12", "2");
+                platilloDatabaseAdapter.insertEntry("Burritos de frijol", "3:00 pm - 5:00pm",
+                        "4", "8", "5");
+            }
 
     }
 
