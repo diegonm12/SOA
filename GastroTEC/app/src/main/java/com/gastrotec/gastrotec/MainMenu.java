@@ -40,6 +40,7 @@ public class MainMenu extends AppCompatActivity {
     PlatillosDatabaseAdapter platilloDatabaseAdapter;
     int cantidad_platillos;
     boolean modifyRestaurant;
+    boolean modifyPlatillo;
 
 
 
@@ -54,6 +55,7 @@ public class MainMenu extends AppCompatActivity {
 
         //variable usada cuando se quiere modificar un restaurante
         modifyRestaurant = false;
+        modifyPlatillo = false;
 
 
 
@@ -86,7 +88,7 @@ public class MainMenu extends AppCompatActivity {
         if(compare.equals("1")){
             administrador = true;
             Button buttonAddHide = (Button) findViewById(R.id.button_main_menu_add_admi);
-            Button buttonDeleteHide = (Button) findViewById(R.id.button_main_menu_delete_admi);
+            Button buttonDeleteHide = (Button) findViewById(R.id.button_main_menu_modify_platillo_admi);
             Button buttonModifyHide = (Button) findViewById(R.id.button_main_menu_modify_admi);
             buttonAddHide.setVisibility(View.VISIBLE);
             buttonDeleteHide.setVisibility(View.VISIBLE);
@@ -234,21 +236,41 @@ public class MainMenu extends AppCompatActivity {
             case R.id.linMain:
                 if (view.getTag() != null) {
                     if (modifyRestaurant) {
-                        System.out.println("Se va a modificar restaurante");
-                        this.modifyRestaurant = false;
-                        int position = Integer.parseInt(view.getTag().toString());
-                        Restaurant restaurantToModify = new Restaurant();
-                        Cursor item = restaurantDatabaseAdapter.getSinlgeEntry(String.valueOf(position + 1));
-                        restaurantToModify.setName(item.getString(0));
-                        restaurantToModify.setAddress(item.getString(1));
-                        restaurantToModify.setTime(item.getString(2));
-                        restaurantToModify.setID(String.valueOf(position + 1));
-                        Gson gsonRestaurant = new Gson();
-                        Intent intentRestaurantModify = new Intent(this, ModifyRestaurantActivity.class);
-                        intentRestaurantModify.putExtra("obj", gsonRestaurant.toJson(restaurantToModify));
-                        startActivity(intentRestaurantModify);
-                        this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        if(modifyPlatillo){
+                            System.out.println("Se modificara platillo");
+                            this.modifyPlatillo  = false;
+                            this.modifyRestaurant = false;
+                            int position = Integer.parseInt(view.getTag().toString());
+                            Restaurant restaurantToModifyPlatillo = new Restaurant();
+                            Cursor item = restaurantDatabaseAdapter.getSinlgeEntry(String.valueOf(position + 1));
+                            restaurantToModifyPlatillo.setName(item.getString(0));
+                            restaurantToModifyPlatillo.setAddress(item.getString(1));
+                            restaurantToModifyPlatillo.setTime(item.getString(2));
+                            restaurantToModifyPlatillo.setID(String.valueOf(position + 1));
+                            Gson gsonRestaurant = new Gson();
+                            Intent intentRestaurantModifyPlatillo = new Intent(this, ModifyPlatillo.class);
+                            intentRestaurantModifyPlatillo.putExtra("obj", gsonRestaurant.toJson(restaurantToModifyPlatillo));
+                            startActivity(intentRestaurantModifyPlatillo);
+                            this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
+
+                        }
+                        else {
+                            System.out.println("Se va a modificar restaurante");
+                            this.modifyRestaurant = false;
+                            int position = Integer.parseInt(view.getTag().toString());
+                            Restaurant restaurantToModify = new Restaurant();
+                            Cursor item = restaurantDatabaseAdapter.getSinlgeEntry(String.valueOf(position + 1));
+                            restaurantToModify.setName(item.getString(0));
+                            restaurantToModify.setAddress(item.getString(1));
+                            restaurantToModify.setTime(item.getString(2));
+                            restaurantToModify.setID(String.valueOf(position + 1));
+                            Gson gsonRestaurant = new Gson();
+                            Intent intentRestaurantModify = new Intent(this, ModifyRestaurantActivity.class);
+                            intentRestaurantModify.putExtra("obj", gsonRestaurant.toJson(restaurantToModify));
+                            startActivity(intentRestaurantModify);
+                            this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        }
 
 
                     } else {
@@ -314,5 +336,11 @@ public class MainMenu extends AppCompatActivity {
         Toast.makeText(this, "Selecciona el restaurante a modificar", Toast.LENGTH_LONG).show();
         this.modifyRestaurant = true;
 
+    }
+
+    public void modifyPlatillo(View view) {
+        Toast.makeText(this, "Selecciona el restaurante con el platillo a modificar", Toast.LENGTH_LONG).show();
+        this.modifyPlatillo = true;
+        this.modifyRestaurant = true;
     }
 }

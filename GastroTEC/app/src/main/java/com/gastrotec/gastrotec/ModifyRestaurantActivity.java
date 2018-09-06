@@ -57,18 +57,16 @@ public class ModifyRestaurantActivity extends AppCompatActivity {
     }
 
     public void cancelModification(View view) {
-        String newNameRest = nameRestaurant.getText().toString();
-        String newAddressRest = addressRestaurant.getText().toString();
-        String newTimeRest = timeRestaurant.getText().toString();
-        restaurantDatabaseAdapter.updateEntry(restaurantGsonRecieved.getID(),newNameRest,
-                                        newAddressRest,newTimeRest);
         finish();
     }
 
     public void modifyRestaurant(View view) {
         String newNameRest = nameRestaurant.getText().toString();
-        String newAddressRest = nameRestaurant.getText().toString();
+        String newAddressRest = addressRestaurant.getText().toString();
         String newTimeRest = timeRestaurant.getText().toString();
+        System.out.println(newNameRest);
+        System.out.println(newAddressRest);
+        System.out.println(newTimeRest);
         restaurantDatabaseAdapter.updateEntry(restaurantGsonRecieved.getID(),newNameRest,
                 newAddressRest,newTimeRest);
         Toast.makeText(this, "Restaurante Actualizado", Toast.LENGTH_LONG).show();

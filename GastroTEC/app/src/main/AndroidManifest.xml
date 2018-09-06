@@ -21,7 +21,8 @@
         <activity android:name=".RestProfileActivity" />
         <activity android:name=".UserProfile" />
         <activity android:name=".AddRestaurantActivity" />
-        <activity android:name=".ModifyRestaurantActivity"></activity>
+        <activity android:name=".ModifyRestaurantActivity" />
+        <activity android:name=".ModifyPlatillo"></activity>
     </application>
 
 </manifest>

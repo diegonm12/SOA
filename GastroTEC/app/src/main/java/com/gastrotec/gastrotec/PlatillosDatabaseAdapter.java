@@ -124,6 +124,17 @@ public class PlatillosDatabaseAdapter {
         db.update("PLATILLOS",updatedValues, where, new String[]{platilloID});
     }
 
+    public void  updatePlatilloHorario(String platilloID,String newPlatillo, String newHorario)
+    {
+        //  create object of ContentValues
+        ContentValues updatedValues = new ContentValues();
+        // Assign values for each Column.
+        updatedValues.put("NAME", newPlatillo);
+        updatedValues.put("TIME", newHorario);
+        String where="ID = ?";
+        db.update("PLATILLOS",updatedValues, where, new String[]{platilloID});
+    }
+
     public long getProfilesCount() {
         db = dbHelper.getWritableDatabase();
         long count = DatabaseUtils.queryNumEntries(db, "PLATILLOS");

@@ -36,12 +36,14 @@
             android:onClick="addRestaurant"
             android:visibility="invisible"/>
         <Button
-            android:id="@+id/button_main_menu_delete_admi"
+            android:id="@+id/button_main_menu_modify_platillo_admi"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginRight="40dp"
             android:background="@drawable/trash"
             android:visibility="invisible"
+            android:onClick="modifyPlatillo"
+
             />
         <Button
             android:id="@+id/button_main_menu_modify_admi"
