@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // se inicia el activity del  menu principal
                 Intent intentMainMenu = new Intent(this, MainMenu.class);
+                intentMainMenu.putExtra("emailUser", emailUser);
                 startActivity(intentMainMenu);
                 this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }

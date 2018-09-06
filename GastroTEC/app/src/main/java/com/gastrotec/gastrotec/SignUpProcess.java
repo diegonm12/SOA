@@ -20,6 +20,8 @@ public class SignUpProcess extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_process);
         loginDataBaseAdapter=new LoginDatabaseAdapter(getApplicationContext());
         loginDataBaseAdapter=loginDataBaseAdapter.open();
+        receieveOk = "";
+
     }
 
 
@@ -55,10 +57,16 @@ public class SignUpProcess extends AppCompatActivity {
         {
             // se hace elquery a la base de datos para ingresar al estudiante
             receieveOk=loginDataBaseAdapter.insertEntry(nameUser,careerUser,carnetUser,emailUser,passwordUser);
+
             // se hace un mensaje de que ya se registro a la app.
-            Toast.makeText(this, "Registrado en GastroTEC", Toast.LENGTH_LONG).show();
-            System.out.println("Cantidad de usuario registrados:");
-            System.out.println(loginDataBaseAdapter.getProfilesCount());
+            if (receieveOk.equals("OK")) {
+                Toast.makeText(this, "Registrado en GastroTEC", Toast.LENGTH_LONG).show();
+                receieveOk ="";
+                finish();
+            }
+            else
+                Toast.makeText(this, "Error! No puedes registrarte con esos datos", Toast.LENGTH_LONG).show();
+
 
         }
         else{

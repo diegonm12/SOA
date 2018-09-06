@@ -5,12 +5,16 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -19,6 +23,8 @@ import java.io.IOException;
 import java.sql.Blob;
 
 public class MainMenu extends AppCompatActivity {
+
+    private static final int MENU_ITEM_LOGOUT = 1001;
     RestaurantDatabaseAdapter restaurantDatabaseAdapter;
     private ViewPager viewpagerTop;
     public static final int ADAPTER_TYPE_TOP = 1;
@@ -26,6 +32,8 @@ public class MainMenu extends AppCompatActivity {
     public static final String EXTRA_IMAGE = "image";
     public static final String EXTRA_TRANSITION_IMAGE = "image";
     public int restaurants = 4;
+    String userEmail;
+    LoginDatabaseAdapter loginDataBaseAdapter;
 
 
 
@@ -38,8 +46,19 @@ public class MainMenu extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
+
+
+
+        //Obtenemos el email de este otro lado
+
+        Bundle extras = getIntent().getExtras();
+        userEmail= extras.getString("emailUser");
+
+
         restaurantDatabaseAdapter = new RestaurantDatabaseAdapter(getApplicationContext());
         restaurantDatabaseAdapter.open();
+        loginDataBaseAdapter  = new LoginDatabaseAdapter(getApplicationContext());
+        loginDataBaseAdapter.open();
         setData();
         Bitmap[] listItems = new Bitmap[restaurants];
         listItems = getListItems();
@@ -144,4 +163,43 @@ public class MainMenu extends AppCompatActivity {
                 break;
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menubutton, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        Cursor cursorCheck = loginDataBaseAdapter.getAllInfoUser(userEmail);
+        String compare = cursorCheck.getString(0);
+
+        if(compare.equals("1")){
+            System.out.println("Soy ADmi");
+        }
+
+        switch (id) {
+            case R.id.mi_perfil_MainMenu:
+                Toast.makeText(this, "Mi perfil", Toast.LENGTH_LONG).show();
+                Intent intentPerfilUser = new Intent(this, UserProfile.class);
+                intentPerfilUser.putExtra("emailUser", userEmail);
+                startActivity(intentPerfilUser);
+                this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+
+                return true;
+            case R.id.cerrar_sesion_MainMenu:
+                finish();
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }

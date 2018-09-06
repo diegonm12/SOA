@@ -22,6 +22,7 @@
         android:elevation="4dp"
         android:backgroundTint="@color/md_black_1000"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
 
@@ -29,12 +30,12 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpagerTop_main_menu"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:layout_gravity="bottom"
+        android:layout_gravity="center"
         android:clipToPadding="false"
-        android:paddingBottom="50dp"
+        android:paddingBottom="100dp"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
-        android:paddingTop="50dp" />
+        android:paddingTop="100dp" />
 </FrameLayout>

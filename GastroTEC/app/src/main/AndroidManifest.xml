@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".SignUpProcess" />
         <activity android:name=".MainMenu" />
-        <activity android:name=".RestProfileActivity"></activity>
+        <activity android:name=".RestProfileActivity" />
+        <activity android:name=".UserProfile"></activity>
     </application>
 
 </manifest>
