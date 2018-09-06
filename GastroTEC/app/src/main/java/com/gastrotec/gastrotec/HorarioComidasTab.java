@@ -26,8 +26,12 @@ public class HorarioComidasTab extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        // se llama el adapter de la base de datos platillos para  poder usar dicha informacion
         adapter = new PlatillosDatabaseAdapter(getContext());
         adapter.open();
+
+        //se obtiene el id del restaurante al cual nos estamos refiriendo
         Bundle bundlePosition = getArguments();
         restaurantID = bundlePosition.getCharSequence("ID");
         getData();
@@ -36,6 +40,8 @@ public class HorarioComidasTab extends Fragment {
 
     }
 
+    // metodo llamado para obtener los datos desde la base de datos de platillos
+    //y mete la informacion a las listas correspondientes
     private void getData() {
         Cursor item =  adapter.getRestaurantsbyID(restaurantID.toString());
         int count =item.getCount();
@@ -58,10 +64,13 @@ public class HorarioComidasTab extends Fragment {
 
                              Bundle savedInstanceState) {
 
+        //Se obtienen los text view para poder ensenar la informacion de la base
         myFragmentView  = inflater.inflate(R.layout.tab2, container, false);
         showComida = (TextView) myFragmentView.findViewById(R.id.comida_horario_comidas);
         showFavor = (TextView) myFragmentView.findViewById(R.id.textView8_horario_comidas);
         showContra = (TextView) myFragmentView.findViewById(R.id.textView9_horario_comidas);
+
+        // se definen las  dos imagenes que se utilizan para darle like o no me gusta
         final ImageView imagenDisLike = (ImageView) myFragmentView.findViewById(R.id.imageView2_horario_comidas);
         final ImageView imagenLike = (ImageView) myFragmentView.findViewById(R.id.imageView_horario_comidas);
 
@@ -71,9 +80,15 @@ public class HorarioComidasTab extends Fragment {
             @Override
             public void onClick(View v)
             {
+
+                //En este  caso se estaria seleccionando el primer horario de comidas
                 platillo = 1;
+
+                // se hacen visibles los botones
                 imagenDisLike.setVisibility(imagenDisLike.VISIBLE);
                 imagenLike.setVisibility(imagenLike.VISIBLE);
+
+                //se ensena la informacion
                 showComida.setText(listaComida[0]);
                 showFavor.setText(listaFavor[0]);
                 showContra.setText(listaContra[0]);
@@ -86,9 +101,15 @@ public class HorarioComidasTab extends Fragment {
             @Override
             public void onClick(View v)
             {
+
+                //se selecciona en este caso el  segundo horario
                 platillo = 2;
+
+                //nuevamente las imagenes aparecen cuando se da la seleccion
                 imagenDisLike.setVisibility(imagenDisLike.VISIBLE);
                 imagenLike.setVisibility(imagenLike.VISIBLE);
+
+                //ensena la informacion
                 showComida.setText(listaComida[1]);
                 showFavor.setText(listaFavor[1]);
                 showContra.setText(listaContra[1]);
@@ -101,9 +122,15 @@ public class HorarioComidasTab extends Fragment {
             @Override
             public void onClick(View v)
             {
+
+                //se encuentra en la tercera seleccion de horario
                 platillo = 3;
+
+                //se hacen aparecer los botones
                 imagenDisLike.setVisibility(imagenDisLike.VISIBLE);
                 imagenLike.setVisibility(imagenLike.VISIBLE);
+
+                // se ensena informacion
                 showComida.setText(listaComida[2]);
                 showFavor.setText(listaFavor[2]);
                 showContra.setText(listaContra[2]);
@@ -173,7 +200,6 @@ public class HorarioComidasTab extends Fragment {
                     // Aqui se hace el proceso para darle no me gusta a un platillo, se actualiza
                     // en la base de datos y luego se vuelve a agarrar el nuevo puntaje a
                     // favor para mostrarlo nuevamente.
-
                     PlatillosDatabaseAdapter adapter = new PlatillosDatabaseAdapter(getContext());
                     adapter.open();
 
@@ -214,10 +240,16 @@ public class HorarioComidasTab extends Fragment {
     }
 
     public void onActivityCreated(Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
+
+        //Se obtienen los text view para poner la informacion de los platillos
         TextView textViewHorario1 = myFragmentView.findViewById(R.id.textView1_horario_comidas);
         TextView textViewHorario2 = myFragmentView.findViewById(R.id.textView2_horario_comidas);
         TextView textViewHorario3 = myFragmentView.findViewById(R.id.textView3_horario_comidas);
+
+        //se llaman las listas que contienen los platillos y para poner esa informacion
+        // en los textview anteriores
         textViewHorario1.setText(listaHorario[0]);
         textViewHorario2.setText(listaHorario[1]);
         textViewHorario3.setText(listaHorario[2]);

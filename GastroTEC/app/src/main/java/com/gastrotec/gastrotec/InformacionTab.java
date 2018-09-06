@@ -14,14 +14,13 @@ public class InformacionTab extends Fragment {
     CharSequence address;
     CharSequence time;
 
-
-
-
     @Override
 
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        //se obtiene toda  la informacion del restaurante sobre del cual se selecciono
         Bundle bundle = getArguments();
         name = bundle.getCharSequence("name");
         address = bundle.getCharSequence("address");
@@ -47,6 +46,9 @@ public class InformacionTab extends Fragment {
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        //de  la informacion que se obtuvo en el bundle, lo que corresponde aqui
+        // es hacer un show de la informacion
         nameRestauranteText = myFragmentView.findViewById(R.id.textView_informacion_tab_name);
         nameRestauranteText.setText(name);
         nameRestauranteText = myFragmentView.findViewById(R.id.textView_informacion_tab_address);

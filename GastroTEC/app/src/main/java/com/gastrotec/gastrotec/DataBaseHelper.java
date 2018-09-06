@@ -8,8 +8,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public DataBaseHelper(Context context, String name, CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
-    // Called when no database exists in disk and the helper class needs
-    // to create a new one.
+    //Se llama solamente una vez, en donde se crea las bases de datos para login
+    // restaurantes y platillos
     @Override
     public void onCreate(SQLiteDatabase _db) {
         try {
@@ -20,20 +20,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             Log.e("Error","exceptioin");
         }
     }
-    // Called when there is a database version mismatch meaning that the version
-    // of the database on disk needs to be upgraded to the current version.
+
+    // Se llama cuando hay problemas en las versiones de la base de datos
     @Override
     public void onUpgrade(SQLiteDatabase _db, int _oldVersion, int _newVersion)
     {
-        // Log the version upgrade.
         Log.w("TaskDBAdapter", "Upgrading from version " +_oldVersion + " to " +_newVersion + ", which will destroy all old data");
-        // Upgrade the existing database to conform to the new version. Multiple
-        // previous versions can be handled by comparing _oldVersion and _newVersion
-        // values.
-        // The simplest case is to drop the old table and create a new one.
+
         _db.execSQL("DROP TABLE IF EXISTS " + "LOGIN");
 
-        // Create a new one.
         onCreate(_db);
     }
 }

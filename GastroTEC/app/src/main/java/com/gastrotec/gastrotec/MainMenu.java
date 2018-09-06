@@ -28,16 +28,20 @@ public class MainMenu extends AppCompatActivity {
     private static final int MENU_ITEM_LOGOUT = 1001;
     RestaurantDatabaseAdapter restaurantDatabaseAdapter;
     private ViewPager viewpagerTop;
+
     public static final int ADAPTER_TYPE_TOP = 1;
     public static final int ADAPTER_TYPE_BOTTOM = 2;
     public static final String EXTRA_IMAGE = "image";
     public static final String EXTRA_TRANSITION_IMAGE = "image";
+
     public int restaurants;
     boolean primeraVez = true;
     public static String userEmail;
     LoginDatabaseAdapter loginDataBaseAdapter;
+
     boolean administrador = false;
     PlatillosDatabaseAdapter platilloDatabaseAdapter;
+
     int cantidad_platillos;
     boolean modifyRestaurant;
     boolean modifyPlatillo;
@@ -60,26 +64,30 @@ public class MainMenu extends AppCompatActivity {
 
 
         //Obtenemos el email de este otro lado
-
         Bundle extras = getIntent().getExtras();
         userEmail= extras.getString("emailUser");
         System.out.println(userEmail);
 
 
-
-
-
+        //En esta parte se definen los adaptadores de las bases de datos
+        // en este caso la base restaurantes, login y platillos
         restaurantDatabaseAdapter = new RestaurantDatabaseAdapter(getApplicationContext());
         restaurantDatabaseAdapter.open();
         loginDataBaseAdapter  = new LoginDatabaseAdapter(getApplicationContext());
         loginDataBaseAdapter.open();
         platilloDatabaseAdapter = new PlatillosDatabaseAdapter(getApplicationContext());
         platilloDatabaseAdapter.open();
+
+        //Se obtiene la cantidad de platillos que existen en la base platillos
+        // ademas de la cantidad de restaurantes
         cantidad_platillos = (int) platilloDatabaseAdapter.getProfilesCount();
         restaurants = (int) restaurantDatabaseAdapter.getProfilesCount();
+
+        //Se obtiene la informacion del usuario que esta en el moment en el home
         Cursor cursorCheck = loginDataBaseAdapter.getAllInfoUser(userEmail);
         String compare = cursorCheck.getString(0);
 
+        // se obtiene la de la base restaurantes y platillos, los correspondientes
         setData();
         setDataPlatillos();
 
@@ -87,6 +95,9 @@ public class MainMenu extends AppCompatActivity {
         // para manejar los restaurantes.
         if(compare.equals("1")){
             administrador = true;
+
+            //En este caso estamos ante un administrador por que el id es uno
+            //Entonces deben aparecer los botones que deben utilizar
             Button buttonAddHide = (Button) findViewById(R.id.button_main_menu_add_admi);
             Button buttonDeleteHide = (Button) findViewById(R.id.button_main_menu_modify_platillo_admi);
             Button buttonModifyHide = (Button) findViewById(R.id.button_main_menu_modify_admi);
@@ -102,12 +113,14 @@ public class MainMenu extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-
+        // ya en el resumen obtiene la cantidad de restaurantes
         restaurants = (int)restaurantDatabaseAdapter.getProfilesCount();
 
+        //obtiene los items que actualmente estan en las bases
         Bitmap[] listItems = new Bitmap[restaurants];
         listItems = getListItems();
 
+        // se inicia de nuevo el carrousel
         init();
         setupViewPager(listItems);
 
@@ -115,8 +128,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
 
-
-    // aqui tengo que acomodar la lista cada vez, dependiendo del mas votado
+    // en este metodo se obtienen los items que existen en la base de restaurantes
     public Bitmap[] getListItems() {
         Bitmap[] listReturn = new Bitmap[restaurants];
         Cursor item;
@@ -134,6 +146,7 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
+    //metodo que mete la informacion de los restaurantes al inicio
     private void setData() {
 
         if(restaurants >= 4){
@@ -158,6 +171,7 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
+    //metodo que mete la informacion de los platillos en la base
     private void setDataPlatillos() {
 
             if(cantidad_platillos >= 12){
@@ -237,16 +251,25 @@ public class MainMenu extends AppCompatActivity {
                 if (view.getTag() != null) {
                     if (modifyRestaurant) {
                         if(modifyPlatillo){
-                            System.out.println("Se modificara platillo");
+
+                            //en este caso se modificara los platillos y los horarios de
+                            // algun restaurante
                             this.modifyPlatillo  = false;
                             this.modifyRestaurant = false;
                             int position = Integer.parseInt(view.getTag().toString());
+
+                            //Se obtiene la informacion del restaurante
                             Restaurant restaurantToModifyPlatillo = new Restaurant();
                             Cursor item = restaurantDatabaseAdapter.getSinlgeEntry(String.valueOf(position + 1));
+
+                            //  a la variable local restaurante se modifica con los datos que se obtuvieron
+                            // en la parte de arriba
                             restaurantToModifyPlatillo.setName(item.getString(0));
                             restaurantToModifyPlatillo.setAddress(item.getString(1));
                             restaurantToModifyPlatillo.setTime(item.getString(2));
                             restaurantToModifyPlatillo.setID(String.valueOf(position + 1));
+
+                            //Se usa GSON para mandar todos el objeto completo
                             Gson gsonRestaurant = new Gson();
                             Intent intentRestaurantModifyPlatillo = new Intent(this, ModifyPlatillo.class);
                             intentRestaurantModifyPlatillo.putExtra("obj", gsonRestaurant.toJson(restaurantToModifyPlatillo));
@@ -256,15 +279,21 @@ public class MainMenu extends AppCompatActivity {
 
                         }
                         else {
-                            System.out.println("Se va a modificar restaurante");
+                            //aqui se modificaria los restaurantes
                             this.modifyRestaurant = false;
                             int position = Integer.parseInt(view.getTag().toString());
+
+                            //obtengo elrestaurante de la base de datos
                             Restaurant restaurantToModify = new Restaurant();
                             Cursor item = restaurantDatabaseAdapter.getSinlgeEntry(String.valueOf(position + 1));
+
+                            // modifico las caracteristicas del restaurante
                             restaurantToModify.setName(item.getString(0));
                             restaurantToModify.setAddress(item.getString(1));
                             restaurantToModify.setTime(item.getString(2));
                             restaurantToModify.setID(String.valueOf(position + 1));
+
+                            //creo el gson
                             Gson gsonRestaurant = new Gson();
                             Intent intentRestaurantModify = new Intent(this, ModifyRestaurantActivity.class);
                             intentRestaurantModify.putExtra("obj", gsonRestaurant.toJson(restaurantToModify));
@@ -277,10 +306,14 @@ public class MainMenu extends AppCompatActivity {
                         int position = Integer.parseInt(view.getTag().toString());
                         Restaurant restaurantToShow = new Restaurant();
                         Cursor item = restaurantDatabaseAdapter.getSinlgeEntry(String.valueOf(position + 1));
+
+                        //obtengo los valores que tienen los restaurantes
                         restaurantToShow.setName(item.getString(0));
                         restaurantToShow.setAddress(item.getString(1));
                         restaurantToShow.setTime(item.getString(2));
                         restaurantToShow.setID(String.valueOf(position + 1));
+
+                        //creo el gson restaurante para mandarlo a la otra layout
                         Gson gsonRestaurant = new Gson();
                         Intent intentRestaurantInfo = new Intent(this, RestProfileActivity.class);
                         intentRestaurantInfo.putExtra("obj", gsonRestaurant.toJson(restaurantToShow));
@@ -322,7 +355,7 @@ public class MainMenu extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    //funcion que realiza el boton add restaurante
     public void addRestaurant(View view) {
         Toast.makeText(this, "Se agregará restaurante", Toast.LENGTH_LONG).show();
         Intent intentAddRestaurant = new Intent(this, AddRestaurantActivity.class);
@@ -332,12 +365,14 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
+    //funcion que realiza el boton modificar restaurante
     public void modifyRestaurant(View view) {
         Toast.makeText(this, "Selecciona el restaurante a modificar", Toast.LENGTH_LONG).show();
         this.modifyRestaurant = true;
 
     }
 
+    //funcion que realiza el boton modificar platillo
     public void modifyPlatillo(View view) {
         Toast.makeText(this, "Selecciona el restaurante con el platillo a modificar", Toast.LENGTH_LONG).show();
         this.modifyPlatillo = true;

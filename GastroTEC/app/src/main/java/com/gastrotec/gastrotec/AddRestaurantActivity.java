@@ -13,16 +13,19 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class AddRestaurantActivity extends AppCompatActivity {
-    RestaurantDatabaseAdapter restaurantDatabaseAdapter;
-    PlatillosDatabaseAdapter platillosAdapter;
+    RestaurantDatabaseAdapter restaurantDatabaseAdapter; //Adaptador de la base restaurantes
+    PlatillosDatabaseAdapter platillosAdapter;           //Adaptador de la base platillos
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_restaurant);
 
-        //Se inicializa la base de datos que contiene los restaurantes y los platillos
+        //Se inicializa la base de datos que contiene los restaurantes
         restaurantDatabaseAdapter = new RestaurantDatabaseAdapter(getApplicationContext());
         restaurantDatabaseAdapter.open();
+
+        //Se inicializa para base de datos que se utiliza para los platillos
         platillosAdapter = new PlatillosDatabaseAdapter(getApplicationContext());
         platillosAdapter.open();
 
@@ -35,6 +38,8 @@ public class AddRestaurantActivity extends AppCompatActivity {
 
     public void createRestaurant(View view) {
 
+        // Todos los edit text que se van a utilizar para agregar la informacion
+        // del restaurante
         Bitmap defaultImage = BitmapFactory.decodeResource(getResources(), R.mipmap.icono);
         EditText newNameRest = (EditText) findViewById(R.id.nombre_restaurante_add_restaurant_activity);
         EditText newAddressRest = (EditText) findViewById(R.id.direccion_restaurante_add_restaurant_activity);
@@ -45,10 +50,14 @@ public class AddRestaurantActivity extends AppCompatActivity {
         EditText newPlatillo1 = (EditText) findViewById(R.id.platillo1_add_restaurant_activity);
         EditText newPlatillo2 = (EditText) findViewById(R.id.platillo2_add_restaurant_activity);
         EditText newPlatillo3 = (EditText) findViewById(R.id.platillo3_add_restaurant_activity);
+
+        //obtiene la cantidad de restaurantes que se tienen en la base de datos
+        // y se le suma 1 para que sea el proximo ID
         int restCantidad = ((int) restaurantDatabaseAdapter.getProfilesCount())+1;
         String newIDrestaurant = Integer.toString(restCantidad);
 
-
+        //despues de que el usuario ingresa la informacion, se obtiene desde los EditTExt
+        // y luego se ingresan los datos en la base de platillos y restaurantes
         restaurantDatabaseAdapter.insertEntry(newNameRest.getText().toString(), getBitmapAsByteArray(defaultImage),
                 newAddressRest.getText().toString(), newTimeRest.getText().toString());
         platillosAdapter.insertEntry(newPlatillo1.getText().toString(),newHorario1.getText().toString(),newIDrestaurant,"0","0");
@@ -59,6 +68,7 @@ public class AddRestaurantActivity extends AppCompatActivity {
 
     }
 
+    //metodo usado para cambiar de bitmaps a arrays
     public byte[] getBitmapAsByteArray(Bitmap bitmap) {
         try {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();

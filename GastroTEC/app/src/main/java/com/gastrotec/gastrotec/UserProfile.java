@@ -11,7 +11,9 @@ import android.widget.Toast;
 public class UserProfile extends AppCompatActivity {
     String userEmail;
     User currentUser;
+
     LoginDatabaseAdapter loginDataBaseAdapter;
+
     EditText nameEdit;
     EditText careerEdit;
     EditText passwordEdit;
@@ -31,15 +33,19 @@ public class UserProfile extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         userEmail= extras.getString("emailUser");
         getInformationUser();
+
         nameEdit = (EditText) findViewById(R.id.nombre_user_profile);
         careerEdit = (EditText) findViewById(R.id.carrera_user_profile);
+
         TextView carnetText = (TextView) findViewById(R.id.carnet_user_profile);
         TextView emailText = (TextView) findViewById(R.id.email_user_profile);
         passwordEdit = (EditText) findViewById(R.id.password_user_profile);
         nameEdit.setText(currentUser.getName());
         careerEdit.setText(currentUser.getCareer());
+
         carnetText.setText(currentUser.getCarnet());
         emailText.setText(currentUser.getEmail());
+
         passwordEdit.setText(currentUser.getPassword());
     }
 

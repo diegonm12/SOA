@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         // cambia lo que se ingreso a strings y valida que el correo sea correcto
         String emailUser = emailEntry_mainActivity.getText().toString();
         String passwordUser = passwordEntry_mainActivity.getText().toString();
+
         if (isValid(emailUser) && (!emailUser.equals("")) && (!passwordUser.equals("")))
         {
             String storedPassword = loginDataBaseAdapter.getSinlgeEntry(emailUser);
@@ -72,13 +73,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void signUp(View view) {
-        //
+        //Se hace el intent para entrar al  layout del registro
         Intent intentSignIn = new Intent(this, SignUpProcess.class);
         startActivity(intentSignIn);
         this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
     }
 
+    //Metodo utilizado para verificar que los que se esta ingresando por el usuario
+    // realmente es un correo
     public static boolean isValid(String email)
     {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
