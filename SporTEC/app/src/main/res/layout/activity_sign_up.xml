@@ -128,7 +128,8 @@
             android:background="@android:color/transparent"
             android:text="@string/activity_signup_registrar"
             android:textSize="12sp"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:onClick="register"/>
 
 
 
