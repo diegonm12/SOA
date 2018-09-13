@@ -12,7 +12,7 @@
     tools:context="com.sportec.LogInActivity">
 
     <View
-        android:id="@+id/view_main_activity"
+        android:id="@+id/activity_login_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@android:color/transparent"
@@ -20,18 +20,18 @@
         android:focusableInTouchMode="true" />
 
     <LinearLayout
-        android:id="@+id/login_form_container_main_activity"
+        android:id="@+id/activity_login_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="160dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:layout_alignParentLeft="true">
+        android:orientation="vertical">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/logo_card_main_activity"
+            android:id="@+id/activity_login_logo_card"
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:layout_marginBottom="30dp"
@@ -42,7 +42,6 @@
             <android.support.v7.widget.AppCompatImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:background="@drawable/icono" />
 
         </android.support.v7.widget.CardView>
@@ -64,7 +63,7 @@
                 app:cardElevation="0dp">
 
                 <EditText
-                    android:id="@+id/email_main_activity"
+                    android:id="@+id/activity_login_email"
                     android:layout_width="@dimen/edit_text_width"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -94,7 +93,7 @@
                 app:cardElevation="0dp">
 
                 <EditText
-                    android:id="@+id/password_main_activity"
+                    android:id="@+id/activity_login_password"
                     android:layout_width="@dimen/edit_text_width"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -109,34 +108,33 @@
         </android.support.v7.widget.CardView>
 
         <Button
-            android:id="@+id/sign_up_button_main_activity"
+            android:id="@+id/activity_login_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:background="@android:color/transparent"
+            android:text="@string/ingresar"
             android:textColor="#fff"
-            android:textSize="12dp"
-            android:text="Ingresar"
-            />
+            android:textSize="12sp"
+            android:onClick="signIn"/>
 
 
     </LinearLayout>
 
 
     <Button
-        android:id="@+id/sign_in_button_main_activity"
+        android:id="@+id/activity_login_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="12dp"
         android:background="@android:color/transparent"
-        android:text="Registro"
+        android:onClick="signUp"
+        android:text="@string/registro"
         android:textColor="#fff"
-        android:textSize="12dp"
-        android:layout_alignParentRight="true"
-        android:onClick="signUp"/>
+        android:textSize="12sp"
+        tools:ignore="RelativeOverlap" />
 
 
 </RelativeLayout>

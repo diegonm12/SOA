@@ -13,5 +13,9 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
     }
 
-
+    //metodo que retorna a la pantalla anterior para ingresar
+    public void goBack(View view) {
+        finish();
+        this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
 }
