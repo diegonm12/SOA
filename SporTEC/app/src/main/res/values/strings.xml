@@ -13,4 +13,8 @@
     <string name="activity_signup_nombre">Nombre</string>
     <string name="activity_signup_registrar">Registrar</string>
     <string name="activity_signup_inicio">Inicio</string>
+    <string name="facebook_app_id">715142045486514</string>
+    <string name="fb_login_protocol_scheme">fb715142045486514</string>
+
+
 </resources>

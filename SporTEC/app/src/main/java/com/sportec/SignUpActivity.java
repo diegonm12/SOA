@@ -43,6 +43,9 @@ public class SignUpActivity extends AppCompatActivity {
             // se debe hacer el query para el ingreso de los clientes en la base
             // se hace un mensaje de que ya se registro a la app.
             Toast.makeText(this, "Registro exitoso", Toast.LENGTH_LONG).show();
+            finish();
+            this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
 
 
         } else {
