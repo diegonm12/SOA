@@ -10,8 +10,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import java.util.regex.Pattern;
-
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -23,37 +21,78 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.regex.Pattern;
+
 
 public class LogInActivity extends AppCompatActivity {
     private CallbackManager mCallbackManager;
+    private String mFirstName, mLastName, mEmail;
+    private URL mProfilePicture;
+    private String mUserId;
+    private String mTAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
+        //se hace el llamado del callback,  que se utilizar para el inicio de sesion desde
+        // facebook
         mCallbackManager = CallbackManager.Factory.create();
-        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions("email");
-        // If using in a fragment
 
-        // Callback registration
+        //corresponde al boton  de facebook para registrarse con el mismo
+        final LoginButton loginButton = findViewById(R.id.login_button);
+        loginButton.setReadPermissions("public_profile");
+
+        //se hace el listener para el boton mencionado anterioremente para que tenga
+        // funcion
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                String accessToken = loginResult.getAccessToken().getToken();
-                GraphRequest request= GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+
+                //se usa graphrequest para obtener todos los datos desde la cuenta de Facebook
+                //posteriormente en el oncompleted, se asigna los valores que se obtienen de la
+                //cuenta de facebook a los valores members de la clase LogInActivity
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-                        Log.d("response",response.toString());
-                        getFacebookData(object);
+
+                        Log.e(mTAG, object.toString());
+                        Log.e(mTAG, response.toString());
+
+                        try {
+                            mUserId = object.getString("id");
+                            mProfilePicture = new URL("https://graph.facebook.com/" + mUserId + "/picture?width=500&height=500");
+
+                            if (object.has("first_name"))
+                                mFirstName = object.getString("first_name");
+                            if (object.has("last_name"))
+                                mLastName = object.getString("last_name");
+                            if (object.has("email"))
+                                mEmail = object.getString("email");
+
+                            System.out.println(mFirstName);
+                            System.out.println(mLastName);
+                            System.out.println(mEmail);
+                            System.out.println(mProfilePicture);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
-                Bundle parameters =new Bundle();
-                parameters.putString("fields","email");
+
+                //Here we put the requested fields to be returned from the JSONObject
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id, first_name, last_name, email");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
+
 
             @Override
             public void onCancel() {
@@ -65,17 +104,6 @@ public class LogInActivity extends AppCompatActivity {
                 // App code
             }
         });
-    }
-
-    private void getFacebookData(JSONObject object) {
-        try {
-                System.out.println(object.getString("email"));
-            }
-            catch (JSONException e){
-                e.printStackTrace();
-
-            }
-
     }
 
     @Override
