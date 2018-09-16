@@ -106,6 +106,8 @@ public class LogInActivity extends AppCompatActivity {
                             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
 
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (MalformedURLException e) {
@@ -185,6 +187,7 @@ public class LogInActivity extends AppCompatActivity {
                             intentMainMenu.putExtra("emailUser", emailUser);
                             startActivity(intentMainMenu);
                             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
                         } else {
                             Toast.makeText(LogInActivity.this, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
                         }
@@ -204,7 +207,6 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void registrarSesion(String name, String emailUser, String password, String profPic) {
-        System.out.println(emailUser);
         JsonObject json = new JsonObject();
         json.addProperty("name", name);
         json.addProperty("email", emailUser);

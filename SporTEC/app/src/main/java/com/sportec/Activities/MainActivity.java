@@ -16,6 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.sportec.R;
@@ -121,8 +125,19 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            System.out.println("Estripe en la camara");
+        if (id == R.id.activity_main_cerrar_sesion) {
+            final FutureCallback<JsonObject> arreglo = new FutureCallback<JsonObject>() {
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    cerrarSesion(result.get("name").getAsString(),
+                            mUserEmail, result.get("password").getAsString(),
+                            result.get("profilePicture").getAsString());
+
+                }
+            };
+            ApiService api = new ApiService();
+            api.downloadUser(this, mUserEmail, arreglo);
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -139,4 +154,31 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void cerrarSesion(String name, String mUserEmail, String password, String profilePicture) {
+        JsonObject json = new JsonObject();
+        json.addProperty("name", name);
+        json.addProperty("email", mUserEmail);
+        json.addProperty("password", password);
+        json.addProperty("profilePicture", profilePicture);
+        json.addProperty("sessionInit", "0");
+        final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
+            @Override
+            public void onCompleted(Exception e, JsonArray result) {
+                finish();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+
+
+            }
+        };
+        ApiService api = new ApiService();
+        api.updateUser(MainActivity.this, arreglo, json, mUserEmail);
+
+
+    }
+
+
+
+
 }
