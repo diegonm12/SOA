@@ -69,7 +69,7 @@ public class LogInActivity extends AppCompatActivity {
 
                         try {
                             mUserId = object.getString("id");
-                            mProfilePicture = new URL("https://graph.facebook.com/" + mUserId + "/picture?width=500&height=500");
+                            mProfilePicture = new URL("https://graph.facebook.com/" + mUserId + "/picture?width=150&height=150");
 
                             if (object.has("first_name"))
                                 mFirstName = object.getString("first_name");

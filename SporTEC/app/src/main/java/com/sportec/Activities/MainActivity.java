@@ -17,7 +17,12 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
 import com.sportec.R;
+import com.sportec.Service.ApiService;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -59,8 +64,20 @@ public class MainActivity extends AppCompatActivity
     public void setHeader() {
         //obtengo los elementos del layout
         TextView emailTextView = findViewById(R.id.activity_main_mail);
-        TextView nameTextView = findViewById(R.id.activity_main_name);
-        ImageView imageViewUserPhoto = findViewById(R.id.activity_main_image);
+        final TextView nameTextView = findViewById(R.id.activity_main_name);
+        final ImageView imageViewUserPhoto = findViewById(R.id.activity_main_image);
+        final FutureCallback<JsonObject> arreglo = new FutureCallback<JsonObject>() {
+            @Override
+            public void onCompleted(Exception e, JsonObject result) {
+                nameTextView.setText(result.get("name").getAsString());
+                Picasso.get().load(result.get("profilePicture").getAsString()).into(imageViewUserPhoto);
+
+
+
+            }
+        };
+        ApiService api = new ApiService();
+        api.downloadUser(this, mUserEmail, arreglo);
 
         //modifico los valores de la barra  del layout con los valores del user
         emailTextView.setText(mUserEmail);
