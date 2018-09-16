@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity
         final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
             @Override
             public void onCompleted(Exception e, JsonArray result) {
+                LoginManager.getInstance().logOut();
                 finish();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
