@@ -9,7 +9,7 @@
     android:background="@drawable/backgroundlogin"
     android:clipChildren="false"
     android:orientation="vertical"
-    tools:context="com.sportec.LogInActivity">
+    tools:context="com.sportec.Activities.LogInActivity">
 
     <View
         android:id="@+id/activity_login_view"

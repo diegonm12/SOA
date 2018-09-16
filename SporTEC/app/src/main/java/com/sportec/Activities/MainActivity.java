@@ -1,5 +1,6 @@
-package com.sportec;
+package com.sportec.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -13,9 +14,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.sportec.R;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static String mUserEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +46,31 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.activity_main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //se usa este intent para obtener el valor del email para identificar el user
+        Intent intent = getIntent();
+        mUserEmail = intent.getStringExtra("emailUser");
+
+    }
+
+    // aqui se deberia agarrar la otra informacion del user por que solo tenemos email
+    public void setHeader() {
+        //obtengo los elementos del layout
+        TextView emailTextView = findViewById(R.id.activity_main_mail);
+        TextView nameTextView = findViewById(R.id.activity_main_name);
+        ImageView imageViewUserPhoto = findViewById(R.id.activity_main_image);
+
+        //modifico los valores de la barra  del layout con los valores del user
+        emailTextView.setText(mUserEmail);
+
+
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -57,6 +82,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        setHeader();
         return true;
     }
 

@@ -1,4 +1,4 @@
-package com.sportec;
+package com.sportec.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.sportec.R;
 
 import java.util.regex.Pattern;
 

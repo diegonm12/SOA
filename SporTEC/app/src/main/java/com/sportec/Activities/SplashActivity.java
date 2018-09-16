@@ -1,8 +1,11 @@
-package com.sportec;
+package com.sportec.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.sportec.Activities.LogInActivity;
+import com.sportec.R;
 
 public class SplashActivity extends AppCompatActivity {
 

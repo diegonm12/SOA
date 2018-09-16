@@ -8,7 +8,7 @@
     android:background="@drawable/backgroundlogin"
     android:clipChildren="false"
     android:orientation="vertical"
-    tools:context="com.sportec.SignUpActivity">
+    tools:context="com.sportec.Activities.SignUpActivity">
 
     <View
         android:id="@+id/activity_signup_view"

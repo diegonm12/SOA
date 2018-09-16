@@ -1,4 +1,4 @@
-package com.sportec;
+package com.sportec.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,11 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.sportec.R;
+import com.sportec.Service.ApiService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,10 +78,29 @@ public class LogInActivity extends AppCompatActivity {
                             if (object.has("email"))
                                 mEmail = object.getString("email");
 
-                            System.out.println(mFirstName);
-                            System.out.println(mLastName);
-                            System.out.println(mEmail);
-                            System.out.println(mProfilePicture);
+                            //se definen todos los atributos de user
+                            String name = mFirstName + " " + mLastName;
+                            //aqui hay que meter al usuario en la base de datos
+                            JsonObject json = new JsonObject();
+                            json.addProperty("name", name);
+                            json.addProperty("email", mEmail);
+                            json.addProperty("password", "facebook");
+                            json.addProperty("profilePicture", mProfilePicture.toString());
+                            final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
+                                @Override
+                                public void onCompleted(Exception e, JsonArray result) {
+
+
+                                }
+                            };
+                            ApiService api = new ApiService();
+                            api.addUser(LogInActivity.this, arreglo, json);
+
+                            Intent intentMainActivity = new Intent(LogInActivity.this, MainActivity.class);
+                            intentMainActivity.putExtra("emailUser", mEmail);
+                            startActivity(intentMainActivity);
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -149,7 +173,7 @@ public class LogInActivity extends AppCompatActivity {
             if (passwordUser.equals(storedPassword)) {
 
                 //Mensaje de bienvenida a la aplicacion
-                Toast.makeText(this, "Bienvenido a GastroTEC", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Bienvenido a SporTEC", Toast.LENGTH_LONG).show();
 
                 // se inicia el activity del  menu principal
                 Intent intentMainMenu = new Intent(this, MainActivity.class);
