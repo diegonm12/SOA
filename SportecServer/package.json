@@ -1,0 +1,24 @@
+{
+  "name": "sportec",
+  "version": "1.0.0",
+  "description": "sportec app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "*",
+    "express": "*",
+    "mongoose": "*",
+    "nodemon": "^1.18.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/diegonm12/SOA.git"
+  },
+  "author": "Diego Navarro",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
