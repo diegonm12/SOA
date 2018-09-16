@@ -86,6 +86,7 @@ public class LogInActivity extends AppCompatActivity {
                             json.addProperty("email", mEmail);
                             json.addProperty("password", "facebook");
                             json.addProperty("profilePicture", mProfilePicture.toString());
+                            json.addProperty("sessionInit", "1");
                             final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
                                 @Override
                                 public void onCompleted(Exception e, JsonArray result) {

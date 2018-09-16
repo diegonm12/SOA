@@ -16,8 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.sportec.R;
@@ -71,7 +69,6 @@ public class MainActivity extends AppCompatActivity
             public void onCompleted(Exception e, JsonObject result) {
                 nameTextView.setText(result.get("name").getAsString());
                 Picasso.get().load(result.get("profilePicture").getAsString()).into(imageViewUserPhoto);
-
 
 
             }
