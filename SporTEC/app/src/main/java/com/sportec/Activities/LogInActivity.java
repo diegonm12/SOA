@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -22,6 +24,7 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.sportec.R;
 import com.sportec.Service.ApiService;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -162,35 +165,61 @@ public class LogInActivity extends AppCompatActivity {
         EditText passwordEntry_mainActivity = findViewById(R.id.activity_login_password);
 
         // cambia lo que se ingreso a strings y valida que el correo sea correcto
-        String emailUser = emailEntry_mainActivity.getText().toString();
-        String passwordUser = passwordEntry_mainActivity.getText().toString();
+        final String emailUser = emailEntry_mainActivity.getText().toString();
+        final String passwordUser = passwordEntry_mainActivity.getText().toString();
         if (isValid(emailUser) && (!emailUser.equals("")) && (!passwordUser.equals(""))) {
 
-            //String storedPassword = loginDataBaseAdapter.getSinlgeEntry(emailUser);
-            String storedPassword = "m"; // deberia ir a la base a buscar el pw y user como arriba
+            final FutureCallback<JsonObject> arreglo = new FutureCallback<JsonObject>() {
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    if (result != null) {
+                        System.out.println("encontro algo");
+                        if (passwordUser.matches(result.get("password").getAsString())) {
+                            Toast.makeText(LogInActivity.this, "Bienvenido a SporTEC", Toast.LENGTH_LONG).show();
+                            registrarSesion(result.get("name").getAsString(),
+                                    emailUser, passwordUser,
+                                    result.get("profilePicture").getAsString());
 
+                            // aqui hace el inicio de sesion por que coinciden correo y contraseña
+                            Intent intentMainMenu = new Intent(LogInActivity.this, MainActivity.class);
+                            intentMainMenu.putExtra("emailUser", emailUser);
+                            startActivity(intentMainMenu);
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        } else {
+                            Toast.makeText(LogInActivity.this, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(LogInActivity.this, "Correo incorrecto", Toast.LENGTH_LONG).show();
+                    }
+                }
+            };
+            ApiService api = new ApiService();
+            api.downloadUser(this, emailUser, arreglo);
 
-            // revisa si ese usuario tiene el password que el usuario ingreso
-            if (passwordUser.equals(storedPassword)) {
-
-                //Mensaje de bienvenida a la aplicacion
-                Toast.makeText(this, "Bienvenido a SporTEC", Toast.LENGTH_LONG).show();
-
-                // se inicia el activity del  menu principal
-                Intent intentMainMenu = new Intent(this, MainActivity.class);
-                intentMainMenu.putExtra("emailUser", emailUser);
-                startActivity(intentMainMenu);
-                this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            } else {
-
-                Toast.makeText(this, "El usuario o password es incorrecto", Toast.LENGTH_LONG).show();
-
-            }
         } else {
             Toast.makeText(this, "Tu correo no es correcto", Toast.LENGTH_LONG).show();
         }
 
 
+    }
+
+    private void registrarSesion(String name, String emailUser, String password, String profPic) {
+        System.out.println(emailUser);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", name);
+        json.addProperty("email", emailUser);
+        json.addProperty("password", password);
+        json.addProperty("profilePicture", profPic);
+        json.addProperty("sessionInit", "1");
+        final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
+            @Override
+            public void onCompleted(Exception e, JsonArray result) {
+
+
+            }
+        };
+        ApiService api = new ApiService();
+        api.updateUser(LogInActivity.this, arreglo, json, emailUser);
     }
 
     public static boolean isValid(String email) {

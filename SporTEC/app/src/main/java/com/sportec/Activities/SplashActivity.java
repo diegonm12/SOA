@@ -23,28 +23,24 @@ public class SplashActivity extends AppCompatActivity {
             public void onCompleted(Exception e, JsonArray result) {
                 boolean flag = true;
                 int counter = 0;
-                for (int i = 0; i < result.size(); i++){
-                    System.out.println(result.get(i).getAsJsonObject().get("sessionInit"));
-                    if(result.get(i).getAsJsonObject().get("sessionInit").getAsString().matches("1")){
-                        System.out.println("flag cambia a false");
+                for (int i = 0; i < result.size(); i++) {
+                    if (result.get(i).getAsJsonObject().get("sessionInit").getAsString().matches("1")) {
                         counter = i;
                         flag = false;
                     }
 
                 }
-                if(flag) {
+                if (flag) {
                     Intent intent = new Intent(getApplicationContext(),
                             LogInActivity.class);
                     startActivity(intent);
-                }
-                else{
+                } else {
                     Intent intentSplashActivity = new Intent(SplashActivity.this, MainActivity.class);
                     String emailUser = result.get(counter).getAsJsonObject().get("email").getAsString();
                     intentSplashActivity.putExtra("emailUser", emailUser);
                     startActivity(intentSplashActivity);
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
-
 
 
             }
