@@ -25,7 +25,7 @@ app.get('/api/users', function (req, res) {
     });
 });
 
-//el get de todos los users
+//el add de un usuario
 app.post('/api/users', function (req, res) {
     var user = req.body;
     User.addUser(user, function (err, user) {
@@ -36,7 +36,7 @@ app.post('/api/users', function (req, res) {
     });
 });
 
-//el get de todos los users
+//la actualizacion de un user
 app.put('/api/users/:email', function (req, res) {
     var email = req.params.email;
     var user = req.body;
@@ -48,7 +48,7 @@ app.put('/api/users/:email', function (req, res) {
     });
 });
 
-//el get de todos los users
+//la eliminacion de un user
 app.delete('/api/users/:email', function (req, res) {
     var email = req.params.email;
     User.removeUser(email, function (err, user) {
