@@ -10,7 +10,7 @@ import com.koushikdutta.ion.Ion;
 
 public class ApiService {
     private static final String HTTP_PROTOCOL = "http:";
-    private static final String HTTP_SERVER = "192.168.1.121:3000"; // este tiene que ir cambiando
+    private static final String HTTP_SERVER = "192.168.1.128:3000"; // este tiene que ir cambiando
 
     private static String buildEndPoint(String path) {
         return HTTP_PROTOCOL + "//" + HTTP_SERVER + path;
@@ -33,6 +33,7 @@ public class ApiService {
                 setCallback(arreglo);
 
     }
+
     // agrega un usuario a la base de datos por medio del servicio post
     public void addUser(Context context, FutureCallback<JsonArray> arreglo, JsonObject json) {
         Ion.with(context).
@@ -45,7 +46,7 @@ public class ApiService {
     // actualiza un usuario a la base de datos por medio del servicio put
     public void updateUser(Context context, FutureCallback<JsonArray> arreglo, JsonObject json, String email) {
         Ion.with(context).
-                load("PUT",buildEndPoint("/api/users/" + email)).
+                load("PUT", buildEndPoint("/api/users/" + email)).
                 setJsonObjectBody(json).
                 asJsonArray().
                 setCallback(arreglo);

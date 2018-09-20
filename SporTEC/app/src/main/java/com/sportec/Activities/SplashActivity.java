@@ -1,12 +1,11 @@
 package com.sportec.Activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.gson.JsonArray;
 import com.koushikdutta.async.future.FutureCallback;
-import com.sportec.Activities.LogInActivity;
 import com.sportec.R;
 import com.sportec.Service.ApiService;
 
@@ -21,24 +20,30 @@ public class SplashActivity extends AppCompatActivity {
         final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
             @Override
             public void onCompleted(Exception e, JsonArray result) {
-                boolean flag = true;
-                int counter = 0;
+                boolean flag = true;        // bandera para revisar la sesion (abierta o cerrada)
+                int counter = 0;            //para llevar el usuario
+
                 for (int i = 0; i < result.size(); i++) {
                     if (result.get(i).getAsJsonObject().get("sessionInit").getAsString().matches("1")) {
-                        counter = i;
-                        flag = false;
+                        counter = i;            //representa el numero de usuario que tiene la sesion abierta
+                        flag = false;           //si esto es falso significa que hay una sesion abierta
                     }
 
                 }
+
+                // en este caso no hay ninguna sesion abierta entonces tengo que logear
                 if (flag) {
                     Intent intent = new Intent(getApplicationContext(),
                             LogInActivity.class);
                     startActivity(intent);
+
+                    // en este caso ya habria una sesion abierta, entonces me dirijo al main
                 } else {
-                    Intent intentSplashActivity = new Intent(SplashActivity.this, MainActivity.class);
+                    Intent intentMainActivity = new Intent(SplashActivity.this, MainActivity.class);
                     String emailUser = result.get(counter).getAsJsonObject().get("email").getAsString();
-                    intentSplashActivity.putExtra("emailUser", emailUser);
-                    startActivity(intentSplashActivity);
+
+                    intentMainActivity.putExtra("emailUser", emailUser);
+                    startActivity(intentMainActivity);
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
 

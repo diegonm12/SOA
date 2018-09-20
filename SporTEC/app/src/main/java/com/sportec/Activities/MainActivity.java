@@ -16,10 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.sportec.R;
@@ -131,7 +130,7 @@ public class MainActivity extends AppCompatActivity
                 public void onCompleted(Exception e, JsonObject result) {
                     cerrarSesion(result.get("name").getAsString(),
                             mUserEmail, result.get("password").getAsString(),
-                            result.get("profilePicture").getAsString());
+                            result.get("profilePicture").getAsString(),result.get("favSport"));
 
                 }
             };
@@ -155,13 +154,14 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void cerrarSesion(String name, String mUserEmail, String password, String profilePicture) {
+    private void cerrarSesion(String name, String mUserEmail, String password, String profilePicture, JsonElement favSport) {
         JsonObject json = new JsonObject();
         json.addProperty("name", name);
         json.addProperty("email", mUserEmail);
         json.addProperty("password", password);
         json.addProperty("profilePicture", profilePicture);
         json.addProperty("sessionInit", "0");
+        json.add("favSport",favSport);
         final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
             @Override
             public void onCompleted(Exception e, JsonArray result) {
