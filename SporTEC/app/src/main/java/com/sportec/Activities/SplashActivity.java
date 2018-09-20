@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.koushikdutta.async.future.FutureCallback;
 import com.sportec.R;
 import com.sportec.Service.ApiService;
@@ -39,12 +40,31 @@ public class SplashActivity extends AppCompatActivity {
 
                     // en este caso ya habria una sesion abierta, entonces me dirijo al main
                 } else {
-                    Intent intentMainActivity = new Intent(SplashActivity.this, MainActivity.class);
-                    String emailUser = result.get(counter).getAsJsonObject().get("email").getAsString();
+                    System.out.println("HOLA");
+                    JsonElement favSport = result.get(counter).getAsJsonObject().get("favSport");
+                    System.out.println(favSport.getAsJsonArray().size());
 
-                    intentMainActivity.putExtra("emailUser", emailUser);
-                    startActivity(intentMainActivity);
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    // este if chequea si tiene deportes favoritos o no, en caso de que no,
+                    // lo manda a escoger a la pantalla respectiva
+                    if (favSport.getAsJsonArray().size() == 0) {
+                        Intent intentCheckSports = new Intent(SplashActivity.this, CheckSportsActivity.class);
+                        String emailUser = result.get(counter).getAsJsonObject().get("email").getAsString();
+
+                        intentCheckSports.putExtra("emailUser", emailUser);
+                        startActivity(intentCheckSports);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+                    }
+
+                    //para el caso de que ya tenga los deportes preferidos entonces va al main
+                    else {
+                        Intent intentMainActivity = new Intent(SplashActivity.this, MainActivity.class);
+                        String emailUser = result.get(counter).getAsJsonObject().get("email").getAsString();
+
+                        intentMainActivity.putExtra("emailUser", emailUser);
+                        startActivity(intentMainActivity);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
                 }
 
 
