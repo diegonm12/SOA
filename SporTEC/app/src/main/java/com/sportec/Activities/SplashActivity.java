@@ -40,9 +40,8 @@ public class SplashActivity extends AppCompatActivity {
 
                     // en este caso ya habria una sesion abierta, entonces me dirijo al main
                 } else {
-                    System.out.println("HOLA");
+
                     JsonElement favSport = result.get(counter).getAsJsonObject().get("favSport");
-                    System.out.println(favSport.getAsJsonArray().size());
 
                     // este if chequea si tiene deportes favoritos o no, en caso de que no,
                     // lo manda a escoger a la pantalla respectiva

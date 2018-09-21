@@ -1,10 +1,41 @@
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/gridview"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:columnWidth="90dp"
-    android:numColumns="2"
-    android:verticalSpacing="10dp"
-    android:horizontalSpacing="10dp"
-    android:stretchMode="columnWidth"
-    android:gravity="center" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sportec.Activities.CheckSportsActivity">
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="40dp"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/com_facebook_blue"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="40dp"
+        android:onClick="addSports"/>
+
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:theme="@style/AppTheme"
+        android:id="@+id/activity_check_sport_gridview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:columnWidth="90dp"
+        android:numColumns="2"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:background="@android:color/white"
+        android:gravity="center" >
+
+    </GridView>
+
+
+</RelativeLayout>
+

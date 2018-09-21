@@ -1,40 +1,33 @@
 package com.sportec.Dependences;
 
-import com.sportec.R;
-import com.squareup.picasso.Picasso;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.sportec.R;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-    int imageTotal = 7;
-    public static String[] mThumbIds = {
-            "http://192.168.1.20/android/1.jpg",
-            "http://192.168.1.20/android/2.jpg",
-            "http://192.168.1.20/android/3.jpg",
-            "http://192.168.1.20/android/4.jpg",
-            "http://192.168.1.20/android/5.jpg",
-            "http://192.168.1.20/android/6.jpg",
-            "http://192.168.1.20/android/7.jpg",
-    };
+    private List<Sport> mSportsArray;
 
-    public ImageAdapter(Context c) {
+    public ImageAdapter(Context c, List<Sport> sportsArray) {
+        this.mSportsArray = sportsArray;
         mContext = c;
     }
 
     public int getCount() {
-        return imageTotal;
+        return mSportsArray.size();
     }
 
     @Override
-    public String getItem(int position) {
-        return mThumbIds[position];
+    public Sport getItem(int position) {
+        return mSportsArray.get(position);
     }
 
     public long getItemId(int position) {
@@ -51,7 +44,7 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        String url = getItem(position);
+        String url = getItem(position).getImage();
         Picasso.get()
                 .load(url)
                 .placeholder(R.drawable.loader)
