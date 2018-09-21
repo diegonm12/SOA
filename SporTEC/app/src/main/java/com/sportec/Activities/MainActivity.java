@@ -3,9 +3,8 @@ package com.sportec.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,44 +13,52 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.facebook.login.LoginManager;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
+import com.sportec.Dependences.MyRecyclerViewAdapter;
+import com.sportec.Dependences.News;
 import com.sportec.R;
 import com.sportec.Service.ApiService;
+import com.sportec.Service.ApiServiceNews;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static String mUserEmail;
+    List<News> mNewsArray = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // crea un toolbar donde se pone el nombre de la app, la lupa de busqueda y el boton
+        // de menu desplegable
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
+        //se encarga manejar la interfaz segun este abierto el menu desplegable o no
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        // navigation view que corresponde al menu desplegable al lado izquierdo
         NavigationView navigationView = findViewById(R.id.activity_main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -59,29 +66,8 @@ public class MainActivity extends AppCompatActivity
         Intent intent = getIntent();
         mUserEmail = intent.getStringExtra("emailUser");
 
-    }
-
-    // aqui se deberia agarrar la otra informacion del user por que solo tenemos email
-    public void setHeader() {
-        //obtengo los elementos del layout
-        TextView emailTextView = findViewById(R.id.activity_main_mail);
-        final TextView nameTextView = findViewById(R.id.activity_main_name);
-        final ImageView imageViewUserPhoto = findViewById(R.id.activity_main_image);
-        final FutureCallback<JsonObject> arreglo = new FutureCallback<JsonObject>() {
-            @Override
-            public void onCompleted(Exception e, JsonObject result) {
-                nameTextView.setText(result.get("name").getAsString());
-                Picasso.get().load(result.get("profilePicture").getAsString()).into(imageViewUserPhoto);
-
-
-            }
-        };
-        ApiService api = new ApiService();
-        api.downloadUser(this, mUserEmail, arreglo);
-
-        //modifico los valores de la barra  del layout con los valores del user
-        emailTextView.setText(mUserEmail);
-
+        //se llama el metodo que trae toda las noticias desde la base de datos
+        getNewsFromDB();
 
     }
 
@@ -154,6 +140,36 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    // aqui se deberia agarrar la otra informacion del user por que solo tenemos email
+    public void setHeader() {
+        //obtengo los elementos del layout
+        TextView emailTextView = findViewById(R.id.activity_main_mail);
+        final TextView nameTextView = findViewById(R.id.activity_main_name);
+        final ImageView imageViewUserPhoto = findViewById(R.id.activity_main_image);
+        final FutureCallback<JsonObject> arreglo = new FutureCallback<JsonObject>() {
+            @Override
+            public void onCompleted(Exception e, JsonObject result) {
+                nameTextView.setText(result.get("name").getAsString());
+                Picasso.get().load(result.get("profilePicture").getAsString()).into(imageViewUserPhoto);
+
+
+            }
+        };
+        ApiService api = new ApiService();
+        api.downloadUser(this, mUserEmail, arreglo);
+
+        //modifico los valores de la barra  del layout con los valores del user
+        emailTextView.setText(mUserEmail);
+
+
+    }
+
     private void cerrarSesion(String name, String mUserEmail, String password, String profilePicture, JsonElement favSport) {
         JsonObject json = new JsonObject();
         json.addProperty("name", name);
@@ -176,6 +192,47 @@ public class MainActivity extends AppCompatActivity
         ApiService api = new ApiService();
         api.updateUser(MainActivity.this, arreglo, json, mUserEmail);
 
+
+    }
+    // metodo que se encarga de traer todas las noticias desde la base de datos
+    private void getNewsFromDB() {
+        // obtengo todos las noticas para desplegar la info en el grid
+        final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
+            @Override
+            public void onCompleted(Exception e, JsonArray result) {
+
+                //obtengo todas las noticias y las meto en una lista de noticias
+                for (int i = 0; i < result.size(); i++) {
+                    News newNews = new News();
+                    newNews.setSportName(result.get(i).getAsJsonObject().get("sport").getAsString());
+                    newNews.setTitle(result.get(i).getAsJsonObject().get("title").getAsString());
+                    newNews.setContent(result.get(i).getAsJsonObject().get("content").getAsString());
+                    newNews.setImportant(result.get(i).getAsJsonObject().get("important").getAsString());
+                    newNews.setImage(result.get(i).getAsJsonObject().get("image").getAsString());
+                    mNewsArray.add(newNews);
+                }
+
+                //El siguiente codigo corresponde a la implementacion del recycler
+                mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+                mRecyclerView.setHasFixedSize(true);
+                mLayoutManager = new LinearLayoutManager(getBaseContext());
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mAdapter = new MyRecyclerViewAdapter(mNewsArray);
+                mRecyclerView.setAdapter(mAdapter);
+
+
+                ((MyRecyclerViewAdapter) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapter
+                        .MyClickListener() {
+                    @Override
+                    public void onItemClick(int position, View v) {
+                        System.out.println("Posicion clickead:"+ position);
+                    }
+                });
+
+            }
+        };
+        ApiServiceNews api = new ApiServiceNews();
+        api.downloadNews(this, arreglo);
 
     }
 

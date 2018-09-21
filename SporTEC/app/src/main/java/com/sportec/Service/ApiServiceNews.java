@@ -6,7 +6,8 @@ import com.google.gson.JsonArray;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-public class ApiServiceSports {
+public class ApiServiceNews {
+
     private static final String HTTP_PROTOCOL = "http:";
     private static final String HTTP_SERVER = "172.18.29.207:3000"; // este tiene que ir cambiando
 
@@ -14,9 +15,9 @@ public class ApiServiceSports {
         return HTTP_PROTOCOL + "//" + HTTP_SERVER + path;
     }
 
-    public void downloadSports(Context context, FutureCallback<JsonArray> arreglo) {
+    public void downloadNews(Context context, FutureCallback<JsonArray> arreglo) {
         Ion.with(context).
-                load(buildEndPoint("/api/sports")).
+                load(buildEndPoint("/api/news")).
                 asJsonArray().
                 setCallback(arreglo);
     }

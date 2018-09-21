@@ -1,22 +1,22 @@
 package com.sportec.Dependences;
 
 public class Sport {
-    String name;
-    String image;
+    String mName;
+    String mImage;
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.mName = name;
     }
 
     public String getImage() {
-        return image;
+        return mImage;
     }
 
     public void setImage(String image) {
-        this.image = image;
+        this.mImage = image;
     }
 }

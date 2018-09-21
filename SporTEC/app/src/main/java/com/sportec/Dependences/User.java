@@ -4,9 +4,9 @@ import java.net.URL;
 
 public class User {
     String name;
-    String email;
-    String password;
-    URL profilePicture;
+    String mEmail;
+    String mPassword;
+    URL mProfilePicture;
 
     public String getName() {
         return name;
@@ -16,28 +16,28 @@ public class User {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getmEmail() {
+        return mEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setmEmail(String mEmail) {
+        this.mEmail = mEmail;
     }
 
-    public String getPassword() {
-        return password;
+    public String getmPassword() {
+        return mPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setmPassword(String mPassword) {
+        this.mPassword = mPassword;
     }
 
-    public URL getProfilePicture() {
-        return profilePicture;
+    public URL getmProfilePicture() {
+        return mProfilePicture;
     }
 
-    public void setProfilePicture(URL profilePicture) {
-        this.profilePicture = profilePicture;
+    public void setmProfilePicture(URL mProfilePicture) {
+        this.mProfilePicture = mProfilePicture;
     }
 
 }
