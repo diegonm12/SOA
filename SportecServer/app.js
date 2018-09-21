@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 
 User = require('./models/user');
 Sport = require('./models/sport');
+New = require('./models/news');
 app.use(bodyParser.json());
 
 
@@ -62,6 +63,16 @@ app.delete('/api/users/:email', function (req, res) {
     });
 });
 
+//el get de un solo user con el id como email
+app.get('/api/users/:email', function (req, res) {
+    User.getUserByEmail(req.params.email, function (err, user) {
+        if (err) {
+            throw err;
+        }
+        res.json(user)
+    });
+});
+
 
 //Metodos CRUD para los deportes
 //******************************************************
@@ -112,15 +123,67 @@ app.delete('/api/sports/:name', function (req, res) {
 //
 //***********************************************************************
 
-//el get de un solo user con el id como email
-app.get('/api/users/:email', function (req, res) {
-    User.getUserByEmail(req.params.email, function (err, user) {
+
+//Metodos CRUD para las noticias
+//******************************************************
+//el get de todas las noticias
+app.get('/api/news', function (req, res) {
+    New.getNews(function (err, news) {
         if (err) {
             throw err;
         }
-        res.json(user)
+        res.json(news)
     });
 });
+
+//el add de una noticia
+app.post('/api/news', function (req, res) {
+    var news = req.body;
+    New.addNew(news, function (err, news) {
+        if (err) {
+            throw err;
+        }
+        res.json(news)
+    });
+});
+
+//la actualizacion de una noticia
+app.put('/api/news/:title', function (req, res) {
+    var title = req.params.title;
+    var news = req.body;
+    New.updateNew(title, news, {}, function (err, news) {
+        if (err) {
+            throw err;
+        }
+        res.json(news)
+    });
+});
+
+//la eliminacion de una noticia
+app.delete('/api/news/:title', function (req, res) {
+    var title = req.params.title;
+    New.removeNew(title, function (err, news) {
+        if (err) {
+            throw err;
+        }
+        res.json(news)
+    });
+});
+
+//el get de un solo user con el id como email
+app.get('/api/news/:sport', function (req, res) {
+    New.getNewsBySport(req.params.sport, function (err, news) {
+        if (err) {
+            throw err;
+        }
+        res.json(news)
+    });
+});
+
+
+//
+//***********************************************************************
+
 
 app.listen(3000);
 console.log('Corriendo en el puerto: 3000');
