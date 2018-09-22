@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static String mUserEmail;
-    List<News> mNewsArray = new ArrayList<>();
+    public static List<News> mNewsArray = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -170,6 +170,8 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    //metodo encargado de cerrar sesion, lo que hace es cambiarle a user el parametro de
+    //sessionInit en cero, que significa que no hay ninguna sesion abierta
     private void cerrarSesion(String name, String mUserEmail, String password, String profilePicture, JsonElement favSport) {
         JsonObject json = new JsonObject();
         json.addProperty("name", name);
@@ -200,6 +202,7 @@ public class MainActivity extends AppCompatActivity
         final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
             @Override
             public void onCompleted(Exception e, JsonArray result) {
+                final List<News> newsDesorder = new ArrayList<>();
 
                 //obtengo todas las noticias y las meto en una lista de noticias
                 for (int i = 0; i < result.size(); i++) {
@@ -209,7 +212,51 @@ public class MainActivity extends AppCompatActivity
                     newNews.setContent(result.get(i).getAsJsonObject().get("content").getAsString());
                     newNews.setImportant(result.get(i).getAsJsonObject().get("important").getAsString());
                     newNews.setImage(result.get(i).getAsJsonObject().get("image").getAsString());
-                    mNewsArray.add(newNews);
+                    newsDesorder.add(newNews);
+                }
+
+                //en esta linea se llama al metodo que reordena las noticias segun
+                // el gusto de deportes del user
+                reorderList(newsDesorder);
+            }
+        };
+        ApiServiceNews api = new ApiServiceNews();
+        api.downloadNews(this, arreglo);
+
+    }
+
+    // metodo encargado de reordenar la lista segun los gustos del user
+    private void reorderList(final List<News> newsDesorder) {
+        final FutureCallback<JsonObject> arreglo = new FutureCallback<JsonObject>() {
+            @Override
+            public void onCompleted(Exception e, JsonObject result) {
+                //obtengo los deporte favoritos desde la base de datos con "favSport"
+                JsonArray arraySportsPref = result.get("favSport").getAsJsonArray();
+                System.out.println(arraySportsPref);
+
+                //Para meter primeramente la noticia del dia
+                for (int i = 0; i < newsDesorder.size(); i++) {
+                    if (newsDesorder.get(i).getImportant().matches("1")) {
+                        mNewsArray.add(newsDesorder.get(i));
+                        newsDesorder.remove(i); // se elimina para que no se vuelva a meter
+                    }
+                }
+
+                //Para meter las noticias que mas le interesan al usuario
+                for (int i = 0; i < newsDesorder.size(); i++) {
+                    for (int j = 0; j < arraySportsPref.size(); j++) {
+                        if (arraySportsPref.get(j).getAsString().matches(newsDesorder.get(i).getSportName())) {
+                            mNewsArray.add(newsDesorder.get(i));
+                            newsDesorder.get(i).setImportant("-1");
+                        }
+                    }
+                }
+
+                // se ingresan las otras noticias revisando que no se repitan
+                for (int i = 0; i < newsDesorder.size(); i++) {
+                    if(!(newsDesorder.get(i).getImportant().matches("-1"))){
+                        mNewsArray.add(newsDesorder.get(i));
+                    }
                 }
 
                 //El siguiente codigo corresponde a la implementacion del recycler
@@ -229,10 +276,12 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
+
             }
         };
-        ApiServiceNews api = new ApiServiceNews();
-        api.downloadNews(this, arreglo);
+        ApiService api = new ApiService();
+        api.downloadUser(this, mUserEmail, arreglo);
+
 
     }
 
