@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -272,7 +273,20 @@ public class MainActivity extends AppCompatActivity
                         .MyClickListener() {
                     @Override
                     public void onItemClick(int position, View v) {
-                        System.out.println("Posicion clickead:" + position);
+
+                        // se crea el intent que me lleva a cada noticia, se pasa lainformacion
+                        // mediante GSON
+                        News newsSelected = new News();
+                        newsSelected = mNewsArray.get(position);
+
+                        //se inicializa el Gson para la infromacion de la noticia
+                        Gson gsonNewsSelected = new Gson();
+
+
+                        Intent intentSportsNews = new Intent(MainActivity.this, NewsActivity.class);
+                        intentSportsNews.putExtra("News", gsonNewsSelected.toJson(newsSelected));
+                        startActivity(intentSportsNews);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     }
                 });
 
