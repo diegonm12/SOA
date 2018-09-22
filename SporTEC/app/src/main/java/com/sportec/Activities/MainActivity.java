@@ -3,13 +3,13 @@ package com.sportec.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity
                 public void onCompleted(Exception e, JsonObject result) {
                     cerrarSesion(result.get("name").getAsString(),
                             mUserEmail, result.get("password").getAsString(),
-                            result.get("profilePicture").getAsString(),result.get("favSport"));
+                            result.get("profilePicture").getAsString(), result.get("favSport"));
 
                 }
             };
@@ -177,14 +177,13 @@ public class MainActivity extends AppCompatActivity
         json.addProperty("password", password);
         json.addProperty("profilePicture", profilePicture);
         json.addProperty("sessionInit", "0");
-        json.add("favSport",favSport);
+        json.add("favSport", favSport);
         final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
             @Override
             public void onCompleted(Exception e, JsonArray result) {
                 LoginManager.getInstance().logOut();
                 finish();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
 
 
             }
@@ -194,6 +193,7 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
     // metodo que se encarga de traer todas las noticias desde la base de datos
     private void getNewsFromDB() {
         // obtengo todos las noticas para desplegar la info en el grid
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 //El siguiente codigo corresponde a la implementacion del recycler
-                mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+                mRecyclerView = findViewById(R.id.my_recycler_view);
                 mRecyclerView.setHasFixedSize(true);
                 mLayoutManager = new LinearLayoutManager(getBaseContext());
                 mRecyclerView.setLayoutManager(mLayoutManager);
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity
                         .MyClickListener() {
                     @Override
                     public void onItemClick(int position, View v) {
-                        System.out.println("Posicion clickead:"+ position);
+                        System.out.println("Posicion clickead:" + position);
                     }
                 });
 
@@ -235,8 +235,6 @@ public class MainActivity extends AppCompatActivity
         api.downloadNews(this, arreglo);
 
     }
-
-
 
 
 }
