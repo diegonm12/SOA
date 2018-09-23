@@ -3,10 +3,10 @@ package com.sportec.Dependences;
 import java.net.URL;
 
 public class User {
-    String name;
-    String mEmail;
-    String mPassword;
-    URL mProfilePicture;
+    private String name;
+    private String mEmail;
+    private String mPassword;
+    private URL mProfilePicture;
 
     public String getName() {
         return name;

@@ -49,7 +49,6 @@ public class SignUpActivity extends AppCompatActivity {
             this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
 
-
         } else {
             Toast.makeText(this, "Ingresa correctamente toda la información", Toast.LENGTH_LONG).show();
         }

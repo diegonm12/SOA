@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity
 
                 // se ingresan las otras noticias revisando que no se repitan
                 for (int i = 0; i < newsDesorder.size(); i++) {
-                    if(!(newsDesorder.get(i).getImportant().matches("-1"))){
+                    if (!(newsDesorder.get(i).getImportant().matches("-1"))) {
                         mNewsArray.add(newsDesorder.get(i));
                     }
                 }

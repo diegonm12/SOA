@@ -1,8 +1,8 @@
 package com.sportec.Dependences;
 
 public class Sport {
-    String mName;
-    String mImage;
+    private String mName;
+    private String mImage;
 
     public String getName() {
         return mName;

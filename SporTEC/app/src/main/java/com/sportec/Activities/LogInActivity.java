@@ -24,7 +24,6 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.sportec.R;
 import com.sportec.Service.ApiService;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

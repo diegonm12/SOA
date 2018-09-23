@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.NewsActivity">
+
     <ScrollView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -19,43 +20,46 @@
                 android:layout_width="390dp"
                 android:layout_height="400dp"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/loader" />
+                app:srcCompat="@drawable/loader"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/activity_news_title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/activity_news_image"
-                android:textSize="40dp"
                 android:background="@color/colorPrimary"
+                android:text="TextView"
                 android:textColor="@color/white"
-                android:text="TextView" />
+                android:textSize="40sp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/activity_news_content"
                 android:layout_width="fill_parent"
-                android:textSize="20dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_news_title"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/activity_news_title"
-                android:text="TextView" />
-
-
+                android:text="TextView"
+                android:textSize="20dp"
+                tools:ignore="HardcodedText,SpUsage" />
 
 
         </RelativeLayout>
     </ScrollView>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:clickable="true"
-        app:srcCompat="@drawable/atras"
+        android:onClick="goBack"
         app:backgroundTint="#80000000"
-        android:layout_alignParentLeft="true"
-        android:onClick="goBack"/>
+        app:srcCompat="@drawable/atras"
+        tools:ignore="KeyboardInaccessibleWidget" />
 </android.support.design.widget.CoordinatorLayout>

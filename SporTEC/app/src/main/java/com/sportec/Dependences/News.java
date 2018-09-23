@@ -1,11 +1,11 @@
 package com.sportec.Dependences;
 
 public class News {
-    String mSportName;
-    String mTitle;
-    String mContent;
-    String mImportant;
-    String mImage;
+    private String mSportName;
+    private String mTitle;
+    private String mContent;
+    private String mImportant;
+    private String mImage;
 
     public String getSportName() {
         return mSportName;
