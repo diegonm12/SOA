@@ -32,6 +32,11 @@ module.exports.getNews = function (callback) {
     New.find(callback);
 };
 
+// Get de una sola noticia segun sea su titulo
+module.exports.getNewsByTitle = function (title, callback) {
+    New.findOne({title: title}, callback);
+};
+
 // Get de noticias segun el  deporte
 module.exports.getNewsBySport = function (sport, callback) {
     New.find({sport: sport}, callback);

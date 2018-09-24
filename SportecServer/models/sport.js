@@ -20,11 +20,11 @@ module.exports.getSports = function (callback) {
     Sport.find(callback);
 };
 
-// Get de un solo user segun sea su email
-//module.exports.getUserByEmail = function (email, callback) {
-//    console.log('access only one sport!!');
-//    User.findOne({email: email}, callback);
-//};
+//Get de un solo sport segun sea su nombre
+module.exports.getSportByName = function (name, callback) {
+    console.log('access only one sport!!');
+    Sport.findOne({name: name}, callback);
+};
 
 // agregar deporte
 module.exports.addSport = function (sport, callback) {
