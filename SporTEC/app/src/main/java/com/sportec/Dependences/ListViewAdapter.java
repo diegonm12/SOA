@@ -1,4 +1,4 @@
-package com.sportec;
+package com.sportec.Dependences;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,8 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.sportec.Activities.MainActivity;
+import com.sportec.R;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class ListViewAdapter extends BaseAdapter {
@@ -18,13 +20,13 @@ public class ListViewAdapter extends BaseAdapter {
 
     Context mContext;
     LayoutInflater inflater;
-    private ArrayList<MovieNames> arraylist;
+    private List<SearchResult> mListResultsAdapter = new ArrayList<>() ;
 
     public ListViewAdapter(Context context ) {
         mContext = context;
         inflater = LayoutInflater.from(mContext);
-        this.arraylist = new ArrayList<MovieNames>();
-        this.arraylist.addAll(MainActivity.movieNamesArrayList);
+
+        this.mListResultsAdapter.addAll(MainActivity.mListResults);
     }
 
     public class ViewHolder {
@@ -33,12 +35,12 @@ public class ListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return MainActivity.movieNamesArrayList.size();
+        return MainActivity.mListResults.size();
     }
 
     @Override
-    public MovieNames getItem(int position) {
-        return MainActivity.movieNamesArrayList.get(position);
+    public SearchResult getItem(int position) {
+        return MainActivity.mListResults.get(position);
     }
 
     @Override
@@ -58,20 +60,20 @@ public class ListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.name.setText(MainActivity.movieNamesArrayList.get(position).getAnimalName());
+        holder.name.setText(MainActivity.mListResults.get(position).getNameResult());
         return view;
     }
 
     // Filter Class
     public void filter(String charText) {
         charText = charText.toLowerCase(Locale.getDefault());
-        MainActivity.movieNamesArrayList.clear();
+        MainActivity.mListResults.clear();
         if (charText.length() == 0) {
-            MainActivity.movieNamesArrayList.addAll(arraylist);
+            MainActivity.mListResults.addAll(mListResultsAdapter);
         } else {
-            for (MovieNames wp : arraylist) {
-                if (wp.getAnimalName().toLowerCase(Locale.getDefault()).contains(charText)) {
-                    MainActivity.movieNamesArrayList.add(wp);
+            for (SearchResult wp : mListResultsAdapter) {
+                if (wp.getNameResult().toLowerCase(Locale.getDefault()).contains(charText)) {
+                    MainActivity.mListResults.add(wp);
                 }
             }
         }

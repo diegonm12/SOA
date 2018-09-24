@@ -28,12 +28,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
+import com.sportec.Dependences.ListViewAdapter;
 import com.sportec.Dependences.MyRecyclerViewAdapter;
 import com.sportec.Dependences.News;
-import com.sportec.ListViewAdapter;
-import com.sportec.MovieNames;
+import com.sportec.Dependences.SearchResult;
 import com.sportec.R;
 import com.sportec.Service.ApiService;
+import com.sportec.Service.ApiServiceContent;
 import com.sportec.Service.ApiServiceNews;
 import com.squareup.picasso.Picasso;
 
@@ -49,11 +50,11 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private ListView mlistResults;
+    private ListView mListViewResults;
     private ListViewAdapter mAdapterList;
     private SearchView mEditsearch;
-    private String[] moviewList;
-    public static ArrayList<MovieNames> movieNamesArrayList = new ArrayList<MovieNames>();
+    public static List<SearchResult> mListResults = new ArrayList<>();
+    SearchResult resultPrueba = new SearchResult();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,6 @@ public class MainActivity extends AppCompatActivity
         //se usa este intent para obtener el valor del email para identificar el user
         Intent intent = getIntent();
         mUserEmail = intent.getStringExtra("emailUser");
-
 
         //se llama el metodo que trae toda las noticias desde la base de datos
         getNewsFromDB();
@@ -110,29 +110,12 @@ public class MainActivity extends AppCompatActivity
                 RelativeLayout finderLayout = findViewById(R.id.finderLayout);
                 finderLayout.setVisibility(View.VISIBLE);
 
-                moviewList = new String[]{"Xmen", "Titanic", "Captain America",
-                        "Iron man", "Rocky", "Transporter", "Lord of the rings", "The jungle book",
-                        "Tarzan", "Cars", "Shreck"};
-
                 // Locate the ListView in listview_main.xml
-                mlistResults = findViewById(R.id.listview);
+                mListViewResults = findViewById(R.id.listview);
 
-                movieNamesArrayList = new ArrayList<>();
+                resultPrueba.setNameResult("maee");
+                resultPrueba.setNameClass("News");
 
-                for (String aMoviewList : moviewList) {
-                    MovieNames movieNames = new MovieNames(aMoviewList);
-                    // Binds all strings into an array
-                    movieNamesArrayList.add(movieNames);
-                }
-
-                // Pass results to ListViewAdapter Class
-                mAdapterList = new ListViewAdapter(getApplicationContext());
-
-                // Binds the Adapter to the ListView
-                mlistResults.setAdapter(mAdapterList);
-
-                // Se define el Search View correspondiente
-                mEditsearch = findViewById(R.id.search);
                 mEditsearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
@@ -143,9 +126,27 @@ public class MainActivity extends AppCompatActivity
                     //metodo permite ir buscando por cada letra que el usuario ingrese
                     @Override
                     public boolean onQueryTextChange(String newText) {
-                        System.out.println(newText);
-                        mAdapterList.filter(newText);
-                        System.out.println(newText);
+                        final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonArray result) {
+                                mListResults.clear();
+                                for (int i = 0; i < result.size(); i++) {
+                                    SearchResult resultElement = new SearchResult();
+                                    resultElement.setNameClass("News");
+                                    resultElement.setNameResult(result.get(i).getAsJsonObject().get("title").getAsString());
+                                    mListResults.add(resultElement);
+                                }
+
+                                // Pass results to ListViewAdapter Class
+                                mAdapterList = new ListViewAdapter(getApplicationContext());
+
+                                // Binds the Adapter to the ListView
+                                mListViewResults.setAdapter(mAdapterList);
+
+                            }
+                        };
+                        ApiServiceContent api = new ApiServiceContent();
+                        api.downloadNewsSearch(getApplicationContext(), arreglo, newText);
                         return false;
                     }
                 });
@@ -163,10 +164,10 @@ public class MainActivity extends AppCompatActivity
 
                 // de todas las opciones que aparecen en la lista de busqueda cuando
                 // el usuario la escoge, se selecciona mendiante este metodo
-                mlistResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                mListViewResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(MainActivity.this, movieNamesArrayList.get(position).getAnimalName(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, MainActivity.mListResults.get(position).getNameResult(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
