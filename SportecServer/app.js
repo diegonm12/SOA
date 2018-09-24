@@ -74,7 +74,7 @@ app.get('/api/users/:email', function (req, res) {
 });
 
 //el get de un solo user con el id como nombre
-app.get('/api/user/:name', function (req, res) {
+app.get('/api/users/name/:name', function (req, res) {
     User.getUserByName(req.params.name, function (err, user) {
         if (err) {
             throw err;
@@ -157,7 +157,7 @@ app.get('/api/news', function (req, res) {
 });
 
 //el get de una sola noticia segun sea su title
-app.get('/api/new/:title', function (req, res) {
+app.get('/api/news/title/:title', function (req, res) {
     New.getNewsByTitle(req.params.title,function (err, news) {
         if (err) {
             throw err;
