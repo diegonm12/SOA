@@ -22,7 +22,6 @@ app.get('/', function (req, res) {
 //el get de todos los users
 app.get('/api/users', function (req, res) {
 	if(req.query.search){
-		console.log('Tiene search');
 		User.getUsersSearch(req.params.name,req,function (err, users) {
 		    if (err) {
 		        throw err;
@@ -101,7 +100,6 @@ app.get('/api/users/name/:name', function (req, res) {
 //el get de todos los deportes
 app.get('/api/sports', function (req, res) {
 	if(req.query.search){
-		console.log('Tiene search');
 		Sport.getSportsSearch(req.params.name,req,function (err, sports) {
 		    if (err) {
 		        throw err;
@@ -175,7 +173,6 @@ app.delete('/api/sports/:name', function (req, res) {
 //en el titulo segun sea el search?=
 app.get('/api/news', function (req, res) {
 	if(req.query.search){
-		console.log('Tiene search');
 		New.getNewsSearch(req.params.title,req,function (err, news) {
 		    if (err) {
 		        throw err;

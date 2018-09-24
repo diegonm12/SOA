@@ -25,6 +25,10 @@ const userScheme = mongoose.Schema({
     favSport: {
         type: Array,
         required: true
+    },
+	type: {
+        type: String,
+        required: true
     }
 });
 
@@ -59,7 +63,6 @@ module.exports.addUser = function (user, callback) {
 
 // actualizar user
 module.exports.updateUser = function (email, user, options, callback) {
-    console.log('se actualiza  user!!');
     const query = {email: email};
     const update = {
         name: user.name,
@@ -67,7 +70,8 @@ module.exports.updateUser = function (email, user, options, callback) {
         password: user.password,
         profilePicture: user.profilePicture,
         sessionInit: user.sessionInit,
-	favSport: user.favSport
+		favSport: user.favSport,
+		type: user.type
     };
     User.findOneAndUpdate(query, update, options, callback);
 };

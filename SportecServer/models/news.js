@@ -21,6 +21,10 @@ const newScheme = mongoose.Schema({
     image: {
         type: String,
         required: true
+    },
+	type: {
+        type: String,
+        required: true
     }
 });
 
@@ -61,7 +65,8 @@ module.exports.updateNew = function (title, news, options, callback) {
 	title: news.title,
         content: news.content,
         important: news.important,
-        image: news.image
+        image: news.image,
+		type: news.type
     };
     New.findOneAndUpdate(query, update, options, callback);
 };

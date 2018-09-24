@@ -8,6 +8,10 @@ const sportScheme = mongoose.Schema({
     image: {
         type: String,
         required: true
+    },
+	type: {
+        type: String,
+        required: true
     }
 });
 
@@ -16,7 +20,6 @@ const Sport = module.exports = mongoose.model('Sport', sportScheme);
 
 // Get de todos los deportes
 module.exports.getSports = function (callback) {
-    console.log('access sport!!');
     Sport.find(callback);
 };
 
@@ -28,23 +31,21 @@ module.exports.getSportsSearch = function (name,req,callback) {
 
 //Get de un solo sport segun sea su nombre
 module.exports.getSportByName = function (name, callback) {
-    console.log('access only one sport!!');
     Sport.findOne({name: name}, callback);
 };
 
 // agregar deporte
 module.exports.addSport = function (sport, callback) {
-    console.log('se agrega deporte!!');
     Sport.create(sport, callback);
 };
 
 // actualizar deporte segun sea el nombre deldeporte
 module.exports.updateSport = function (name, sport, options, callback) {
-    console.log('se actualiza  sport!!');
     const query = {name: name}; // para buscar el deporte, segun su nombre
     const update = {
         name: sport.name,
-        image: sport.image
+        image: sport.image,
+		type: sport.type
     };
     Sport.findOneAndUpdate(query, update, options, callback);
 };
