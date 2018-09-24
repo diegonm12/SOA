@@ -6,6 +6,7 @@ public class News {
     private String mContent;
     private String mImportant;
     private String mImage;
+    private String mType;
 
     public String getSportName() {
         return mSportName;
@@ -47,4 +48,7 @@ public class News {
         this.mImage = mImage;
     }
 
+    public void setType(String type) {
+        this.mType = type;
+    }
 }

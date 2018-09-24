@@ -3,6 +3,7 @@ package com.sportec.Dependences;
 public class Sport {
     private String mName;
     private String mImage;
+    private String mType;
 
     public String getName() {
         return mName;
@@ -18,5 +19,9 @@ public class Sport {
 
     public void setImage(String image) {
         this.mImage = image;
+    }
+
+    public void setType(String type) {
+        this.mType = type;
     }
 }

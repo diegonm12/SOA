@@ -73,4 +73,14 @@ public class SplashActivity extends AppCompatActivity {
         api.downloadUsers(this, arreglo);
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intentLogActivity = new Intent(SplashActivity.this, LogInActivity.class);
+        startActivity(intentLogActivity);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+
+    }
 }

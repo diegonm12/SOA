@@ -25,6 +25,10 @@ public class ApiServiceContent {
                 load(buildEndPoint("/api/users?search=" + wordkey)).
                 asJsonArray().
                 setCallback(arreglo);
+        Ion.with(context).
+                load(buildEndPoint("/api/sports?search=" + wordkey)).
+                asJsonArray().
+                setCallback(arreglo);
 
     }
 }

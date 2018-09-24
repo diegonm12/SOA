@@ -38,6 +38,7 @@ import com.sportec.Service.ApiServiceContent;
 import com.sportec.Service.ApiServiceNews;
 import com.squareup.picasso.Picasso;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,9 +114,6 @@ public class MainActivity extends AppCompatActivity
                 // Locate the ListView in listview_main.xml
                 mListViewResults = findViewById(R.id.listview);
 
-                resultPrueba.setNameResult("maee");
-                resultPrueba.setNameClass("News");
-
                 mEditsearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
@@ -132,13 +130,30 @@ public class MainActivity extends AppCompatActivity
                                 mListResults.clear();
                                 for (int i = 0; i < result.size(); i++) {
                                     SearchResult resultElement = new SearchResult();
-                                    resultElement.setNameClass("News");
-                                    resultElement.setNameResult(result.get(i).getAsJsonObject().get("title").getAsString());
+                                    if(result.get(i).getAsJsonObject().get("type").getAsString().matches("user")){
+                                        resultElement.setNameClass("user");
+                                        resultElement.setNameResult(result.get(i).getAsJsonObject().get("name").getAsString());
+
+                                    }
+                                    else if(result.get(i).getAsJsonObject().get("type").getAsString().matches("news")){
+                                        resultElement.setNameClass("news");
+                                        resultElement.setNameResult(result.get(i).getAsJsonObject().get("title").getAsString());
+
+                                    }
+                                    else if(result.get(i).getAsJsonObject().get("type").getAsString().matches("sport")){
+                                        resultElement.setNameClass("sport");
+                                        resultElement.setNameResult(result.get(i).getAsJsonObject().get("name").getAsString());
+
+                                    }
                                     mListResults.add(resultElement);
                                 }
 
                                 // Pass results to ListViewAdapter Class
-                                mAdapterList = new ListViewAdapter(getApplicationContext());
+                                mAdapterList = new ListViewAdapter(getApplicationContext(),mListResults);
+
+                                for(int i = 0;i < mListResults.size();i++){
+                                    System.out.println(mListResults.get(i).getNameResult());
+                                }
 
                                 // Binds the Adapter to the ListView
                                 mListViewResults.setAdapter(mAdapterList);
@@ -196,7 +211,7 @@ public class MainActivity extends AppCompatActivity
                 public void onCompleted(Exception e, JsonObject result) {
                     cerrarSesion(result.get("name").getAsString(),
                             mUserEmail, result.get("password").getAsString(),
-                            result.get("profilePicture").getAsString(), result.get("favSport"));
+                            result.get("profilePicture").getAsString(), result.get("favSport"),result.get("type").getAsString());
 
                 }
             };
@@ -248,7 +263,7 @@ public class MainActivity extends AppCompatActivity
 
     //metodo encargado de cerrar sesion, lo que hace es cambiarle a user el parametro de
     //sessionInit en cero, que significa que no hay ninguna sesion abierta
-    private void cerrarSesion(String name, String mUserEmail, String password, String profilePicture, JsonElement favSport) {
+    private void cerrarSesion(String name, String mUserEmail, String password, String profilePicture, JsonElement favSport, String type) {
         JsonObject json = new JsonObject();
         json.addProperty("name", name);
         json.addProperty("email", mUserEmail);
@@ -256,12 +271,13 @@ public class MainActivity extends AppCompatActivity
         json.addProperty("profilePicture", profilePicture);
         json.addProperty("sessionInit", "0");
         json.add("favSport", favSport);
+        json.addProperty("type", type);
+        mNewsArray.clear();
         final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
             @Override
             public void onCompleted(Exception e, JsonArray result) {
                 LoginManager.getInstance().logOut();
                 finish();
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         };
         ApiService api = new ApiService();
@@ -284,6 +300,7 @@ public class MainActivity extends AppCompatActivity
                     newNews.setContent(result.get(i).getAsJsonObject().get("content").getAsString());
                     newNews.setImportant(result.get(i).getAsJsonObject().get("important").getAsString());
                     newNews.setImage(result.get(i).getAsJsonObject().get("image").getAsString());
+                    newNews.setType(result.get(i).getAsJsonObject().get("type").getAsString());
                     newsDesorder.add(newNews);
                 }
 

@@ -8,6 +8,16 @@ public class User {
     private String mPassword;
     private URL mProfilePicture;
 
+    public String getmType() {
+        return mType;
+    }
+
+    public void setmType(String mType) {
+        this.mType = mType;
+    }
+
+    private String mType;
+
     public String getName() {
         return name;
     }

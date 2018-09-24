@@ -90,6 +90,7 @@ public class LogInActivity extends AppCompatActivity {
                             json.addProperty("profilePicture", mProfilePicture.toString());
                             json.addProperty("sessionInit", "1");
                             json.add("favSport", favSports);
+                            json.addProperty("type", "user");
                             final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
                                 @Override
                                 public void onCompleted(Exception e, JsonArray result) {
@@ -178,7 +179,7 @@ public class LogInActivity extends AppCompatActivity {
                             Toast.makeText(LogInActivity.this, "Bienvenido a SporTEC", Toast.LENGTH_LONG).show();
                             registrarSesion(result.get("name").getAsString(),
                                     emailUser, passwordUser,
-                                    result.get("profilePicture").getAsString(), result.get("favSport"));
+                                    result.get("profilePicture").getAsString(), result.get("favSport"),result.get("type").getAsString());
 
                             // aqui hace el inicio de sesion por que coinciden correo y contraseña
                             Intent intentMainMenu = new Intent(LogInActivity.this, MainActivity.class);
@@ -204,7 +205,7 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
-    private void registrarSesion(String name, String emailUser, String password, String profPic, JsonElement favSport) {
+    private void registrarSesion(String name, String emailUser, String password, String profPic, JsonElement favSport, String type) {
         JsonObject json = new JsonObject();
         json.addProperty("name", name);
         json.addProperty("email", emailUser);
@@ -212,6 +213,7 @@ public class LogInActivity extends AppCompatActivity {
         json.addProperty("profilePicture", profPic);
         json.addProperty("sessionInit", "1");
         json.add("favSport", favSport);
+        json.addProperty("type", "user");
         final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
             @Override
             public void onCompleted(Exception e, JsonArray result) {

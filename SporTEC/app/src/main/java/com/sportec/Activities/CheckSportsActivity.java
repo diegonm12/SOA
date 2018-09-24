@@ -49,6 +49,7 @@ public class CheckSportsActivity extends AppCompatActivity {
                     Sport newSport = new Sport();
                     newSport.setName(result.get(i).getAsJsonObject().get("name").getAsString());
                     newSport.setImage(result.get(i).getAsJsonObject().get("image").getAsString());
+                    newSport.setType(result.get(i).getAsJsonObject().get("type").getAsString());
                     mSportsArray.add(newSport);
                 }
 
@@ -120,7 +121,7 @@ public class CheckSportsActivity extends AppCompatActivity {
                 public void onCompleted(Exception e, JsonObject result) {
                     updateSports(result.get("name").getAsString(),
                             mUserEmail, result.get("password").getAsString(),
-                            result.get("profilePicture").getAsString(), result.get("sessionInit").getAsString(), SportsToAdd);
+                            result.get("profilePicture").getAsString(), result.get("sessionInit").getAsString(), SportsToAdd,result.get("type").getAsString());
 
                 }
             };
@@ -133,7 +134,7 @@ public class CheckSportsActivity extends AppCompatActivity {
 
 
     //se actualiza el usuario para poder agregar los deportes favoritos
-    private void updateSports(String name, final String mUserEmail, String password, String profilePicture, String sesionInit, JsonElement favSport) {
+    private void updateSports(String name, final String mUserEmail, String password, String profilePicture, String sesionInit, JsonElement favSport, String type) {
         JsonObject json = new JsonObject();
         json.addProperty("name", name);
         json.addProperty("email", mUserEmail);
@@ -141,11 +142,12 @@ public class CheckSportsActivity extends AppCompatActivity {
         json.addProperty("profilePicture", profilePicture);
         json.addProperty("sessionInit", sesionInit);
         json.add("favSport", favSport);
+        json.addProperty("type", type);
         final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
             @Override
             public void onCompleted(Exception e, JsonArray result) {
 
-                // luego de cambiar los  datos me dirigi al main
+                // luego de cambiar los  datos me dirigo al main
                 Intent intentMainMenu = new Intent(CheckSportsActivity.this, MainActivity.class);
                 intentMainMenu.putExtra("emailUser", mUserEmail);
                 startActivity(intentMainMenu);

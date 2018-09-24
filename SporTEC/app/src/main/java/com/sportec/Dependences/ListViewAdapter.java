@@ -22,11 +22,11 @@ public class ListViewAdapter extends BaseAdapter {
     LayoutInflater inflater;
     private List<SearchResult> mListResultsAdapter = new ArrayList<>() ;
 
-    public ListViewAdapter(Context context ) {
+    public ListViewAdapter(Context context,List<SearchResult> ListElements) {
         mContext = context;
         inflater = LayoutInflater.from(mContext);
-
-        this.mListResultsAdapter.addAll(MainActivity.mListResults);
+        mListResultsAdapter.clear();
+        this.mListResultsAdapter.addAll(ListElements);
     }
 
     public class ViewHolder {
@@ -35,12 +35,12 @@ public class ListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return MainActivity.mListResults.size();
+        return mListResultsAdapter.size();
     }
 
     @Override
     public SearchResult getItem(int position) {
-        return MainActivity.mListResults.get(position);
+        return mListResultsAdapter.get(position);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.name.setText(MainActivity.mListResults.get(position).getNameResult());
+        holder.name.setText(mListResultsAdapter.get(position).getNameResult());
         return view;
     }
 
@@ -69,11 +69,11 @@ public class ListViewAdapter extends BaseAdapter {
         charText = charText.toLowerCase(Locale.getDefault());
         MainActivity.mListResults.clear();
         if (charText.length() == 0) {
-            MainActivity.mListResults.addAll(mListResultsAdapter);
+            mListResultsAdapter.addAll(mListResultsAdapter);
         } else {
             for (SearchResult wp : mListResultsAdapter) {
                 if (wp.getNameResult().toLowerCase(Locale.getDefault()).contains(charText)) {
-                    MainActivity.mListResults.add(wp);
+                    mListResultsAdapter.add(wp);
                 }
             }
         }
