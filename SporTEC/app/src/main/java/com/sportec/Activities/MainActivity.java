@@ -14,8 +14,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.gson.Gson;
@@ -25,6 +30,8 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.sportec.Dependences.MyRecyclerViewAdapter;
 import com.sportec.Dependences.News;
+import com.sportec.ListViewAdapter;
+import com.sportec.MovieNames;
 import com.sportec.R;
 import com.sportec.Service.ApiService;
 import com.sportec.Service.ApiServiceNews;
@@ -41,6 +48,12 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private ListView mlistResults;
+    private ListViewAdapter mAdapterList;
+    private SearchView mEditsearch;
+    private String[] moviewList;
+    public static ArrayList<MovieNames> movieNamesArrayList = new ArrayList<MovieNames>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +80,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = getIntent();
         mUserEmail = intent.getStringExtra("emailUser");
 
+
         //se llama el metodo que trae toda las noticias desde la base de datos
         getNewsFromDB();
 
@@ -87,6 +101,77 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         setHeader();
+
+        mEditsearch = (SearchView) menu.findItem(R.id.search).getActionView();
+
+        mEditsearch.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RelativeLayout finderLayout = findViewById(R.id.finderLayout);
+                finderLayout.setVisibility(View.VISIBLE);
+
+                moviewList = new String[]{"Xmen", "Titanic", "Captain America",
+                        "Iron man", "Rocky", "Transporter", "Lord of the rings", "The jungle book",
+                        "Tarzan", "Cars", "Shreck"};
+
+                // Locate the ListView in listview_main.xml
+                mlistResults = findViewById(R.id.listview);
+
+                movieNamesArrayList = new ArrayList<>();
+
+                for (String aMoviewList : moviewList) {
+                    MovieNames movieNames = new MovieNames(aMoviewList);
+                    // Binds all strings into an array
+                    movieNamesArrayList.add(movieNames);
+                }
+
+                // Pass results to ListViewAdapter Class
+                mAdapterList = new ListViewAdapter(getApplicationContext());
+
+                // Binds the Adapter to the ListView
+                mlistResults.setAdapter(mAdapterList);
+
+                // Se define el Search View correspondiente
+                mEditsearch = findViewById(R.id.search);
+                mEditsearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    // como se necesita buscar informacion en la base de datos, el siguiente
+                    //metodo permite ir buscando por cada letra que el usuario ingrese
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        System.out.println(newText);
+                        mAdapterList.filter(newText);
+                        System.out.println(newText);
+                        return false;
+                    }
+                });
+
+                //se necesita que cuando el usuario clickea en la x
+                //se cierre el layout de las busquedas, por esto se implementa el onClose
+                mEditsearch.setOnCloseListener(new SearchView.OnCloseListener() {
+                    @Override
+                    public boolean onClose() {
+                        RelativeLayout finderLayout = findViewById(R.id.finderLayout);
+                        finderLayout.setVisibility(View.INVISIBLE);
+                        return false;
+                    }
+                });
+
+                // de todas las opciones que aparecen en la lista de busqueda cuando
+                // el usuario la escoge, se selecciona mendiante este metodo
+                mlistResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(MainActivity.this, movieNamesArrayList.get(position).getAnimalName(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
         return true;
     }
 
@@ -95,13 +180,6 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -158,8 +236,6 @@ public class MainActivity extends AppCompatActivity
             public void onCompleted(Exception e, JsonObject result) {
                 nameTextView.setText(result.get("name").getAsString());
                 Picasso.get().load(result.get("profilePicture").getAsString()).into(imageViewUserPhoto);
-
-
             }
         };
         ApiService api = new ApiService();
@@ -167,8 +243,6 @@ public class MainActivity extends AppCompatActivity
 
         //modifico los valores de la barra  del layout con los valores del user
         emailTextView.setText(mUserEmail);
-
-
     }
 
     //metodo encargado de cerrar sesion, lo que hace es cambiarle a user el parametro de
@@ -187,14 +261,10 @@ public class MainActivity extends AppCompatActivity
                 LoginManager.getInstance().logOut();
                 finish();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
-
             }
         };
         ApiService api = new ApiService();
         api.updateUser(MainActivity.this, arreglo, json, mUserEmail);
-
-
     }
 
     // metodo que se encarga de traer todas las noticias desde la base de datos
@@ -276,12 +346,11 @@ public class MainActivity extends AppCompatActivity
 
                         // se crea el intent que me lleva a cada noticia, se pasa lainformacion
                         // mediante GSON
-                        News newsSelected = new News();
+                        News newsSelected;
                         newsSelected = mNewsArray.get(position);
 
                         //se inicializa el Gson para la infromacion de la noticia
                         Gson gsonNewsSelected = new Gson();
-
 
                         Intent intentSportsNews = new Intent(MainActivity.this, NewsActivity.class);
                         intentSportsNews.putExtra("News", gsonNewsSelected.toJson(newsSelected));
@@ -289,8 +358,6 @@ public class MainActivity extends AppCompatActivity
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     }
                 });
-
-
             }
         };
         ApiService api = new ApiService();
@@ -298,6 +365,4 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
-
 }

@@ -18,7 +18,29 @@
             android:id="@+id/my_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical" />
+
+    </RelativeLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/finderLayout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/grey"
+        android:theme="@style/Theme.AppCompat.NoActionBar"
+        android:visibility="invisible"
+        tools:context=".CardViewActivity">
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/search"
+            />
+
 
     </RelativeLayout>
 
