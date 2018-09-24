@@ -46,6 +46,12 @@ module.exports.getUserByName = function (name, callback) {
     User.findOne({name: name}, callback);
 };
 
+// Get de los usuarios que tienen palabras similares a las buscadas
+module.exports.getUsersSearch = function (name,req,callback) {
+    const regex = new RegExp(escapeRegex(req.query.search),'gi');
+	User.find({name:regex},callback);
+};
+
 // agregar user
 module.exports.addUser = function (user, callback) {
     User.create(user, callback);
@@ -70,4 +76,9 @@ module.exports.updateUser = function (email, user, options, callback) {
 module.exports.removeUser = function (email, callback) {
     const query = {email: email};
     User.deleteOne(query, callback);
+};
+
+//Esta funcion ayuda a la busqueda de los textos de expresiones regulares
+function escapeRegex(text){
+    return text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 };

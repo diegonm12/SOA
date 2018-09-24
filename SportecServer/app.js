@@ -21,12 +21,24 @@ app.get('/', function (req, res) {
 //******************************************************
 //el get de todos los users
 app.get('/api/users', function (req, res) {
-    User.getUsers(function (err, users) {
-        if (err) {
-            throw err;
-        }
-        res.json(users)
-    });
+	if(req.query.search){
+		console.log('Tiene search');
+		User.getUsersSearch(req.params.name,req,function (err, users) {
+		    if (err) {
+		        throw err;
+		    }
+		    res.json(users);
+		});
+	
+	}
+	else{
+		User.getUsers(function (err, users) {
+		    if (err) {
+		        throw err;
+		    }
+		    res.json(users);
+		});
+	}
 });
 
 //el add de un usuario
@@ -36,7 +48,7 @@ app.post('/api/users', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(user)
+        res.json(user);
     });
 });
 
@@ -48,7 +60,7 @@ app.put('/api/users/:email', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(user)
+        res.json(user);
     });
 });
 
@@ -59,7 +71,7 @@ app.delete('/api/users/:email', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(user)
+        res.json(user);
     });
 });
 
@@ -69,7 +81,7 @@ app.get('/api/users/:email', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(user)
+        res.json(user);
     });
 });
 
@@ -79,7 +91,7 @@ app.get('/api/users/name/:name', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(user)
+        res.json(user);
     });
 });
 
@@ -92,7 +104,7 @@ app.get('/api/sports', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(sports)
+        res.json(sports);
     });
 });
 
@@ -102,7 +114,7 @@ app.get('/api/sports/:name', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(sport)
+        res.json(sport);
     });
 });
 
@@ -113,7 +125,7 @@ app.post('/api/sports', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(sport)
+        res.json(sport);
     });
 });
 
@@ -125,7 +137,7 @@ app.put('/api/sports/:name', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(sport)
+        res.json(sport);
     });
 });
 
@@ -136,7 +148,7 @@ app.delete('/api/sports/:name', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(sport)
+        res.json(sport);
     });
 });
 
@@ -147,14 +159,29 @@ app.delete('/api/sports/:name', function (req, res) {
 //Metodos CRUD para las noticias
 //******************************************************
 //el get de todas las noticias
+//mediante el req.query.search implementa el buscador de contenido
+//en el titulo segun sea el search?=
 app.get('/api/news', function (req, res) {
-    New.getNews(function (err, news) {
-        if (err) {
-            throw err;
-        }
-        res.json(news)
-    });
+	if(req.query.search){
+		console.log('Tiene search');
+		New.getNewsSearch(req.params.title,req,function (err, news) {
+		    if (err) {
+		        throw err;
+		    }
+		    res.json(news);
+		});
+	
+	}
+	else{
+		New.getNews(function (err, news) {
+		    if (err) {
+		        throw err;
+		    }
+		    res.json(news);
+		});
+	}
 });
+
 
 //el get de una sola noticia segun sea su title
 app.get('/api/news/title/:title', function (req, res) {
@@ -162,7 +189,7 @@ app.get('/api/news/title/:title', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(news)
+        res.json(news);
     });
 });
 
@@ -173,7 +200,7 @@ app.post('/api/news', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(news)
+        res.json(news);
     });
 });
 
@@ -185,7 +212,7 @@ app.put('/api/news/:title', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(news)
+        res.json(news);
     });
 });
 
@@ -196,7 +223,7 @@ app.delete('/api/news/:title', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(news)
+        res.json(news);
     });
 });
 
@@ -206,7 +233,7 @@ app.get('/api/news/:sport', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(news)
+        res.json(news);
     });
 });
 

@@ -32,6 +32,12 @@ module.exports.getNews = function (callback) {
     New.find(callback);
 };
 
+// Get de las noticias que tienen palabras similares a las buscadas
+module.exports.getNewsSearch = function (title,req,callback) {
+    const regex = new RegExp(escapeRegex(req.query.search),'gi');
+	New.find({title:regex},callback);
+};
+
 // Get de una sola noticia segun sea su titulo
 module.exports.getNewsByTitle = function (title, callback) {
     New.findOne({title: title}, callback);
@@ -64,6 +70,11 @@ module.exports.updateNew = function (title, news, options, callback) {
 module.exports.removeNew = function (title, callback) {
     const query = {title: title};
     New.deleteOne(query, callback);
+};
+
+//Esta funcion ayuda a la busqueda de los textos de expresiones regulares
+function escapeRegex(text){
+    return text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 };
 
 
