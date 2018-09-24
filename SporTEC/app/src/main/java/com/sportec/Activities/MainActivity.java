@@ -40,7 +40,9 @@ import com.squareup.picasso.Picasso;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -124,44 +126,52 @@ public class MainActivity extends AppCompatActivity
                     //metodo permite ir buscando por cada letra que el usuario ingrese
                     @Override
                     public boolean onQueryTextChange(String newText) {
-                        final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
+                        
+                        final FutureCallback<JsonObject> arreglo = new FutureCallback<JsonObject>() {
                             @Override
-                            public void onCompleted(Exception e, JsonArray result) {
+                            public void onCompleted(Exception e, JsonObject result) {
                                 mListResults.clear();
-                                for (int i = 0; i < result.size(); i++) {
-                                    SearchResult resultElement = new SearchResult();
-                                    if(result.get(i).getAsJsonObject().get("type").getAsString().matches("user")){
-                                        resultElement.setNameClass("user");
-                                        resultElement.setNameResult(result.get(i).getAsJsonObject().get("name").getAsString());
-
+                                if (!(result.get("news").isJsonNull())){
+                                    JsonArray arrayResult = result.get("news").getAsJsonArray();
+                                    for(int i = 0; i < arrayResult.size(); i++){
+                                        SearchResult newResultSearch = new SearchResult();
+                                        newResultSearch.setNameResult(arrayResult.get(i).getAsJsonObject().get("title").getAsString());
+                                        newResultSearch.setNameClass(arrayResult.get(i).getAsJsonObject().get("type").getAsString());
+                                        mListResults.add(newResultSearch);
                                     }
-                                    else if(result.get(i).getAsJsonObject().get("type").getAsString().matches("news")){
-                                        resultElement.setNameClass("news");
-                                        resultElement.setNameResult(result.get(i).getAsJsonObject().get("title").getAsString());
-
-                                    }
-                                    else if(result.get(i).getAsJsonObject().get("type").getAsString().matches("sport")){
-                                        resultElement.setNameClass("sport");
-                                        resultElement.setNameResult(result.get(i).getAsJsonObject().get("name").getAsString());
-
-                                    }
-                                    mListResults.add(resultElement);
                                 }
+                                if (!(result.get("user").isJsonNull())){
+                                    JsonArray arrayResult = result.get("user").getAsJsonArray();
+                                    for(int i = 0; i < arrayResult.size(); i++){
+                                        SearchResult newResultSearch = new SearchResult();
+                                        newResultSearch.setNameResult(arrayResult.get(i).getAsJsonObject().get("name").getAsString());
+                                        newResultSearch.setNameClass(arrayResult.get(i).getAsJsonObject().get("type").getAsString());
+                                        mListResults.add(newResultSearch);
+                                    }
+                                }
+                                if (!(result.get("sport").isJsonNull())){
+                                    JsonArray arrayResult = result.get("sport").getAsJsonArray();
+                                    for(int i = 0; i < arrayResult.size(); i++){
+                                        SearchResult newResultSearch = new SearchResult();
+                                        newResultSearch.setNameResult(arrayResult.get(i).getAsJsonObject().get("name").getAsString());
+                                        newResultSearch.setNameClass(arrayResult.get(i).getAsJsonObject().get("type").getAsString());
+                                        mListResults.add(newResultSearch);
+                                    }
+                                }
+
+
+                                System.out.println("*************");
+                                System.out.println(mListResults.size());
 
                                 // Pass results to ListViewAdapter Class
                                 mAdapterList = new ListViewAdapter(getApplicationContext(),mListResults);
 
-                                for(int i = 0;i < mListResults.size();i++){
-                                    System.out.println(mListResults.get(i).getNameResult());
-                                }
-
                                 // Binds the Adapter to the ListView
                                 mListViewResults.setAdapter(mAdapterList);
-
                             }
                         };
                         ApiServiceContent api = new ApiServiceContent();
-                        api.downloadNewsSearch(getApplicationContext(), arreglo, newText);
+                        api.downloadSearch(getApplicationContext(), arreglo, newText);
                         return false;
                     }
                 });
