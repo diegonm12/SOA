@@ -20,6 +20,12 @@ module.exports.getSports = function (callback) {
     Sport.find(callback);
 };
 
+// Get de los deportes que tienen palabras similares a las buscadas
+module.exports.getSportsSearch = function (name,req,callback) {
+    const regex = new RegExp(escapeRegex(req.query.search),'gi');
+	Sport.find({name:regex},callback);
+};
+
 //Get de un solo sport segun sea su nombre
 module.exports.getSportByName = function (name, callback) {
     console.log('access only one sport!!');
@@ -48,3 +54,9 @@ module.exports.removeSport = function (name, callback) {
     const query = {name: name};
     Sport.deleteOne(query, callback);
 };
+
+//Esta funcion ayuda a la busqueda de los textos de expresiones regulares
+function escapeRegex(text){
+    return text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+};
+

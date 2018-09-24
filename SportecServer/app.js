@@ -100,12 +100,24 @@ app.get('/api/users/name/:name', function (req, res) {
 //******************************************************
 //el get de todos los deportes
 app.get('/api/sports', function (req, res) {
-    Sport.getSports(function (err, sports) {
-        if (err) {
-            throw err;
-        }
-        res.json(sports);
-    });
+	if(req.query.search){
+		console.log('Tiene search');
+		Sport.getSportsSearch(req.params.name,req,function (err, sports) {
+		    if (err) {
+		        throw err;
+		    }
+		    res.json(sports);
+		});
+	
+	}
+	else{
+		Sport.getSports(function (err, sports) {
+		    if (err) {
+		        throw err;
+		    }
+		    res.json(sports);
+		});
+	}
 });
 
 //el get de un solo deporte segun sea elnombre
