@@ -250,6 +250,45 @@ app.get('/api/news/:sport', function (req, res) {
 //
 //***********************************************************************
 
+//Buscador de contenido
+//****************************
+
+//este corresponde al get que por medio de un search buscara todos los contenidos en
+//titulos de noticia, usuario, nombre de deportes o de equipos con las palabras relacionadas al search
+app.get("/api/content", function(req, res) {
+
+    if(req.query.search){
+		const regex = new RegExp(escapeRegex(req.query.search),'gi');
+		New.find({title:regex}, function(error, news){
+        	User.find({name:regex}, function(error, user){
+				Sport.find({name:regex},function(error,sport){
+				    res.json({
+				        news: news,
+				        user: user,
+						sport:sport
+				    });
+				});
+         	});
+     	});
+	}
+	else{
+		res.json({
+				  news: [],
+				  user: [],
+				  sport: []
+				  });
+	}
+
+});
+
+//Esta funcion ayuda a la busqueda de los textos de expresiones regulares
+function escapeRegex(text){
+    return text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+};
+
+
+
+//**********************************************************************
 
 app.listen(3000);
 console.log('Corriendo en el puerto: 3000');
