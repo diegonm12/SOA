@@ -4,6 +4,16 @@ public class SearchResult {
     private String nameResult;
     private String nameClass;
 
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    private String identifier;
+
     public String getNameResult() {
         return nameResult;
     }

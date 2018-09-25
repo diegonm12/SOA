@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity
                     //metodo permite ir buscando por cada letra que el usuario ingrese
                     @Override
                     public boolean onQueryTextChange(String newText) {
-                        
+
                         final FutureCallback<JsonObject> arreglo = new FutureCallback<JsonObject>() {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity
                                         SearchResult newResultSearch = new SearchResult();
                                         newResultSearch.setNameResult(arrayResult.get(i).getAsJsonObject().get("title").getAsString());
                                         newResultSearch.setNameClass(arrayResult.get(i).getAsJsonObject().get("type").getAsString());
+                                        newResultSearch.setIdentifier(arrayResult.get(i).getAsJsonObject().get("_id").getAsString());
                                         mListResults.add(newResultSearch);
                                     }
                                 }
@@ -160,13 +161,10 @@ public class MainActivity extends AppCompatActivity
                                 }
 
 
-                                System.out.println("*************");
-                                System.out.println(mListResults.size());
-
-                                // Pass results to ListViewAdapter Class
+                                // Pasa el resultado a la clase ListViewAdapter para que se muestre los resultados
                                 mAdapterList = new ListViewAdapter(getApplicationContext(),mListResults);
 
-                                // Binds the Adapter to the ListView
+                                // Se hace el bind del adapter a la clase viewer
                                 mListViewResults.setAdapter(mAdapterList);
                             }
                         };
@@ -193,6 +191,35 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Toast.makeText(MainActivity.this, MainActivity.mListResults.get(position).getNameResult(), Toast.LENGTH_SHORT).show();
+
+                        //Para el caso en que la seleccion del  buscador sea una noticia
+                        if(MainActivity.mListResults.get(position).getNameClass().matches("news")){
+                            final FutureCallback<JsonObject> arregloNews = new FutureCallback<JsonObject>() {
+                                @Override
+                                public void onCompleted(Exception e, JsonObject result) {
+
+                                        // se define la noticia que escogio  el user
+                                        News newNews = new News();
+                                        newNews.setSportName(result.getAsJsonObject().get("sport").getAsString());
+                                        newNews.setTitle(result.getAsJsonObject().get("title").getAsString());
+                                        newNews.setContent(result.getAsJsonObject().get("content").getAsString());
+                                        newNews.setImportant(result.getAsJsonObject().get("important").getAsString());
+                                        newNews.setImage(result.getAsJsonObject().get("image").getAsString());
+                                        newNews.setType(result.getAsJsonObject().get("type").getAsString());
+
+                                        //se inicializa el Gson para la infromacion de la noticia
+                                        Gson gsonNewsSelected = new Gson();
+
+                                        //se hace el intent a la vista de noticias.
+                                        Intent intentSportsNews = new Intent(MainActivity.this, NewsActivity.class);
+                                        intentSportsNews.putExtra("News", gsonNewsSelected.toJson(newNews));
+                                        startActivity(intentSportsNews);
+                                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                }
+                            };
+                            ApiServiceNews api = new ApiServiceNews();
+                            api.downloadNewById(MainActivity.this,arregloNews,mListResults.get(position).getIdentifier());
+                        }
                     }
                 });
             }
@@ -380,6 +407,7 @@ public class MainActivity extends AppCompatActivity
                         //se inicializa el Gson para la infromacion de la noticia
                         Gson gsonNewsSelected = new Gson();
 
+                        //Se hace el cambio del intent
                         Intent intentSportsNews = new Intent(MainActivity.this, NewsActivity.class);
                         intentSportsNews.putExtra("News", gsonNewsSelected.toJson(newsSelected));
                         startActivity(intentSportsNews);
