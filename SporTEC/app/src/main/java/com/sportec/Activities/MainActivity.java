@@ -366,7 +366,13 @@ public class MainActivity extends AppCompatActivity
             };
             ApiService api = new ApiService();
             api.downloadUser(this, mUserEmail, arreglo);
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.activity_sports) {
+            //pasa a la pantalla de la escogencia de deporte favoritos
+            Intent intentCheckSports = new Intent(MainActivity.this, CheckSportsActivity.class);
+            intentCheckSports.putExtra("emailUser", mUserEmail);
+            intentCheckSports.putExtra("permission", "0");
+            startActivity(intentCheckSports);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
         } else if (id == R.id.nav_manage) {
 

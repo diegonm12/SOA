@@ -103,6 +103,7 @@ public class LogInActivity extends AppCompatActivity {
 
                             Intent intentSportsActivity = new Intent(LogInActivity.this, CheckSportsActivity.class);
                             intentSportsActivity.putExtra("emailUser", mEmail);
+                            intentSportsActivity.putExtra("permission", "1");
                             startActivity(intentSportsActivity);
                             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

@@ -114,6 +114,7 @@ public class ProfileUserActivity extends AppCompatActivity {
     public void editarSeleccionPref(View view) {
         Intent intentCheckSports = new Intent(ProfileUserActivity.this, CheckSportsActivity.class);
         intentCheckSports.putExtra("emailUser", mCurrentUser.getmEmail());
+        intentCheckSports.putExtra("permission", "1");
         startActivity(intentCheckSports);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }

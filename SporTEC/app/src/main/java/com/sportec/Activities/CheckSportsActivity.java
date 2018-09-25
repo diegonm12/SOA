@@ -2,6 +2,7 @@ package com.sportec.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +27,7 @@ public class CheckSportsActivity extends AppCompatActivity {
     List<Sport> mSportsArray = new ArrayList<>();
     List<Integer> mSportPositionArray = new ArrayList<>();
     public static String mUserEmail;
+    public static String permission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +35,24 @@ public class CheckSportsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_check_sports);
         Intent intent = getIntent();
         mUserEmail = intent.getStringExtra("emailUser");
+        permission = intent.getStringExtra("permission");
 
+        disableButtonAdd();
         getSportsFromDB();
 
+    }
+
+    //Con este metodo quitamos o dejamos el boton para agregar deportes,
+    //con el fin de reciclar la vista.
+    private void disableButtonAdd() {
+        if(permission.matches("0")){
+            FloatingActionButton buttonToAddSports =findViewById(R.id.activity_check_sports);
+            buttonToAddSports.setVisibility(View.INVISIBLE);
+        }
+        else{
+            FloatingActionButton buttonToAddSports =findViewById(R.id.activity_check_sports);
+            buttonToAddSports.setVisibility(View.VISIBLE);
+        }
     }
 
     private void getSportsFromDB() {

@@ -50,6 +50,7 @@ public class SplashActivity extends AppCompatActivity {
                         String emailUser = result.get(counter).getAsJsonObject().get("email").getAsString();
 
                         intentCheckSports.putExtra("emailUser", emailUser);
+                        intentCheckSports.putExtra("permission", "1");
                         startActivity(intentCheckSports);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
