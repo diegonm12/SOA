@@ -42,9 +42,9 @@ module.exports.getNewsSearch = function (title,req,callback) {
 	New.find({title:regex},callback);
 };
 
-// Get de una sola noticia segun sea su titulo
-module.exports.getNewsByTitle = function (title, callback) {
-    New.findOne({title: title}, callback);
+// Get de una sola noticia segun sea su id
+module.exports.getNewsById = function (id, callback) {
+    New.findOne({_id: id}, callback);
 };
 
 // Get de noticias segun el  deporte

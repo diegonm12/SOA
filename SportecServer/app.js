@@ -172,7 +172,9 @@ app.delete('/api/sports/:name', function (req, res) {
 //mediante el req.query.search implementa el buscador de contenido
 //en el titulo segun sea el search?=
 app.get('/api/news', function (req, res) {
+	console.log("entro al get ");
 	if(req.query.search){
+		console.log("entro al get con search ");
 		New.getNewsSearch(req.params.title,req,function (err, news) {
 		    if (err) {
 		        throw err;
@@ -183,6 +185,7 @@ app.get('/api/news', function (req, res) {
 	}
 	else{
 		New.getNews(function (err, news) {
+			console.log("entro al get normal ");
 		    if (err) {
 		        throw err;
 		    }
@@ -192,9 +195,10 @@ app.get('/api/news', function (req, res) {
 });
 
 
-//el get de una sola noticia segun sea su title
-app.get('/api/news/title/:title', function (req, res) {
-    New.getNewsByTitle(req.params.title,function (err, news) {
+//el get de una sola noticia segun sea su id
+app.get('/api/news/id/:_id', function (req, res) {
+	console.log("entro al get con title filter ");
+    New.getNewsById(req.params._id,function (err, news) {
         if (err) {
             throw err;
         }
@@ -238,6 +242,7 @@ app.delete('/api/news/:title', function (req, res) {
 
 //el get de las noticias segun sea su deporte
 app.get('/api/news/:sport', function (req, res) {
+	console.log("entro al get con el sport filter ");
     New.getNewsBySport(req.params.sport, function (err, news) {
         if (err) {
             throw err;
