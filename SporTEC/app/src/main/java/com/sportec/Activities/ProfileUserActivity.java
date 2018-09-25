@@ -18,10 +18,10 @@ import com.sportec.Service.ApiService;
 import com.squareup.picasso.Picasso;
 
 public class ProfileUserActivity extends AppCompatActivity {
-    TextView mNameUserTextView;
-    TextView mEmailUserTextView;
-    TextView mPasswordUserTextView;
-    User mCurrentUser;
+    public static TextView mNameUserTextView;
+    public static TextView mEmailUserTextView;
+    public static TextView mPasswordUserTextView;
+    public static User mCurrentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

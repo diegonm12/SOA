@@ -46,7 +46,10 @@
         </activity>
         <activity android:name=".Activities.CheckSportsActivity" />
         <activity android:name=".Activities.NewsActivity" />
-        <activity android:name=".Activities.ProfileUserActivity"></activity>
+        <activity android:name=".Activities.ProfileUserActivity" />
+        <activity android:name=".Activities.SportSelectedActivity" />
+        <activity android:name=".Activities.ChallengesActivity" />
+        <activity android:name=".Activities.TeamActivity"></activity>
     </application>
 
 </manifest>

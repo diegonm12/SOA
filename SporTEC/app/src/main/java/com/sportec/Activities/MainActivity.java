@@ -47,13 +47,13 @@ public class MainActivity extends AppCompatActivity
 
     public static String mUserEmail;
     public static List<News> mNewsArray = new ArrayList<>();
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    public static RecyclerView mRecyclerView;
+    public static RecyclerView.Adapter mAdapter;
+    public static RecyclerView.LayoutManager mLayoutManager;
 
-    private ListView mListViewResults;
-    private ListViewAdapter mAdapterList;
-    private SearchView mEditsearch;
+    public static ListView mListViewResults;
+    public static ListViewAdapter mAdapterList;
+    public static SearchView mEditsearch;
     public static List<SearchResult> mListResults = new ArrayList<>();
 
     @Override

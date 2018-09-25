@@ -33,11 +33,11 @@ import java.util.regex.Pattern;
 
 
 public class LogInActivity extends AppCompatActivity {
-    private CallbackManager mCallbackManager;
-    private String mFirstName, mLastName, mEmail;
-    private URL mProfilePicture;
-    private String mUserId;
-    private String mTAG = "LoginActivity";
+    public static CallbackManager mCallbackManager;
+    public static String mFirstName, mLastName, mEmail;
+    public static URL mProfilePicture;
+    public static String mUserId;
+    public static String mTAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

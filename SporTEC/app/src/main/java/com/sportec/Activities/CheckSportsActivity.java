@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CheckSportsActivity extends AppCompatActivity {
-    List<Sport> mSportsArray = new ArrayList<>();
-    List<Integer> mSportPositionArray = new ArrayList<>();
+    public static List<Sport> mSportsArray = new ArrayList<>();
+    public static List<Integer> mSportPositionArray = new ArrayList<>();
     public static String mUserEmail;
     public static String permission;
 
@@ -81,17 +81,29 @@ public class CheckSportsActivity extends AppCompatActivity {
                 gridview.setAdapter(new ImageAdapter(getApplicationContext(), mSportsArray));
                 gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                        if (isListed(sportSelected, position)) {
 
-                            //este es el caso donde el deporte ya esta agregado a la lista
-                            Toast.makeText(CheckSportsActivity.this, "Ese deporte ya fue elegido", Toast.LENGTH_LONG).show();
+                        //En este caso el usuario tendria el permiso de cambiar los deportes favoritos
+                        //para el caso del else tendria permiso solo de seleccionar cual deporte quiere ver
+                        if(permission.matches("1")){
+                            if (isListed(sportSelected, position)) {
 
-                        } else {
+                                //este es el caso donde el deporte ya esta agregado a la lista
+                                Toast.makeText(CheckSportsActivity.this, "Ese deporte ya fue elegido", Toast.LENGTH_LONG).show();
 
-                            //este caso el deporte no esta en la lista
-                            Toast.makeText(CheckSportsActivity.this, "Agregado a la lista de deportes", Toast.LENGTH_LONG).show();
-                            sportSelected.add(position);
-                            mSportPositionArray = sportSelected;
+                            } else {
+
+                                //este caso el deporte no esta en la lista
+                                Toast.makeText(CheckSportsActivity.this, "Agregado a la lista de deportes", Toast.LENGTH_LONG).show();
+                                sportSelected.add(position);
+                                mSportPositionArray = sportSelected;
+                            }
+                        }
+                        else{
+                            Intent intentSportSelected = new Intent(CheckSportsActivity.this, SportSelectedActivity.class);
+                            intentSportSelected.putExtra("sportSelected", mSportsArray.get(position).getName());
+                            startActivity(intentSportSelected);
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
                         }
                     }
                 });
