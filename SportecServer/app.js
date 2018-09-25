@@ -6,6 +6,8 @@ var mongoose = require('mongoose');
 User = require('./models/user');
 Sport = require('./models/sport');
 New = require('./models/news');
+Challenge = require('./models/challenges');
+Team = require('./models/team');
 app.use(bodyParser.json());
 
 
@@ -169,12 +171,8 @@ app.delete('/api/sports/:name', function (req, res) {
 //Metodos CRUD para las noticias
 //******************************************************
 //el get de todas las noticias
-//mediante el req.query.search implementa el buscador de contenido
-//en el titulo segun sea el search?=
 app.get('/api/news', function (req, res) {
-	console.log("entro al get ");
 	if(req.query.search){
-		console.log("entro al get con search ");
 		New.getNewsSearch(req.params.title,req,function (err, news) {
 		    if (err) {
 		        throw err;
@@ -185,7 +183,6 @@ app.get('/api/news', function (req, res) {
 	}
 	else{
 		New.getNews(function (err, news) {
-			console.log("entro al get normal ");
 		    if (err) {
 		        throw err;
 		    }
@@ -197,7 +194,6 @@ app.get('/api/news', function (req, res) {
 
 //el get de una sola noticia segun sea su id
 app.get('/api/news/id/:_id', function (req, res) {
-	console.log("entro al get con title filter ");
     New.getNewsById(req.params._id,function (err, news) {
         if (err) {
             throw err;
@@ -242,7 +238,6 @@ app.delete('/api/news/:title', function (req, res) {
 
 //el get de las noticias segun sea su deporte
 app.get('/api/news/:sport', function (req, res) {
-	console.log("entro al get con el sport filter ");
     New.getNewsBySport(req.params.sport, function (err, news) {
         if (err) {
             throw err;
@@ -251,6 +246,134 @@ app.get('/api/news/:sport', function (req, res) {
     });
 });
 
+//Metodos CRUD para los equipos
+//******************************************************
+//el get de todos los equipos
+app.get('/api/teams', function (req, res) {
+	if(req.query.search){
+		Team.getTeamsSearch(req.params.name,req,function (err, teams) {
+		    if (err) {
+		        throw err;
+		    }
+		    res.json(teams);
+		});
+	
+	}
+	else{
+		Team.getTeams(function (err, teams) {
+		    if (err) {
+		        throw err;
+		    }
+		    res.json(teams);
+		});
+	}
+});
+
+
+//el get de un solo equipo segun sea su id
+app.get('/api/teams/id/:_id', function (req, res) {
+    Team.getTeamsById(req.params._id,function (err, team) {
+        if (err) {
+            throw err;
+        }
+        res.json(team);
+    });
+});
+
+//el add de un equipo
+app.post('/api/teams', function (req, res) {
+    var team = req.body;
+    Team.addTeam(team, function (err, team) {
+        if (err) {
+            throw err;
+        }
+        res.json(team);
+    });
+});
+
+//la actualizacion de un equipo
+app.put('/api/teams/:name', function (req, res) {
+    var name = req.params.name;
+    var team = req.body;
+    Team.updateTeam(name, team, {}, function (err, team) {
+        if (err) {
+            throw err;
+        }
+        res.json(team);
+    });
+});
+
+//la eliminacion de un equipo
+app.delete('/api/teams/:name', function (req, res) {
+    var name = req.params.name;
+    Team.removeTeam(name, function (err, team) {
+        if (err) {
+            throw err;
+        }
+        res.json(team);
+    });
+});
+
+//
+//***********************************************************************
+
+//Metodos CRUD para los Retos
+//******************************************************
+//el get de todos los retos
+app.get('/api/challenges', function (req, res) {
+	Challenge.getChallenges(function (err, challenges) {
+		if (err) {
+			throw err;
+		}
+		res.json(challenges);
+		});
+	
+});
+
+
+//el get de un solo reto segun sea su id
+app.get('/api/challenges/id/:_id', function (req, res) {
+    Challenge.getChallengesById(req.params._id,function (err, challenge) {
+        if (err) {
+            throw err;
+        }
+        res.json(challenge);
+    });
+});
+
+//el add de un reto
+app.post('/api/challenges', function (req, res) {
+    var challenge = req.body;
+    Challenge.addChallenge(challenge, function (err, challenge) {
+        if (err) {
+            throw err;
+        }
+        res.json(challenge);
+    });
+});
+
+//la actualizacion de un reto
+app.put('/api/challenges/:name', function (req, res) {
+    var name = req.params.name;
+    var challenge = req.body;
+    Challenge.updateChallenge(name, challenge, {}, function (err, challenge) {
+        if (err) {
+            throw err;
+        }
+        res.json(challenge);
+    });
+});
+
+//la eliminacion de un reto
+app.delete('/api/challenges/:name', function (req, res) {
+    var name = req.params.name;
+    Challenge.removeChallenge(name, function (err, challenge) {
+        if (err) {
+            throw err;
+        }
+        res.json(challenge);
+    });
+});
 
 //
 //***********************************************************************
@@ -261,7 +384,6 @@ app.get('/api/news/:sport', function (req, res) {
 //este corresponde al get que por medio de un search buscara todos los contenidos en
 //titulos de noticia, usuario, nombre de deportes o de equipos con las palabras relacionadas al search
 app.get("/api/content", function(req, res) {
-
     if(req.query.search){
 		const regex = new RegExp(escapeRegex(req.query.search),'gi');
 		New.find({title:regex}, function(error, news){

@@ -62,7 +62,7 @@ module.exports.updateNew = function (title, news, options, callback) {
     const query = {title: title};
     const update = {
         sport: news.sport,
-	title: news.title,
+		title: news.title,
         content: news.content,
         important: news.important,
         image: news.image,
