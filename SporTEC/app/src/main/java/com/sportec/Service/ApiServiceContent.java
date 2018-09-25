@@ -1,13 +1,10 @@
 package com.sportec.Service;
 
 import android.content.Context;
-import android.widget.Toast;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.sportec.Activities.MainActivity;
 
 public class ApiServiceContent {
     private static final String HTTP_PROTOCOL = "http:";

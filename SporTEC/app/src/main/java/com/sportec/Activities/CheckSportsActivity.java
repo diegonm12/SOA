@@ -121,7 +121,7 @@ public class CheckSportsActivity extends AppCompatActivity {
                 public void onCompleted(Exception e, JsonObject result) {
                     updateSports(result.get("name").getAsString(),
                             mUserEmail, result.get("password").getAsString(),
-                            result.get("profilePicture").getAsString(), result.get("sessionInit").getAsString(), SportsToAdd,result.get("type").getAsString());
+                            result.get("profilePicture").getAsString(), result.get("sessionInit").getAsString(), SportsToAdd, result.get("type").getAsString());
 
                 }
             };
@@ -152,8 +152,6 @@ public class CheckSportsActivity extends AppCompatActivity {
                 intentMainMenu.putExtra("emailUser", mUserEmail);
                 startActivity(intentMainMenu);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
-
             }
         };
         ApiService api = new ApiService();

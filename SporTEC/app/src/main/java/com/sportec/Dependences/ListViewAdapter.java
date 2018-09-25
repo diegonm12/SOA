@@ -20,9 +20,9 @@ public class ListViewAdapter extends BaseAdapter {
 
     Context mContext;
     LayoutInflater inflater;
-    private List<SearchResult> mListResultsAdapter = new ArrayList<>() ;
+    private List<SearchResult> mListResultsAdapter = new ArrayList<>();
 
-    public ListViewAdapter(Context context,List<SearchResult> ListElements) {
+    public ListViewAdapter(Context context, List<SearchResult> ListElements) {
         mContext = context;
         inflater = LayoutInflater.from(mContext);
         mListResultsAdapter.clear();

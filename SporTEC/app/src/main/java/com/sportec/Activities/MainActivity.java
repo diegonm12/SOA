@@ -32,17 +32,15 @@ import com.sportec.Dependences.ListViewAdapter;
 import com.sportec.Dependences.MyRecyclerViewAdapter;
 import com.sportec.Dependences.News;
 import com.sportec.Dependences.SearchResult;
+import com.sportec.Dependences.User;
 import com.sportec.R;
 import com.sportec.Service.ApiService;
 import com.sportec.Service.ApiServiceContent;
 import com.sportec.Service.ApiServiceNews;
 import com.squareup.picasso.Picasso;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -57,7 +55,6 @@ public class MainActivity extends AppCompatActivity
     private ListViewAdapter mAdapterList;
     private SearchView mEditsearch;
     public static List<SearchResult> mListResults = new ArrayList<>();
-    SearchResult resultPrueba = new SearchResult();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +80,7 @@ public class MainActivity extends AppCompatActivity
         //se usa este intent para obtener el valor del email para identificar el user
         Intent intent = getIntent();
         mUserEmail = intent.getStringExtra("emailUser");
+        mNewsArray.clear();
 
         //se llama el metodo que trae toda las noticias desde la base de datos
         getNewsFromDB();
@@ -131,9 +129,9 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
                                 mListResults.clear();
-                                if (!(result.get("news").isJsonNull())){
+                                if (!(result.get("news").isJsonNull())) {
                                     JsonArray arrayResult = result.get("news").getAsJsonArray();
-                                    for(int i = 0; i < arrayResult.size(); i++){
+                                    for (int i = 0; i < arrayResult.size(); i++) {
                                         SearchResult newResultSearch = new SearchResult();
                                         newResultSearch.setNameResult(arrayResult.get(i).getAsJsonObject().get("title").getAsString());
                                         newResultSearch.setNameClass(arrayResult.get(i).getAsJsonObject().get("type").getAsString());
@@ -141,18 +139,19 @@ public class MainActivity extends AppCompatActivity
                                         mListResults.add(newResultSearch);
                                     }
                                 }
-                                if (!(result.get("user").isJsonNull())){
+                                if (!(result.get("user").isJsonNull())) {
                                     JsonArray arrayResult = result.get("user").getAsJsonArray();
-                                    for(int i = 0; i < arrayResult.size(); i++){
+                                    for (int i = 0; i < arrayResult.size(); i++) {
                                         SearchResult newResultSearch = new SearchResult();
                                         newResultSearch.setNameResult(arrayResult.get(i).getAsJsonObject().get("name").getAsString());
                                         newResultSearch.setNameClass(arrayResult.get(i).getAsJsonObject().get("type").getAsString());
+                                        newResultSearch.setIdentifier(arrayResult.get(i).getAsJsonObject().get("email").getAsString());
                                         mListResults.add(newResultSearch);
                                     }
                                 }
-                                if (!(result.get("sport").isJsonNull())){
+                                if (!(result.get("sport").isJsonNull())) {
                                     JsonArray arrayResult = result.get("sport").getAsJsonArray();
-                                    for(int i = 0; i < arrayResult.size(); i++){
+                                    for (int i = 0; i < arrayResult.size(); i++) {
                                         SearchResult newResultSearch = new SearchResult();
                                         newResultSearch.setNameResult(arrayResult.get(i).getAsJsonObject().get("name").getAsString());
                                         newResultSearch.setNameClass(arrayResult.get(i).getAsJsonObject().get("type").getAsString());
@@ -162,7 +161,7 @@ public class MainActivity extends AppCompatActivity
 
 
                                 // Pasa el resultado a la clase ListViewAdapter para que se muestre los resultados
-                                mAdapterList = new ListViewAdapter(getApplicationContext(),mListResults);
+                                mAdapterList = new ListViewAdapter(getApplicationContext(), mListResults);
 
                                 // Se hace el bind del adapter a la clase viewer
                                 mListViewResults.setAdapter(mAdapterList);
@@ -193,32 +192,65 @@ public class MainActivity extends AppCompatActivity
                         Toast.makeText(MainActivity.this, MainActivity.mListResults.get(position).getNameResult(), Toast.LENGTH_SHORT).show();
 
                         //Para el caso en que la seleccion del  buscador sea una noticia
-                        if(MainActivity.mListResults.get(position).getNameClass().matches("news")){
+                        if (MainActivity.mListResults.get(position).getNameClass().matches("news")) {
                             final FutureCallback<JsonObject> arregloNews = new FutureCallback<JsonObject>() {
                                 @Override
                                 public void onCompleted(Exception e, JsonObject result) {
 
-                                        // se define la noticia que escogio  el user
-                                        News newNews = new News();
-                                        newNews.setSportName(result.getAsJsonObject().get("sport").getAsString());
-                                        newNews.setTitle(result.getAsJsonObject().get("title").getAsString());
-                                        newNews.setContent(result.getAsJsonObject().get("content").getAsString());
-                                        newNews.setImportant(result.getAsJsonObject().get("important").getAsString());
-                                        newNews.setImage(result.getAsJsonObject().get("image").getAsString());
-                                        newNews.setType(result.getAsJsonObject().get("type").getAsString());
+                                    // se define la noticia que escogio  el user
+                                    News newNews = new News();
+                                    newNews.setSportName(result.getAsJsonObject().get("sport").getAsString());
+                                    newNews.setTitle(result.getAsJsonObject().get("title").getAsString());
+                                    newNews.setContent(result.getAsJsonObject().get("content").getAsString());
+                                    newNews.setImportant(result.getAsJsonObject().get("important").getAsString());
+                                    newNews.setImage(result.getAsJsonObject().get("image").getAsString());
+                                    newNews.setType(result.getAsJsonObject().get("type").getAsString());
 
-                                        //se inicializa el Gson para la infromacion de la noticia
-                                        Gson gsonNewsSelected = new Gson();
+                                    //se inicializa el Gson para la infromacion de la noticia
+                                    Gson gsonNewsSelected = new Gson();
 
-                                        //se hace el intent a la vista de noticias.
-                                        Intent intentSportsNews = new Intent(MainActivity.this, NewsActivity.class);
-                                        intentSportsNews.putExtra("News", gsonNewsSelected.toJson(newNews));
-                                        startActivity(intentSportsNews);
-                                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                    //se hace el intent a la vista de noticias.
+                                    Intent intentSportsNews = new Intent(MainActivity.this, NewsActivity.class);
+                                    intentSportsNews.putExtra("News", gsonNewsSelected.toJson(newNews));
+                                    startActivity(intentSportsNews);
+                                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                 }
                             };
                             ApiServiceNews api = new ApiServiceNews();
-                            api.downloadNewById(MainActivity.this,arregloNews,mListResults.get(position).getIdentifier());
+                            api.downloadNewById(MainActivity.this, arregloNews, mListResults.get(position).getIdentifier());
+                        }
+
+                        //Para este caso seria que el usuario clickeo sobre algunos de los perfiles
+                        // de los usuarios
+                        if (MainActivity.mListResults.get(position).getNameClass().matches("user")) {
+                            final FutureCallback<JsonObject> arregloUser = new FutureCallback<JsonObject>() {
+                                @Override
+                                public void onCompleted(Exception e, JsonObject result) {
+
+                                    // se define el usuario que escogio  el user
+                                    User userSelected = new User();
+                                    userSelected.setName(result.getAsJsonObject().get("name").getAsString());
+                                    userSelected.setmEmail(result.getAsJsonObject().get("email").getAsString());
+                                    userSelected.setmPassword(result.getAsJsonObject().get("password").getAsString());
+                                    userSelected.setmProfilePicture(result.getAsJsonObject().get("profilePicture").getAsString());
+                                    userSelected.setmType(result.getAsJsonObject().get("type").getAsString());
+                                    userSelected.setFavSports(result.getAsJsonObject().get("favSport").getAsJsonArray());
+
+                                    //se inicializa el Gson para la infromacion de la noticia
+                                    Gson gsonNewsSelected = new Gson();
+
+                                    //se hace el intent a la vista de los user.
+                                    //En este caso aparte del objeto user, adjunto el email que quiere buscar al
+                                    //usuario corresponiente, esto para darle permisos de cambios o no
+                                    Intent intentUserProfile = new Intent(MainActivity.this, ProfileUserActivity.class);
+                                    intentUserProfile.putExtra("User", gsonNewsSelected.toJson(userSelected));
+                                    intentUserProfile.putExtra("currentUser", mUserEmail);
+                                    startActivity(intentUserProfile);
+                                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                }
+                            };
+                            ApiService apiUser = new ApiService();
+                            apiUser.downloadUser(MainActivity.this, mListResults.get(position).getIdentifier(), arregloUser);
                         }
                     }
                 });
@@ -234,42 +266,6 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.activity_main_cerrar_sesion) {
-            final FutureCallback<JsonObject> arreglo = new FutureCallback<JsonObject>() {
-                @Override
-                public void onCompleted(Exception e, JsonObject result) {
-                    cerrarSesion(result.get("name").getAsString(),
-                            mUserEmail, result.get("password").getAsString(),
-                            result.get("profilePicture").getAsString(), result.get("favSport"),result.get("type").getAsString());
-
-                }
-            };
-            ApiService api = new ApiService();
-            api.downloadUser(this, mUserEmail, arreglo);
-
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     @Override
@@ -314,11 +310,75 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onCompleted(Exception e, JsonArray result) {
                 LoginManager.getInstance().logOut();
-                finish();
+                Intent intentCloseSesion = new Intent(MainActivity.this, LogInActivity.class);
+                startActivity(intentCloseSesion);
             }
         };
         ApiService api = new ApiService();
         api.updateUser(MainActivity.this, arreglo, json, mUserEmail);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        //Aqui se manejan las opciones que corresponden a la barra lateral
+        int id = item.getItemId();
+
+        if (id == R.id.activity_profile) {
+            final FutureCallback<JsonObject> arregloUser = new FutureCallback<JsonObject>() {
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+
+                    // se define el usuario que escogio  el user
+                    User userSelected = new User();
+                    userSelected.setName(result.getAsJsonObject().get("name").getAsString());
+                    userSelected.setmEmail(result.getAsJsonObject().get("email").getAsString());
+                    userSelected.setmPassword(result.getAsJsonObject().get("password").getAsString());
+                    userSelected.setmProfilePicture(result.getAsJsonObject().get("profilePicture").getAsString());
+                    userSelected.setmType(result.getAsJsonObject().get("type").getAsString());
+                    userSelected.setFavSports(result.getAsJsonObject().get("favSport").getAsJsonArray());
+
+                    //se inicializa el Gson para la infromacion de la noticia
+                    Gson gsonNewsSelected = new Gson();
+
+                    //se hace el intent a la vista de los user.
+                    //En este caso aparte del objeto user, adjunto el email que quiere buscar al
+                    //usuario corresponiente, esto para darle permisos de cambios o no
+                    Intent intentUserProfile = new Intent(MainActivity.this, ProfileUserActivity.class);
+                    intentUserProfile.putExtra("User", gsonNewsSelected.toJson(userSelected));
+                    intentUserProfile.putExtra("currentUser", mUserEmail);
+                    startActivity(intentUserProfile);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                }
+            };
+            ApiService apiUser = new ApiService();
+            apiUser.downloadUser(MainActivity.this, mUserEmail, arregloUser);
+
+        } else if (id == R.id.activity_main_cerrar_sesion) {
+            final FutureCallback<JsonObject> arreglo = new FutureCallback<JsonObject>() {
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    cerrarSesion(result.get("name").getAsString(),
+                            mUserEmail, result.get("password").getAsString(),
+                            result.get("profilePicture").getAsString(), result.get("favSport"), result.get("type").getAsString());
+
+                }
+            };
+            ApiService api = new ApiService();
+            api.downloadUser(this, mUserEmail, arreglo);
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     // metodo que se encarga de traer todas las noticias desde la base de datos

@@ -1,12 +1,22 @@
 package com.sportec.Dependences;
 
-import java.net.URL;
+import com.google.gson.JsonElement;
 
 public class User {
     private String name;
     private String mEmail;
     private String mPassword;
-    private URL mProfilePicture;
+    private String mProfilePicture;
+    private JsonElement mFavSports;
+
+
+    public JsonElement getFavSports() {
+        return mFavSports;
+    }
+
+    public void setFavSports(JsonElement favSports) {
+        this.mFavSports = favSports;
+    }
 
     public String getmType() {
         return mType;
@@ -42,11 +52,11 @@ public class User {
         this.mPassword = mPassword;
     }
 
-    public URL getmProfilePicture() {
+    public String getmProfilePicture() {
         return mProfilePicture;
     }
 
-    public void setmProfilePicture(URL mProfilePicture) {
+    public void setmProfilePicture(String mProfilePicture) {
         this.mProfilePicture = mProfilePicture;
     }
 

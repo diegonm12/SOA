@@ -45,7 +45,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.CheckSportsActivity" />
-        <activity android:name=".Activities.NewsActivity"></activity>
+        <activity android:name=".Activities.NewsActivity" />
+        <activity android:name=".Activities.ProfileUserActivity"></activity>
     </application>
 
 </manifest>

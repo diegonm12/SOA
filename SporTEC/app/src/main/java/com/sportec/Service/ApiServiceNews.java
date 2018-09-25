@@ -23,9 +23,9 @@ public class ApiServiceNews {
                 setCallback(arreglo);
     }
 
-    public void downloadNewById(Context context, FutureCallback<JsonObject> arreglo,String id) {
+    public void downloadNewById(Context context, FutureCallback<JsonObject> arreglo, String id) {
         Ion.with(context).
-                load(buildEndPoint("/api/news/id/"+ id)).
+                load(buildEndPoint("/api/news/id/" + id)).
                 asJsonObject().
                 setCallback(arreglo);
         System.out.println("termino");

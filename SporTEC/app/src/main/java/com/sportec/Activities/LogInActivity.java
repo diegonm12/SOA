@@ -179,7 +179,7 @@ public class LogInActivity extends AppCompatActivity {
                             Toast.makeText(LogInActivity.this, "Bienvenido a SporTEC", Toast.LENGTH_LONG).show();
                             registrarSesion(result.get("name").getAsString(),
                                     emailUser, passwordUser,
-                                    result.get("profilePicture").getAsString(), result.get("favSport"),result.get("type").getAsString());
+                                    result.get("profilePicture").getAsString(), result.get("favSport"));
 
                             // aqui hace el inicio de sesion por que coinciden correo y contraseña
                             Intent intentMainMenu = new Intent(LogInActivity.this, MainActivity.class);
@@ -205,7 +205,7 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
-    private void registrarSesion(String name, String emailUser, String password, String profPic, JsonElement favSport, String type) {
+    private void registrarSesion(String name, String emailUser, String password, String profPic, JsonElement favSport) {
         JsonObject json = new JsonObject();
         json.addProperty("name", name);
         json.addProperty("email", emailUser);
