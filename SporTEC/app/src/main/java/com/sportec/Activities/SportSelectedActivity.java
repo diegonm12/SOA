@@ -33,4 +33,8 @@ public class SportSelectedActivity extends AppCompatActivity {
         startActivity(intentTeams);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
+
+    public void goBack(View view) {
+        finish();
+    }
 }

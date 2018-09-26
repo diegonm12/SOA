@@ -49,7 +49,8 @@
         <activity android:name=".Activities.ProfileUserActivity" />
         <activity android:name=".Activities.SportSelectedActivity" />
         <activity android:name=".Activities.ChallengesActivity" />
-        <activity android:name=".Activities.TeamActivity"></activity>
+        <activity android:name=".Activities.TeamActivity" />
+        <activity android:name=".Activities.ShowTeamActivity"></activity>
     </application>
 
 </manifest>
