@@ -3,6 +3,7 @@ package com.sportec.Service;
 import android.content.Context;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -18,6 +19,13 @@ public class ApiServiceSports {
         Ion.with(context).
                 load(buildEndPoint("/api/sports")).
                 asJsonArray().
+                setCallback(arreglo);
+    }
+
+    public void downloadSportById(Context context, FutureCallback<JsonObject> arreglo, String id) {
+        Ion.with(context).
+                load(buildEndPoint("/api/sports/id/" + id)).
+                asJsonObject().
                 setCallback(arreglo);
     }
 }

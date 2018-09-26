@@ -1,5 +1,6 @@
 package com.sportec.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,12 +33,14 @@ import com.sportec.Dependences.ListViewAdapter;
 import com.sportec.Dependences.MyRecyclerViewAdapter;
 import com.sportec.Dependences.News;
 import com.sportec.Dependences.SearchResult;
+import com.sportec.Dependences.Sport;
 import com.sportec.Dependences.Team;
 import com.sportec.Dependences.User;
 import com.sportec.R;
 import com.sportec.Service.ApiService;
 import com.sportec.Service.ApiServiceContent;
 import com.sportec.Service.ApiServiceNews;
+import com.sportec.Service.ApiServiceSports;
 import com.sportec.Service.ApiServiceTeams;
 import com.squareup.picasso.Picasso;
 
@@ -49,12 +52,15 @@ public class MainActivity extends AppCompatActivity
 
     public static String mUserEmail;
     public static List<News> mNewsArray = new ArrayList<>();
+    @SuppressLint("StaticFieldLeak")
     public static RecyclerView mRecyclerView;
     public static RecyclerView.Adapter mAdapter;
     public static RecyclerView.LayoutManager mLayoutManager;
-
+    @SuppressLint("StaticFieldLeak")
     public static ListView mListViewResults;
+    @SuppressLint("StaticFieldLeak")
     public static ListViewAdapter mAdapterList;
+    @SuppressLint("StaticFieldLeak")
     public static SearchView mEditsearch;
     public static List<SearchResult> mListResults = new ArrayList<>();
 
@@ -163,6 +169,7 @@ public class MainActivity extends AppCompatActivity
                                         SearchResult newResultSearch = new SearchResult();
                                         newResultSearch.setNameResult(arrayResult.get(i).getAsJsonObject().get("name").getAsString());
                                         newResultSearch.setNameClass(arrayResult.get(i).getAsJsonObject().get("type").getAsString());
+                                        newResultSearch.setIdentifier(arrayResult.get(i).getAsJsonObject().get("_id").getAsString());
                                         mListResults.add(newResultSearch);
                                     }
                                 }
@@ -290,12 +297,10 @@ public class MainActivity extends AppCompatActivity
                                     teamSelected.setId(result.getAsJsonObject().get("_id").getAsString());
 
 
-                                    //se inicializa el Gson para la infromacion de la noticia
+                                    //se inicializa el Gson para la infromacion de los equipos
                                     Gson gsonTeamSelected = new Gson();
 
-                                    //se hace el intent a la vista de los user.
-                                    //En este caso aparte del objeto user, adjunto el email que quiere buscar al
-                                    //usuario corresponiente, esto para darle permisos de cambios o no
+                                    //se hace el intent a la vista de los equipos.
                                     Intent intentTeamToShow = new Intent(MainActivity.this, ShowTeamActivity.class);
                                     intentTeamToShow.putExtra("Team", gsonTeamSelected.toJson(teamSelected));
                                     startActivity(intentTeamToShow);
@@ -304,6 +309,26 @@ public class MainActivity extends AppCompatActivity
                             };
                             ApiServiceTeams apiTeam = new ApiServiceTeams();
                             apiTeam.downloadTeamById(MainActivity.this, arregloTeam, mListResults.get(position).getIdentifier());
+                        }
+
+                        if (MainActivity.mListResults.get(position).getNameClass().matches("sport")) {
+                            final FutureCallback<JsonObject> arregloSport = new FutureCallback<JsonObject>() {
+                                @Override
+                                public void onCompleted(Exception e, JsonObject result) {
+
+                                    // se define el deporte que escogio  el user
+                                    Sport sportSelected = new Sport();
+                                    sportSelected.setName(result.getAsJsonObject().get("name").getAsString());
+
+                                    //se hace el intent a la vista de los deportes
+                                    Intent intentTeamToShow = new Intent(MainActivity.this, SportSelectedActivity.class);
+                                    intentTeamToShow.putExtra("sportSelected",sportSelected.getName() );
+                                    startActivity(intentTeamToShow);
+                                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                }
+                            };
+                            ApiServiceSports apiTeam = new ApiServiceSports();
+                            apiTeam.downloadSportById(MainActivity.this, arregloSport, mListResults.get(position).getIdentifier());
                         }
                     }
                 });
