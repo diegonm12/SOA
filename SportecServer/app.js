@@ -280,6 +280,16 @@ app.get('/api/teams/id/:_id', function (req, res) {
     });
 });
 
+//el get de equipos segun sea su deporte
+app.get('/api/teams/:sport', function (req, res) {
+    Team.getTeamsBySport(req.params.sport, function (err, teams) {
+        if (err) {
+            throw err;
+        }
+        res.json(teams);
+    });
+});
+
 //el add de un equipo
 app.post('/api/teams', function (req, res) {
     var team = req.body;
@@ -296,6 +306,18 @@ app.put('/api/teams/:name', function (req, res) {
     var name = req.params.name;
     var team = req.body;
     Team.updateTeam(name, team, {}, function (err, team) {
+        if (err) {
+            throw err;
+        }
+        res.json(team);
+    });
+});
+
+//la actualizacion de un equipo segun su id
+app.put('/api/teams/id/:_id', function (req, res) {
+    var id = req.params._id;
+    var team = req.body;
+    Team.updateTeamByID(id, team, {}, function (err, team) {
         if (err) {
             throw err;
         }

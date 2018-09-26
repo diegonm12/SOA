@@ -36,7 +36,7 @@ module.exports.getTeams = function (callback) {
     Team.find(callback);
 };
 
-// Get de los equipos que tienen nombres similares a las palabras buscadas en el buscador de contenido
+// Get de los equipos que tienen nombres similares a las palabras buscadas en el buscador de contenido segun su nombre
 module.exports.getTeamsSearch = function (name,req,callback) {
     const regex = new RegExp(escapeRegex(req.query.search),'gi');
 	Team.find({name:regex},callback);
@@ -45,6 +45,11 @@ module.exports.getTeamsSearch = function (name,req,callback) {
 // Get de un solo team segun sea su id de Mongo
 module.exports.getTeamsById = function (id, callback) {
     Team.findOne({_id: id}, callback);
+};
+
+// Get de teams segun el  deporte
+module.exports.getTeamsBySport = function (sport, callback) {
+    Team.find({sport: sport}, callback);
 };
 
 // agregar un equipo
@@ -65,6 +70,21 @@ module.exports.updateTeam = function (name, team, options, callback) {
     };
     Team.findOneAndUpdate(query, update, options, callback);
 };
+
+// actualizar el  equipo segun sea el nombre del mismo
+module.exports.updateTeamByID = function (id, team, options, callback) {
+    const query = {_id: id};
+    const update = {
+        name: team.name,
+		image: team.image,
+        type: team.type,
+        member: team.member,
+        request: team.request,
+		sport: team.sport
+    };
+    Team.findOneAndUpdate(query, update, options, callback);
+};
+
 
 // eliminar un equipo
 module.exports.removeTeam = function (name, callback) {
