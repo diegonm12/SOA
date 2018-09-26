@@ -411,11 +411,14 @@ app.get("/api/content", function(req, res) {
 		New.find({title:regex}, function(error, news){
         	User.find({name:regex}, function(error, user){
 				Sport.find({name:regex},function(error,sport){
-				    res.json({
-				        news: news,
-				        user: user,
-						sport:sport
-				    });
+					Team.find({name:regex},function(error,team){
+						res.json({
+						    news: news,
+						    user: user,
+							sport: sport,
+							team: team
+						});
+					});
 				});
          	});
      	});
@@ -424,7 +427,8 @@ app.get("/api/content", function(req, res) {
 		res.json({
 				  news: [],
 				  user: [],
-				  sport: []
+				  sport: [],
+				  team: []
 				  });
 	}
 
