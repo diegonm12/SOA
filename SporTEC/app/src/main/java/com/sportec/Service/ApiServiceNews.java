@@ -28,6 +28,5 @@ public class ApiServiceNews {
                 load(buildEndPoint("/api/news/id/" + id)).
                 asJsonObject().
                 setCallback(arreglo);
-        System.out.println("termino");
     }
 }

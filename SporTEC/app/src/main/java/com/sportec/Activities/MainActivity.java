@@ -32,11 +32,13 @@ import com.sportec.Dependences.ListViewAdapter;
 import com.sportec.Dependences.MyRecyclerViewAdapter;
 import com.sportec.Dependences.News;
 import com.sportec.Dependences.SearchResult;
+import com.sportec.Dependences.Team;
 import com.sportec.Dependences.User;
 import com.sportec.R;
 import com.sportec.Service.ApiService;
 import com.sportec.Service.ApiServiceContent;
 import com.sportec.Service.ApiServiceNews;
+import com.sportec.Service.ApiServiceTeams;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -129,6 +131,8 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
                                 mListResults.clear();
+
+                                // este corresponde alcaso en que la busqueda de contenido coincide con las noticias o sea de tipo noticias
                                 if (!(result.get("news").isJsonNull())) {
                                     JsonArray arrayResult = result.get("news").getAsJsonArray();
                                     for (int i = 0; i < arrayResult.size(); i++) {
@@ -139,6 +143,8 @@ public class MainActivity extends AppCompatActivity
                                         mListResults.add(newResultSearch);
                                     }
                                 }
+
+                                // este corresponde alcaso en que la busqueda de contenido coincide con los usuarios o sea de tipo los usuarios
                                 if (!(result.get("user").isJsonNull())) {
                                     JsonArray arrayResult = result.get("user").getAsJsonArray();
                                     for (int i = 0; i < arrayResult.size(); i++) {
@@ -149,12 +155,26 @@ public class MainActivity extends AppCompatActivity
                                         mListResults.add(newResultSearch);
                                     }
                                 }
+
+                                // este corresponde alcaso en que la busqueda de contenido coincide con los deportes o sea de tipo los deporte
                                 if (!(result.get("sport").isJsonNull())) {
                                     JsonArray arrayResult = result.get("sport").getAsJsonArray();
                                     for (int i = 0; i < arrayResult.size(); i++) {
                                         SearchResult newResultSearch = new SearchResult();
                                         newResultSearch.setNameResult(arrayResult.get(i).getAsJsonObject().get("name").getAsString());
                                         newResultSearch.setNameClass(arrayResult.get(i).getAsJsonObject().get("type").getAsString());
+                                        mListResults.add(newResultSearch);
+                                    }
+                                }
+
+                                // este corresponde alcaso en que la busqueda de contenido coincide con los equipos o sea de tipo equipos
+                                if (!(result.get("team").isJsonNull())) {
+                                    JsonArray arrayResult = result.get("team").getAsJsonArray();
+                                    for (int i = 0; i < arrayResult.size(); i++) {
+                                        SearchResult newResultSearch = new SearchResult();
+                                        newResultSearch.setNameResult(arrayResult.get(i).getAsJsonObject().get("name").getAsString());
+                                        newResultSearch.setNameClass(arrayResult.get(i).getAsJsonObject().get("type").getAsString());
+                                        newResultSearch.setIdentifier(arrayResult.get(i).getAsJsonObject().get("_id").getAsString());
                                         mListResults.add(newResultSearch);
                                     }
                                 }
@@ -251,6 +271,39 @@ public class MainActivity extends AppCompatActivity
                             };
                             ApiService apiUser = new ApiService();
                             apiUser.downloadUser(MainActivity.this, mListResults.get(position).getIdentifier(), arregloUser);
+                        }
+
+                        //Para este caso seria que el usuario clickeo sobre algunos de los perfiles
+                        // de los nombres de los equipos
+                        if (MainActivity.mListResults.get(position).getNameClass().matches("team")) {
+                            final FutureCallback<JsonObject> arregloTeam = new FutureCallback<JsonObject>() {
+                                @Override
+                                public void onCompleted(Exception e, JsonObject result) {
+
+                                    // se define el equipo que escogio  el user
+                                    Team teamSelected = new Team();
+                                    teamSelected.setmName(result.getAsJsonObject().get("name").getAsString());
+                                    teamSelected.setmImage(result.getAsJsonObject().get("image").getAsString());
+                                    teamSelected.setMemeber(result.getAsJsonObject().get("member").getAsJsonArray());
+                                    teamSelected.setmType(result.getAsJsonObject().get("type").getAsString());
+                                    teamSelected.setmSport(result.getAsJsonObject().get("sport").getAsString());
+                                    teamSelected.setId(result.getAsJsonObject().get("_id").getAsString());
+
+
+                                    //se inicializa el Gson para la infromacion de la noticia
+                                    Gson gsonTeamSelected = new Gson();
+
+                                    //se hace el intent a la vista de los user.
+                                    //En este caso aparte del objeto user, adjunto el email que quiere buscar al
+                                    //usuario corresponiente, esto para darle permisos de cambios o no
+                                    Intent intentTeamToShow = new Intent(MainActivity.this, ShowTeamActivity.class);
+                                    intentTeamToShow.putExtra("Team", gsonTeamSelected.toJson(teamSelected));
+                                    startActivity(intentTeamToShow);
+                                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                }
+                            };
+                            ApiServiceTeams apiTeam = new ApiServiceTeams();
+                            apiTeam.downloadTeamById(MainActivity.this, arregloTeam, mListResults.get(position).getIdentifier());
                         }
                     }
                 });

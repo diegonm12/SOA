@@ -31,4 +31,11 @@ public class ApiServiceTeams {
                 asJsonArray().
                 setCallback(arreglo);
     }
+
+    public void downloadTeamById(Context context, FutureCallback<JsonObject> arreglo, String id) {
+        Ion.with(context).
+                load(buildEndPoint("/api/teams/id/" + id)).
+                asJsonObject().
+                setCallback(arreglo);
+    }
 }

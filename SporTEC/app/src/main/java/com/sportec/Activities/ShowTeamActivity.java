@@ -74,7 +74,6 @@ public class ShowTeamActivity extends AppCompatActivity {
     private void fillListNames(JsonElement member) {
         for(int i = 0; i < member.getAsJsonArray().size(); i++){
             mListNameTeam.add(member.getAsJsonArray().get(i).getAsString());
-            System.out.println(member.getAsJsonArray().get(i).getAsString());
         }
     }
 
