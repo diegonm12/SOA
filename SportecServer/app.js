@@ -130,6 +130,17 @@ app.get('/api/sports/:name', function (req, res) {
     });
 });
 
+//el get de un solo deporte segun sea su id
+app.get('/api/sports/id/:_id', function (req, res) {
+    Sport.getSportById(req.params._id,function (err, sport) {
+        if (err) {
+            throw err;
+        }
+        res.json(sport);
+    });
+});
+
+
 //el add de un usuario
 app.post('/api/sports', function (req, res) {
     var sport = req.body;

@@ -29,6 +29,11 @@ module.exports.getSportsSearch = function (name,req,callback) {
 	Sport.find({name:regex},callback);
 };
 
+// Get de un solo deporte segun sea su id
+module.exports.getSportById = function (id, callback) {
+    Sport.findOne({_id: id}, callback);
+};
+
 //Get de un solo sport segun sea su nombre
 module.exports.getSportByName = function (name, callback) {
     Sport.findOne({name: name}, callback);
