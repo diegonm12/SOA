@@ -50,19 +50,19 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static String mUserEmail;
-    public static List<News> mNewsArray = new ArrayList<>();
+    public static String mUserEmail; //corresponde al email del usuario actual en el activity
+    public static List<News> mNewsArray = new ArrayList<>(); //tenemos las listas de noticias que se van a presentar
     @SuppressLint("StaticFieldLeak")
-    public static RecyclerView mRecyclerView;
-    public static RecyclerView.Adapter mAdapter;
-    public static RecyclerView.LayoutManager mLayoutManager;
+    public static RecyclerView mRecyclerView; //se define un recycler para mostrar las noticias
+    public static RecyclerView.Adapter mAdapter; //se define un adapter para la listview de noticias
+    public static RecyclerView.LayoutManager mLayoutManager; //corresponde al layout del recycler
     @SuppressLint("StaticFieldLeak")
-    public static ListView mListViewResults;
+    public static ListView mListViewResults; //listview de los resultados de la noticia
     @SuppressLint("StaticFieldLeak")
-    public static ListViewAdapter mAdapterList;
+    public static ListViewAdapter mAdapterList; //correspondiente adaptador para ver la  noticia
     @SuppressLint("StaticFieldLeak")
-    public static SearchView mEditsearch;
-    public static List<SearchResult> mListResults = new ArrayList<>();
+    public static SearchView mEditsearch; // se crea un searchview para el  buscador de contenido
+    public static List<SearchResult> mListResults = new ArrayList<>(); //un listado de dicho buscador de contenido
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    // corresponde a la opcion para poder abrir el menu lateral
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -105,12 +106,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    // metodo que se encarga de crear las opciones de la barra de la aplicacion
+    //en donde esta definido el buscador de contenido ademas del menu lateral
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         setHeader();
 
+        //se define un search edit para lograr buscar el contenido
         mEditsearch = (SearchView) menu.findItem(R.id.search).getActionView();
 
         mEditsearch.setOnSearchClickListener(new View.OnClickListener() {
@@ -119,7 +122,8 @@ public class MainActivity extends AppCompatActivity
                 RelativeLayout finderLayout = findViewById(R.id.finderLayout);
                 finderLayout.setVisibility(View.VISIBLE);
 
-                // Locate the ListView in listview_main.xml
+                // se crea la listview para ver los resultados del search segun sea lo que
+                // el user escriba
                 mListViewResults = findViewById(R.id.listview);
 
                 mEditsearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -322,7 +326,7 @@ public class MainActivity extends AppCompatActivity
 
                                     //se hace el intent a la vista de los deportes
                                     Intent intentTeamToShow = new Intent(MainActivity.this, SportSelectedActivity.class);
-                                    intentTeamToShow.putExtra("sportSelected",sportSelected.getName() );
+                                    intentTeamToShow.putExtra("sportSelected", sportSelected.getName());
                                     startActivity(intentTeamToShow);
                                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                 }
@@ -453,10 +457,6 @@ public class MainActivity extends AppCompatActivity
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
         } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
 

@@ -1,8 +1,8 @@
 package com.sportec.Dependences;
 
 public class SearchResult {
-    private String nameResult;
-    private String nameClass;
+    private String nameResult;  //nombre del resultado
+    private String nameClass;   //tipo de resultado, debe ser tipada la buscqueda
 
     public String getIdentifier() {
         return identifier;

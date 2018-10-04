@@ -4,12 +4,12 @@ import com.google.gson.JsonElement;
 
 public class Team {
 
-    private String mName;
-    private String mImage;
-    private String mType;
-    private String mSport;
-    private JsonElement member;
-    private String id;
+    private String mName;   //nombre del equipo
+    private String mImage;  //imagen del equipo
+    private String mType;   // me dice que es de tipo equipo
+    private String mSport;  // a que deporte pertenece
+    private JsonElement member; //los miembros del equupo
+    private String id;  // identificador de la base del equipo
 
     public String getId() {
         return id;

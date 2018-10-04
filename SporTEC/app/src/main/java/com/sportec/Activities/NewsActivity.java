@@ -35,6 +35,7 @@ public class NewsActivity extends AppCompatActivity {
 
     }
 
+    // metodo utilizado para volver a la pantalla anterior
     public void goBack(View view) {
         finish();
     }

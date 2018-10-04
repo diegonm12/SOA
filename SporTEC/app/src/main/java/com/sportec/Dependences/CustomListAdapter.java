@@ -1,6 +1,8 @@
 package com.sportec.Dependences;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +13,17 @@ import android.widget.TextView;
 import com.sportec.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CustomListAdapter extends ArrayAdapter<String> {
 
 
-    private final Activity context;
-    private List<String> itemname = new ArrayList<>();
-    private List<String> imgid = new ArrayList<>();
+    private final Activity context; //corresponde al context que se maneja en laactividad
+    private List<String> itemname;  // corresponde al nombre del  equipo
+    private List<String> imgid;     //corresponde a la imagen del equipo
 
+    // de hace el constructor del adaptador, recibiendo una lista de los nombres del equipo
+    // con las imagenes que representan cada equipo
     public CustomListAdapter(Activity context, List<String> itemname, List<String> imgid) {
         super(context, R.layout.mylist, itemname);
 
@@ -29,9 +32,12 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         this.imgid=imgid;
     }
 
-    public View getView(int position,View view,ViewGroup parent) {
+    //obtiene el view para poder  enseñar la lista de los equipos y que asi el
+    // user la pueda seleccionar
+    @NonNull
+    public View getView(int position, View view, @NonNull ViewGroup parent) {
         LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.mylist, null,true);
+        @SuppressLint({"ViewHolder", "InflateParams"}) View rowView=inflater.inflate(R.layout.mylist, null,true);
 
         TextView txtTitle = rowView.findViewById(R.id.my_list_text_list);
         ImageView imageView = rowView.findViewById(R.id.my_list_image_list);
@@ -45,5 +51,5 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         }
         return rowView;
 
-    };
+    }
 }

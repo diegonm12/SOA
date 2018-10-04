@@ -1,9 +1,9 @@
 package com.sportec.Dependences;
 
 public class Sport {
-    private String mName;
-    private String mImage;
-    private String mType;
+    private String mName;   //nombre del deporte
+    private String mImage;  //imagen que representa el deporte
+    private String mType;   // me dice que es de tipo deporte
 
     public String getName() {
         return mName;

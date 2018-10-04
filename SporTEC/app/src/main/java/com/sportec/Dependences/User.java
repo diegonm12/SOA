@@ -3,12 +3,11 @@ package com.sportec.Dependences;
 import com.google.gson.JsonElement;
 
 public class User {
-    private String name;
-    private String mEmail;
-    private String mPassword;
-    private String mProfilePicture;
-    private JsonElement mFavSports;
-
+    private String name; //nombre del usuario
+    private String mEmail; // email del usuario
+    private String mPassword; // password del usuario
+    private String mProfilePicture; // foto de perfil del usuario
+    private JsonElement mFavSports; //deportes favs del user
 
     public JsonElement getFavSports() {
         return mFavSports;

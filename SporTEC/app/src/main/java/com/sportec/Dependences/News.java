@@ -1,12 +1,12 @@
 package com.sportec.Dependences;
 
 public class News {
-    private String mSportName;
-    private String mTitle;
-    private String mContent;
-    private String mImportant;
-    private String mImage;
-    private String mType;
+    private String mSportName; //deporte de la noticia
+    private String mTitle;  //titulo de la noticia
+    private String mContent;    //contenido de la noticia
+    private String mImportant;  // si es del dia o no
+    private String mImage;  //imagen de la noticia
+    private String mType;   // me dice que es de tipo noticia
 
     public String getSportName() {
         return mSportName;

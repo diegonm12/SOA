@@ -1,5 +1,6 @@
 package com.sportec.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,10 +19,13 @@ import com.sportec.Service.ApiService;
 import com.squareup.picasso.Picasso;
 
 public class ProfileUserActivity extends AppCompatActivity {
-    public static TextView mNameUserTextView;
-    public static TextView mEmailUserTextView;
-    public static TextView mPasswordUserTextView;
-    public static User mCurrentUser;
+    @SuppressLint("StaticFieldLeak")
+    public static TextView mNameUserTextView;   //textview donde se observara el nombre del  user
+    @SuppressLint("StaticFieldLeak")
+    public static TextView mEmailUserTextView;  //textview donde se observara el email del  user
+    @SuppressLint("StaticFieldLeak")
+    public static TextView mPasswordUserTextView;   //textview donde se observara el password del  user
+    public static User mCurrentUser;    //se define el user que se va a utilizar en la activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +38,12 @@ public class ProfileUserActivity extends AppCompatActivity {
         mCurrentUser = gson.fromJson(strObj, User.class);
 
         //Obtenemos quien esta haciendo la peticion para el perfil, para dar permisos de
-        //cambio o no
+        //cambio o no, o sea que solo pueda ver la informacion o que la  pueda editar
         String strCurrentEmail = getIntent().getStringExtra("currentUser");
         System.out.println(strCurrentEmail);
 
 
-        //se define los elementos de la pantalla utilizar
+        //se define los elementos de la pantalla utilizar para mostrar informacion del user
         mNameUserTextView = findViewById(R.id.activity_profile_user_name);
         mEmailUserTextView = findViewById(R.id.activity_profile_user_email);
         mPasswordUserTextView = findViewById(R.id.activity_profile_user_password);
@@ -49,10 +53,12 @@ public class ProfileUserActivity extends AppCompatActivity {
         mNameUserTextView.setText(mCurrentUser.getName());
         mEmailUserTextView.setText(mCurrentUser.getmEmail());
         mPasswordUserTextView.setText(mCurrentUser.getmPassword());
+
+        //se emplea picasso para cargar las imagenes desde la web
         Picasso.get().load(mCurrentUser.getmProfilePicture()).fit().centerInside().into(imageNews);
 
         if (!(strCurrentEmail.matches(mCurrentUser.getmEmail()))) {
-            noPermissions();
+            noPermissions(); //no habria permiso de editar
         }
     }
 
@@ -82,6 +88,7 @@ public class ProfileUserActivity extends AppCompatActivity {
         final String newEmail = mEmailUserTextView.getText().toString();
         String newPassword = mPasswordUserTextView.getText().toString();
 
+        // aqui se definen los nuevo campos editados por el user
         JsonObject json = new JsonObject();
         json.addProperty("name", newName);
         json.addProperty("email", newEmail);
@@ -90,6 +97,8 @@ public class ProfileUserActivity extends AppCompatActivity {
         json.addProperty("sessionInit", "1");
         json.add("favSport", mCurrentUser.getFavSports());
         json.addProperty("type", mCurrentUser.getmType());
+
+        //se hace un callback con el api del user, para hacer el update
         final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
             @Override
             public void onCompleted(Exception e, JsonArray result) {
@@ -106,6 +115,7 @@ public class ProfileUserActivity extends AppCompatActivity {
 
     }
 
+    //metodo que envia al user atras
     public void goBack(View view) {
         finish();
     }

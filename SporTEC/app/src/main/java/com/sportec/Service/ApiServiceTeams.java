@@ -8,9 +8,10 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 public class ApiServiceTeams {
-    private static final String HTTP_PROTOCOL = "http:";
-    private static final String HTTP_SERVER = "192.168.1.146:3000"; // este tiene que ir cambiando
+    private static final String HTTP_PROTOCOL = "http:";    //protocolo http
+    private static final String HTTP_SERVER = "192.168.43.141:3000"; // este tiene que ir cambiando
 
+    //construye el endpoint para hacer los  request al servidor
     private static String buildEndPoint(String path) {
         return HTTP_PROTOCOL + "//" + HTTP_SERVER + path;
     }
@@ -32,6 +33,7 @@ public class ApiServiceTeams {
                 setCallback(arreglo);
     }
 
+    // descarga el equipo segun sea el identificador de la base de datos
     public void downloadTeamById(Context context, FutureCallback<JsonObject> arreglo, String id) {
         Ion.with(context).
                 load(buildEndPoint("/api/teams/id/" + id)).

@@ -33,11 +33,11 @@ import java.util.regex.Pattern;
 
 
 public class LogInActivity extends AppCompatActivity {
-    public static CallbackManager mCallbackManager;
-    public static String mFirstName, mLastName, mEmail;
-    public static URL mProfilePicture;
-    public static String mUserId;
-    public static String mTAG = "LoginActivity";
+    public static CallbackManager mCallbackManager;     // callback manager definido para el logeo con el facebook
+    public static String mFirstName, mLastName, mEmail;     //se definen los atributos del user
+    public static URL mProfilePicture;  // corresponde a la URL que posee la imagen de la foto del user
+    public static String mUserId;   //el identificador de la base de datos del usuario
+    public static String mTAG = "LoginActivity";    //tag que define la actividad actual
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,9 @@ public class LogInActivity extends AppCompatActivity {
                         Log.e(mTAG, response.toString());
 
                         try {
+
+                            // en este try se obtiene la informacion desde facebook
+                            // para este caso se obtienen los nombres, el correo y la foto de perfil
                             mUserId = object.getString("id");
                             mProfilePicture = new URL("https://graph.facebook.com/" + mUserId + "/picture?width=150&height=150");
 
@@ -79,10 +82,12 @@ public class LogInActivity extends AppCompatActivity {
                             if (object.has("email"))
                                 mEmail = object.getString("email");
 
-                            //se definen todos los atributos de user
+                            // se definen todos los atributos de user
                             String name = mFirstName + " " + mLastName;
                             JsonArray favSports = new JsonArray();
-                            //aqui hay que meter al usuario en la base de datos
+
+                            // aqui hay que meter al usuario en la base de datos, despues de
+                            // obtener todos losdatos que se necesitan
                             JsonObject json = new JsonObject();
                             json.addProperty("name", name);
                             json.addProperty("email", mEmail);
@@ -91,22 +96,22 @@ public class LogInActivity extends AppCompatActivity {
                             json.addProperty("sessionInit", "1");
                             json.add("favSport", favSports);
                             json.addProperty("type", "user");
+
+                            //se hace uso de la api de user para poder agregar el user
+                            // cuando ya se tiene el resultado del callback se va a la pantalla de elegir
+                            // los  deportes favoritos
                             final FutureCallback<JsonArray> arreglo = new FutureCallback<JsonArray>() {
                                 @Override
                                 public void onCompleted(Exception e, JsonArray result) {
-
-
+                                    Intent intentSportsActivity = new Intent(LogInActivity.this, CheckSportsActivity.class);
+                                    intentSportsActivity.putExtra("emailUser", mEmail);
+                                    intentSportsActivity.putExtra("permission", "1");
+                                    startActivity(intentSportsActivity);
+                                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                 }
                             };
                             ApiService api = new ApiService();
                             api.addUser(LogInActivity.this, arreglo, json);
-
-                            Intent intentSportsActivity = new Intent(LogInActivity.this, CheckSportsActivity.class);
-                            intentSportsActivity.putExtra("emailUser", mEmail);
-                            intentSportsActivity.putExtra("permission", "1");
-                            startActivity(intentSportsActivity);
-                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -116,7 +121,7 @@ public class LogInActivity extends AppCompatActivity {
                     }
                 });
 
-                //Here we put the requested fields to be returned from the JSONObject
+                //Aqui se retornan los campos requeridos para que se haga el login con face
                 Bundle parameters = new Bundle();
                 parameters.putString("fields", "id, first_name, last_name, email");
                 request.setParameters(parameters);
@@ -144,8 +149,11 @@ public class LogInActivity extends AppCompatActivity {
 
     //Metodo que se encargaria del registro del nuevo cliente de la app
     public void signUp(View view) {
+
+        //nuevo intent para ir a la parte del registro
         Intent intentSignUp = new Intent(this, SignUpActivity.class);
         startActivity(intentSignUp);
+
         //linea que hace transicion
         this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -170,19 +178,20 @@ public class LogInActivity extends AppCompatActivity {
         final String emailUser = emailEntry_mainActivity.getText().toString();
         final String passwordUser = passwordEntry_mainActivity.getText().toString();
         if (isValid(emailUser) && (!emailUser.equals("")) && (!passwordUser.equals(""))) {
-
             final FutureCallback<JsonObject> arreglo = new FutureCallback<JsonObject>() {
                 @Override
                 public void onCompleted(Exception e, JsonObject result) {
                     if (result != null) {
-                        System.out.println("encontro algo");
                         if (passwordUser.matches(result.get("password").getAsString())) {
                             Toast.makeText(LogInActivity.this, "Bienvenido a SporTEC", Toast.LENGTH_LONG).show();
+
+                            // se llama registrar sesion para llevar registro de quien es el user que tiene
+                            // la sesion abierta
                             registrarSesion(result.get("name").getAsString(),
                                     emailUser, passwordUser,
                                     result.get("profilePicture").getAsString(), result.get("favSport"));
 
-                            // aqui hace el inicio de sesion por que coinciden correo y contraseña
+                            // aqui hace el inicio de sesion por que coinciden correo y contraseña y se envia el  correo del user actual
                             Intent intentMainMenu = new Intent(LogInActivity.this, MainActivity.class);
                             intentMainMenu.putExtra("emailUser", emailUser);
                             startActivity(intentMainMenu);
@@ -206,6 +215,9 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
+    // este metodo  es utilizado para cambiar el campo donde se mantiene los registros de
+    // sesion, para que no se cierre cuando el app deja de funcionar
+    // le cambia al user el campode sessionInit
     private void registrarSesion(String name, String emailUser, String password, String profPic, JsonElement favSport) {
         JsonObject json = new JsonObject();
         json.addProperty("name", name);
@@ -226,6 +238,8 @@ public class LogInActivity extends AppCompatActivity {
         api.updateUser(LogInActivity.this, arreglo, json, emailUser);
     }
 
+    // esta funcion es utilizada para detectar si un email es valido o no
+    // por medio de expresiones regulares (regex)
     public static boolean isValid(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
                 "[a-zA-Z0-9_+&*-]+)*@" +

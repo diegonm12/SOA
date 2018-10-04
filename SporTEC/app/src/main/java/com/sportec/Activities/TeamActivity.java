@@ -1,8 +1,8 @@
 package com.sportec.Activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -12,20 +12,18 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.koushikdutta.async.future.FutureCallback;
 import com.sportec.Dependences.CustomListAdapter;
-import com.sportec.Dependences.News;
 import com.sportec.Dependences.Team;
 import com.sportec.R;
-import com.sportec.Service.ApiServiceNews;
 import com.sportec.Service.ApiServiceTeams;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TeamActivity extends AppCompatActivity {
-    public static String mSportSelected;
-    public static List<Team> mListTeams = new ArrayList<>();
-    public static List<String> mListNameTeam = new ArrayList<>();
-    public static List<String> mListImageTeam = new ArrayList<>();
+    public static String mSportSelected; // corresponde al nombre del deporte seleccionado
+    public static List<Team> mListTeams = new ArrayList<>();    // Lista de los equipos que tiene dicho deporte
+    public static List<String> mListNameTeam = new ArrayList<>();   //  lista de los nombres que tiene los equipos del deporte
+    public static List<String> mListImageTeam = new ArrayList<>(); // lista de la imagenes que es caracteristico del equipo
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,12 +82,14 @@ public class TeamActivity extends AppCompatActivity {
                 });
             }
         };
-        if(mSportSelected.matches("Futbol Americano")){
+
+        //aqui debido a que esto se hace con un search habia problemas entre futbol
+        // y futbol americano, entonces se tuvo que agregar ese if
+        if (mSportSelected.matches("Futbol Americano")) {
             ApiServiceTeams api = new ApiServiceTeams();
             api.downloadTeamsBySport(this, arreglo, "Americano");
 
-        }
-        else{
+        } else {
             ApiServiceTeams api = new ApiServiceTeams();
             api.downloadTeamsBySport(this, arreglo, mSportSelected);
         }

@@ -25,6 +25,8 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
     }
 
+    // metodo encarga de hacer el registro del user
+    // mediante el llamado de la api del user para poder agregar el mismo a la base
     public void register(View view) {
         // estas cuatro lineas quitan el teclado de la pantalla.
         LinearLayout mainLayout;
@@ -47,10 +49,12 @@ public class SignUpActivity extends AppCompatActivity {
 
         if (isValid(emailUser) && (!emailUser.equals("")) && (!passwordUser.equals(""))
                 && (!nameUser.equals(""))) {
+
             // se debe hacer el query para el ingreso de los clientes en la base
             // se hace un mensaje de que ya se registro a la app.
             Toast.makeText(this, "Registro exitoso", Toast.LENGTH_LONG).show();
             JsonArray favSports = new JsonArray();
+
             //aqui hay que meter al usuario en la base de datos, se agarra una imagen de un
             //link por defecto pero el user luego la puede cambiar
             JsonObject json = new JsonObject();
@@ -77,7 +81,6 @@ public class SignUpActivity extends AppCompatActivity {
             api.addUser(SignUpActivity.this, arreglo, json);
 
 
-
         } else {
             Toast.makeText(this, "Ingresa correctamente toda la información", Toast.LENGTH_LONG).show();
         }
@@ -89,6 +92,8 @@ public class SignUpActivity extends AppCompatActivity {
         this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
+    // esta funcion es utilizada para detectar si un email es valido o no
+    // por medio de expresiones regulares (regex)
     public static boolean isValid(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
                 "[a-zA-Z0-9_+&*-]+)*@" +

@@ -9,13 +9,15 @@ import com.koushikdutta.ion.Ion;
 
 
 public class ApiService {
-    private static final String HTTP_PROTOCOL = "http:";
-    private static final String HTTP_SERVER = "192.168.1.146:3000"; // este tiene que ir cambiando
+    private static final String HTTP_PROTOCOL = "http:";  //protocolo http
+    private static final String HTTP_SERVER = "192.168.43.141:3000"; // este tiene que ir cambiando
 
+    //construye el endpoint para hacer los  request al servidor
     private static String buildEndPoint(String path) {
         return HTTP_PROTOCOL + "//" + HTTP_SERVER + path;
     }
 
+    // descarga todos los users de la base de datos, se llama en varios lugares
     public void downloadUsers(Context context, FutureCallback<JsonArray> arreglo) {
         Ion.with(context).
                 load(buildEndPoint("/api/users")).
@@ -26,7 +28,6 @@ public class ApiService {
     public void downloadUser(Context context, String email, FutureCallback<JsonObject> arreglo) {
 
         //traigo el email del user para buscarlo y asi obtener sus datos
-
         Ion.with(context).
                 load(buildEndPoint("/api/users/" + email)).
                 asJsonObject().
