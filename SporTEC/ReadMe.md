@@ -1,5 +1,4 @@
-# Foobar ![CI status](https://img.shields.io/badge/build-passing-brightgreen.svg)
-
+# SporTEC 
 Foobar is a Python library for dealing with word pluralization.
 
 ## Installation
