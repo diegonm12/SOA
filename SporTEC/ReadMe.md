@@ -29,11 +29,26 @@ Desde el servidor se pueden acceder 5 modelos de la base de datos en MongoDB, ca
 GET: http://192.168.1.146:3000/api/users
 ```
 
-* Obtiene el usuario segun sea el correo:
+* Obtiene el usuario según sea el correo:
 ```
 GET: http://192.168.1.146:3000/api/users/<correoUsuario>
 ```
 
+* Agrega un usuario a la tabla users
+```
+POST: http://192.168.1.146:3000/api/users/
+BODY: {
+		"favSport": [
+			"Natacion"
+		],
+		"name": "Luis Diego",
+		"email": "ldnm12@gmail.com",
+		"password": "contrasena",
+		"profilePicture": "https://image.flaticon.com/icons/png/128/74/74245.png",
+		"sessionInit": "1",
+		"type": "user"
+	}
+```
 
 ## Development
 ```
