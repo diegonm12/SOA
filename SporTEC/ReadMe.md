@@ -1,5 +1,5 @@
 # SporTEC 
-SporTEC es una aplicacion de noticias de deportes que consume recursos
+SporTEC es una aplicación de noticias de deportes que consume recursos
 de un servidor web creado en Node.js y utiliza MongoDB como el repositorio de datos
 NoSQL.
 
