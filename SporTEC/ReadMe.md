@@ -4,7 +4,7 @@ de un servidor web creado en Node.js y utiliza MongoDB como el repositorio de da
 NoSQL.
 
 ## Instalación
-Para poder ejecutar la aplicación se debe descargar el archivo que contiene  los archivos del cógido 
+Para poder ejecutar la aplicación se debe descargar el archivo que contiene  los archivos del código 
 de la aplicación, luego se debe ejecutar el servidor [sportecServer](https://github.com/diegonm12/SOA/tree/master/SportecServer)
 para que se puedan hacer los requests al servidor, además en MongoDB debe ejecutarse el script de base de datos para popular la misma.
 Una vez que se tenga la base populada por medio del script, se debe ejecutar el servidor node y finalmente se
