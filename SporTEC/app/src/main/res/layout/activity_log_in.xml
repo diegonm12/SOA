@@ -23,8 +23,8 @@
         android:id="@+id/activity_login_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="160dp"
         android:gravity="center_horizontal"
@@ -112,10 +112,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:onClick="signIn"
             android:text="@string/ingresar"
             android:textColor="#fff"
-            android:textSize="12sp"
-            android:onClick="signIn"/>
+            android:textSize="12sp" />
 
 
     </LinearLayout>
@@ -125,9 +125,9 @@
         android:id="@+id/activity_login_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:layout_marginTop="12dp"
         android:background="@android:color/transparent"
         android:onClick="signUp"
@@ -140,11 +140,11 @@
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="80dp"
-        android:layout_alignParentLeft="true" />
+        android:layout_marginBottom="80dp" />
 
 
 </RelativeLayout>
