@@ -50,11 +50,73 @@ BODY: {
 	}
 ```
 
-## Development
+* Actualiza un usuario en la tabla users
 ```
-$ virtualenv foobar
-$ . foobar/bin/activate
-$ pip install -e .
+PUT: http://192.168.1.146:3000/api/users/
+BODY: {
+		"favSport": [
+			"Natacion"
+			"nuevo deporte"
+		],
+		"name": "Nuevo nombre",
+		"email": "ldnm12@gmail.com",
+		"password": "nueva contrasena",
+		"profilePicture": "https://image.flaticon.com/icons/png/128/74/74245.png",
+		"sessionInit": "1",
+		"type": "user"
+	}
+```
+
+* Busca contenido en las tablas correspondientes, según sea la palabra que va luego del search (este metodo se implemento para ser utilizado por el buscador de contenido).
+```
+http://192.168.1.146:3000/api/content?search=<palabra_que_se_busca_en_el_buscador_contenido>
+```
+* Obtiene todas las noticias que se encuentran en la tabla news:
+```
+GET: http://192.168.1.146:3000/api/news
+```
+
+* Obtiene la noticia que se especifica según el id de la noticia en la base de datos:
+```
+GET: http://192.168.1.146:3000/api/news/<id_noticia>
+```
+* Obtiene todos los deportes que se encuentran en la tabla sports:
+```
+GET: http://192.168.1.146:3000/api/sports
+```
+
+* Obtiene el deporte que se especifica según el id del mismo en la base de datos:
+```
+GET: http://192.168.1.146:3000/api/sports/<id_sport>
+```
+
+* Obtiene todos los equipos que se encuentran en la tabla teams:
+```
+GET: http://192.168.1.146:3000/api/teams
+```
+
+* Obtiene el equipo que se especifica según el id del mismo en la base de datos:
+```
+GET: http://192.168.1.146:3000/api/teams/<id_team>
+```
+
+* Actualiza un equipo en la tabla teams
+```
+PUT: http://192.168.1.146:3000/api/teams/
+BODY: {
+		"members": [
+			"Fernando",
+			"Marcela",
+			"Raul"
+		],
+		"request": [
+			"Diego Navarro"
+		],
+		"name": "Los Mejengueros",
+		"image": "https://image.flaticon.com/icons/png/128/166/166344.png",
+		"type": "team",
+		"sport": "Futbol"
+	}
 ```
 
 ## Referencias
@@ -63,5 +125,4 @@ $ pip install -e .
 * [https://demonuts.com/listview-searchview/](https://demonuts.com/listview-searchview/)
 * [https://www.youtube.com/watch?v=9_lKMTXVk64](https://www.youtube.com/watch?v=9_lKMTXVk64)	
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+
