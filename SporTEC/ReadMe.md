@@ -21,9 +21,6 @@ los datos de la base en MongoDB mediante el servidor.
 ## Version de Android de desarrollo
 API25: Android 7.1.1 (Nougat)
 
-## Version de Android de desarrollo
-API25: Android 7.1.1 (Nougat)
-
 ## Servidor
 * Los archivos del servidor se puede encontrar [aqui](https://github.com/diegonm12/SOA/tree/master/SportecServer).
 Desde el servidor se pueden acceder 5 modelos de la base de datos en MongoDB, cada uno con sus respectos métodos CRUD. Entre los métodos que se emplearon para el desarrollo de la aplicación están los siguientes:
@@ -32,9 +29,9 @@ Desde el servidor se pueden acceder 5 modelos de la base de datos en MongoDB, ca
 GET: http://192.168.1.146:3000/api/users
 ```
 
-* Obtiene todos los usuarios que se encuentran en la tabla users:
+* Obtiene el usuario segun sea el correo:
 ```
-GET: http://192.168.1.146:3000/api/users
+GET: http://192.168.1.146:3000/api/users/<correoUsuario>
 ```
 
 
