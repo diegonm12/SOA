@@ -1,4 +1,4 @@
-# App atacante 
+# App vulnerable 
 Esta es la app que recibe el ataca, mediante el action receiver en el on receiver tiene el método
 que hace vibrar al teléfono, utilizando dicho permiso.
 
