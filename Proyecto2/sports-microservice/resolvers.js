@@ -4,7 +4,7 @@ export default {
     },
     Mutation: {
         createSport: (parent, { name, image, type }, { db }, info) =>
-        db.post.create({
+        db.sport.create({
           name: name,
           image: image,
           type: type

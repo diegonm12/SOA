@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  app:
+    container_name: docker-user-mysql
+    restart: always
+    build: .
+    ports:
+      - '82:4000'
+    links:
+      - mysql
+  mysql: 
+    container_name: mysqlUsers
+    image: mysql:5.6
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=pasopaso123
+      - MYSQL_USER=root
+      - MYSQL_DATABASE=databaseSportTEC
+    ports:
+      - '3307:3306'   
+  
+    
+     

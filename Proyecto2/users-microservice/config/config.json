@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "pasopaso123",
+    "database": "databaseSportTEC",
+    "host": "mysql",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "pasopaso123",
+    "database": "databaseSportTEC",
+    "host": "mysql",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "pasopaso123",
+    "database": "databaseSportTEC",
+    "host": "mysql",
+    "dialect": "mysql"
+  }
+}
