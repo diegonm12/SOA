@@ -1,0 +1,29 @@
+server{
+        listen 80;
+	server_name sportec;
+
+	#obtiene todas las noticias
+        location /news/{
+                proxy_pass "http://192.168.99.100:83/graphql";
+
+        }
+	location /news/add/{
+		proxy_pass "http://192.168.99.100:83/graphql";
+	}
+	location /sports/{
+		proxy_pass "http://192.168.99.100:81/graphql";
+	}
+	location /sports/add/{
+                proxy_pass "http://192.168.99.100:81/graphql";
+        }
+	location /users/{
+                proxy_pass "http://192.168.99.100:82/graphql";
+        }
+	location /users/add/{
+                proxy_pass "http://192.168.99.100:82/graphql";
+        }
+
+
+
+
+}
