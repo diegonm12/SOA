@@ -16,6 +16,18 @@ server{
 	location /sports/add/{
                 proxy_pass "http://192.168.99.100:81/graphql";
         }
+	location /sports/update/{
+                proxy_pass "http://192.168.99.100:81/graphql";
+        }
+	location /sports/delete/{
+                proxy_pass "http://192.168.99.100:81/graphql";
+        }
+	location /users/update/{
+                proxy_pass "http://192.168.99.100:82/graphql";
+        }
+        location /users/delete/{
+                proxy_pass "http://192.168.99.100:82/graphql";
+        }
 	location /users/{
                 proxy_pass "http://192.168.99.100:82/graphql";
         }
