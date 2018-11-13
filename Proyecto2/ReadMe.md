@@ -48,6 +48,7 @@ $ docker-compose up -d
 ## Funcionamiento de ciertos queries.
 
 * Agrega un usuario en la tabla users
+```
 POST: http://sportec/users/add/
 BODY: {
 		"name": "Luis Diego",
