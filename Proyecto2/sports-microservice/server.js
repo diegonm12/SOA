@@ -6,7 +6,7 @@ import typeDefs from './schema';
 import resolvers from './resolvers';
 import db from './models';
 
-console.log("holaaa");
+
 const server = new ApolloServer({
   typeDefs: gql(typeDefs),
   resolvers,
@@ -20,7 +20,7 @@ app.use(express.static('app/public'));
 
 db.sequelize.sync().then(() => {
   // populate author table with dummy data
-  
+
   // populate post table with dummy data
   db.sport.bulkCreate(
     lodash.times(10, () => ({
@@ -29,7 +29,7 @@ db.sequelize.sync().then(() => {
       type: faker.lorem.sentence(),
     })),
   );
-  
+
   app.listen({ port: 4000 }, () =>
     console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`),
   );

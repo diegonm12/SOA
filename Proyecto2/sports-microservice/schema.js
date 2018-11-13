@@ -10,5 +10,7 @@ export default `
   }
   type Mutation {
     createSport(name: String, image:String!, type: String): Sport!
+    updateSport(name: String!, image: String, type:String!): Boolean
+    deleteSport(name: String!):Boolean
   }
 `;
