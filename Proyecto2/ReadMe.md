@@ -73,8 +73,6 @@ BODY: {
 	}
 ```
 
-
-```
 * Obtiene todas las noticias que se encuentran en la tabla news:
 ```
 GET: http://sportec/news/
